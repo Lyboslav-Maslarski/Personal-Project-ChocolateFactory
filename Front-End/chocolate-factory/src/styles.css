@@ -16,4 +16,9 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    line-height: normal;
+}
+
+button {
+    cursor: pointer;
 }

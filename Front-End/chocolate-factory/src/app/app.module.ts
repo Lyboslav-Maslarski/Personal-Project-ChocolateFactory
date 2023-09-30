@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonsModule } from './commons/commons.module';
 import { HomeModule } from './home/home.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonsModule,
     HomeModule,
     NgbModule,
+    UserModule
   ],
   providers: [],
   bootstrap: [AppComponent],
