@@ -1,8 +1,9 @@
 export interface User {
-  id: number;
-  username: string;
-  email: string;
-  roles: any[];
-  accessToken: string;
-  token_type: string;
+  _id?: number;
+  email?: string;
+  fullName?: string;
+  password?: string;
+  city?: string;
+  address?: string;
+  phone?: string;
 }
