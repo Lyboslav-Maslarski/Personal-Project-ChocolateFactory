@@ -18,7 +18,7 @@
       </li>
     </ul>
 
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" *ngIf="this.authService.isLoggedIn">
       <li class="nav-item">
         <a [routerLink]="'/register'" class="nav-link">Register</a>
       </li>
@@ -27,12 +27,12 @@
       </li>
     </ul>
 
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" *ngIf="!this.authService.isLoggedIn">
       <li class="nav-item">
         <a [routerLink]="'/profile'" class="nav-link">Profile</a>
       </li>
       <li class="nav-item">
-        <a href class="nav-link">Logout</a>
+        <a (click)="logout()" class="nav-link">Logout</a>
       </li>
     </ul>
   </nav>
