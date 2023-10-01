@@ -9,7 +9,7 @@ import { HomeModule } from './home/home.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserModule } from './user/user.module';
 import { authInterceptorProviders } from './utils/AuthInterceptor';
-import { AuthActivate } from './utils/AuthGuard';
+import { AuthGuard } from './utils/AuthGuard';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +33,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [authInterceptorProviders, AuthActivate],
+  providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

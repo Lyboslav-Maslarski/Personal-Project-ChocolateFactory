@@ -1,11 +1,5 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,24 +9,27 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  signupForm: FormGroup;
+  registerForm: FormGroup;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
     public router: Router
   ) {
-    this.signupForm = this.fb.group({
-      name: [''],
+    this.registerForm = this.fb.group({
       email: [''],
-      mobile: [''],
+      fullName: [''],
       password: [''],
+      confirmPassword: [''],
+      city: [''],
+      address: [''],
+      phone: [''],
     });
   }
   ngOnInit() {}
   registerUser() {
-    this.authService.signUp(this.signupForm.value).subscribe((res) => {
+    this.authService.signUp(this.registerForm.value).subscribe((res) => {
       if (res.result) {
-        this.signupForm.reset();
+        this.registerForm.reset();
         this.router.navigate(['log-in']);
       }
     });

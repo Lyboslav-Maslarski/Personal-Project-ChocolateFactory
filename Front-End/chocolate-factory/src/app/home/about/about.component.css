@@ -42,7 +42,10 @@ img {
     line-height: normal;
     background-color: blanchedalmond;
 }
-
+.row{
+    width: 98%;
+    margin: 0 auto;
+}
 button {
     background-color: rgb(194 168 96);
     padding: 1rem 2rem;

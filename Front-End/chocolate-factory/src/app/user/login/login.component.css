@@ -1,14 +1,20 @@
+h1 {
+    font-size: 4rem;
+    margin: 2rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 1.5rem;
     background-image: url(https://res.cloudinary.com/dmncdcgx9/image/upload/v1696043900/footerBackground_mbyuup.jpg);
-    margin: 2rem auto;
+    margin: 5rem auto;
     width: 50%;
     gap: 0.5rem;
     color: rgb(194 168 96);
-    margin: 10rem auto;
 }
 
 div {

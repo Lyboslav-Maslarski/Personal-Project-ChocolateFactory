@@ -9,3 +9,9 @@ footer {
     margin: 2rem;
     line-height: normal;
 }
+
+.separator{
+    height: 0.2rem;
+    background-color: rgb(194 168 96);
+    margin-bottom: 2rem;
+}
