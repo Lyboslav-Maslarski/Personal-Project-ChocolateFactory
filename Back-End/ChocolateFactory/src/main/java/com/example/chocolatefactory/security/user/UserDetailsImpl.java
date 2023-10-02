@@ -1,4 +1,4 @@
-package com.example.chocolatefactory.services.user;
+package com.example.chocolatefactory.security.user;
 
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
