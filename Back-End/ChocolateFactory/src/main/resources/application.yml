@@ -25,7 +25,7 @@ spring:
 example:
     app:
         jwtExpirationMs: 86400000
-        jwtSecret: TopSecretKey
+        jwtSecret: Top+Secret+Key+123456789Top+Secret+Key+123456789
 logging:
   level:
     blog: WARN
