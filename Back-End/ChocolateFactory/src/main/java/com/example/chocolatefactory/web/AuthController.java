@@ -1,17 +1,22 @@
 package com.example.chocolatefactory.web;
 
-import com.example.chocolatefactory.domain.requests.LoginRequest;
-import com.example.chocolatefactory.domain.requests.RegisterRequest;
-import com.example.chocolatefactory.domain.responses.MessageResponse;
+import com.example.chocolatefactory.domain.dtos.UserDTO;
+import com.example.chocolatefactory.domain.records.ErrorDTO;
+import com.example.chocolatefactory.domain.records.LoginDTO;
+import com.example.chocolatefactory.domain.records.RegisterDTO;
 import com.example.chocolatefactory.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
     private final UserService userService;
 
@@ -20,22 +25,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Invalid login request data!"));
+            return ResponseEntity.badRequest().body(new ErrorDTO("Invalid login request data!"));
         }
 
-        return ResponseEntity.ok(userService.loginUser(loginRequest));
+        UserDTO userDTO = userService.loginUser(loginDTO);
+
+        return ResponseEntity.ok(userDTO);
     }
 
-    @PostMapping(value = {"/signup", "/signup/"})
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
-        if (userService.userAlreadyExists(registerRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDTO registerDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(new ErrorDTO("Invalid register request data!"));
         }
 
-        userService.registerUser(registerRequest);
+        UserDTO userDTO = userService.registerUser(registerDTO);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.created(URI.create("api/users/" + userDTO.getId())).body(userDTO);
     }
 }

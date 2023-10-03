@@ -1,25 +1,21 @@
 package com.example.chocolatefactory.services;
 
+import com.example.chocolatefactory.domain.dtos.UserDTO;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
-import com.example.chocolatefactory.domain.requests.LoginRequest;
-import com.example.chocolatefactory.domain.requests.RegisterRequest;
-import com.example.chocolatefactory.domain.responses.JwtResponse;
+import com.example.chocolatefactory.domain.records.LoginDTO;
+import com.example.chocolatefactory.domain.records.RegisterDTO;
+import com.example.chocolatefactory.exceptions.AppException;
+import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
-import com.example.chocolatefactory.security.jwt.JwtUtils;
-import com.example.chocolatefactory.security.user.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.nio.CharBuffer;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -27,48 +23,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+    private final UserMapper userMapper;
 
-    @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder,
-                       AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       PasswordEncoder encoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-    }
-
-    public boolean userAlreadyExists(String email) {
-        return userRepository.findByEmail(email).isPresent();
-    }
-
-    public void registerUser(RegisterRequest registerRequest) {
-        UserEntity userEntity = new UserEntity()
-                .setEmail(registerRequest.getEmail())
-                .setPassword(encoder.encode(registerRequest.getPassword()))
-                .setFullName(registerRequest.getFullName())
-                .setCity(registerRequest.getCity())
-                .setAddress(registerRequest.getAddress())
-                .setPhone(registerRequest.getPhone())
-                .setRoles(Set.of(roleRepository.findByRole(RoleEnum.ROLE_USER)));
-
-        userRepository.save(userEntity);
-    }
-
-    public JwtResponse loginUser(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> authoritiesList = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .toList();
-
-        return new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getFullName(), authoritiesList);
+        this.userMapper = userMapper;
     }
 
     public void initRoles() {
@@ -99,5 +61,30 @@ public class UserService {
             userRepository.save(moderator);
             userRepository.save(admin);
         }
+    }
+
+    public UserDTO registerUser(RegisterDTO registerDTO) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(registerDTO.email());
+        if (optionalUser.isPresent()) {
+            throw new AppException("Email already exists!", HttpStatus.BAD_REQUEST);
+        }
+
+        UserEntity userEntity = userMapper.registerDTOToUserEntity(registerDTO);
+        userEntity.setPassword(encoder.encode(CharBuffer.wrap(registerDTO.password())));
+
+        UserEntity saved = userRepository.save(userEntity);
+
+        return userMapper.toUserDTO(saved);
+    }
+
+    public UserDTO loginUser(LoginDTO loginDTO) {
+        UserEntity userEntity = userRepository.findByEmail(loginDTO.email())
+                .orElseThrow(() -> new AppException("Unknown user!", HttpStatus.NOT_FOUND));
+
+        if (encoder.matches(CharBuffer.wrap(loginDTO.password()), userEntity.getPassword())) {
+            return userMapper.toUserDTO(userEntity);
+        }
+
+        throw new AppException("Invalid password!", HttpStatus.BAD_REQUEST);
     }
 }
