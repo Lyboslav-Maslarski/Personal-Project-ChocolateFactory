@@ -6,10 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
@@ -24,15 +21,6 @@ public class UserEntity {
     private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserEntity setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getEmail() {
         return email;

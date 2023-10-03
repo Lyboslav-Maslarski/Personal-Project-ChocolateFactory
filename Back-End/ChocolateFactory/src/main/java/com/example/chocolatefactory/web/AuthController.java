@@ -1,9 +1,10 @@
 package com.example.chocolatefactory.web;
 
-import com.example.chocolatefactory.domain.dtos.UserDTO;
-import com.example.chocolatefactory.domain.records.ErrorDTO;
-import com.example.chocolatefactory.domain.records.LoginDTO;
-import com.example.chocolatefactory.domain.records.RegisterDTO;
+import com.example.chocolatefactory.config.UserAuthProvider;
+import com.example.chocolatefactory.domain.responseDTOs.UserDTO;
+import com.example.chocolatefactory.domain.responseDTOs.ErrorDTO;
+import com.example.chocolatefactory.domain.requestDTOs.LoginDTO;
+import com.example.chocolatefactory.domain.requestDTOs.RegisterDTO;
 import com.example.chocolatefactory.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,11 @@ import java.net.URI;
 @RequestMapping("/api/users")
 public class AuthController {
     private final UserService userService;
+    private final UserAuthProvider userAuthProvider;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, UserAuthProvider userAuthProvider) {
         this.userService = userService;
+        this.userAuthProvider = userAuthProvider;
     }
 
     @PostMapping("/login")
@@ -31,6 +34,7 @@ public class AuthController {
         }
 
         UserDTO userDTO = userService.loginUser(loginDTO);
+        userDTO.setToken(userAuthProvider.createToken(userDTO));
 
         return ResponseEntity.ok(userDTO);
     }
@@ -42,6 +46,7 @@ public class AuthController {
         }
 
         UserDTO userDTO = userService.registerUser(registerDTO);
+        userDTO.setToken(userAuthProvider.createToken(userDTO));
 
         return ResponseEntity.created(URI.create("api/users/" + userDTO.getId())).body(userDTO);
     }

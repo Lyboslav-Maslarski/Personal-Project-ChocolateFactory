@@ -5,22 +5,11 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class RoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RoleEntity extends BaseEntity {
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private RoleEnum role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public RoleEntity setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public RoleEnum getRole() {
         return role;

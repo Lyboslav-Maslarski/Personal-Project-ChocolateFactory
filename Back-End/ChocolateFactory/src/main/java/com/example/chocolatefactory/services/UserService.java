@@ -1,11 +1,11 @@
 package com.example.chocolatefactory.services;
 
-import com.example.chocolatefactory.domain.dtos.UserDTO;
+import com.example.chocolatefactory.domain.responseDTOs.UserDTO;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
-import com.example.chocolatefactory.domain.records.LoginDTO;
-import com.example.chocolatefactory.domain.records.RegisterDTO;
+import com.example.chocolatefactory.domain.requestDTOs.LoginDTO;
+import com.example.chocolatefactory.domain.requestDTOs.RegisterDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;

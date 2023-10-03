@@ -1,4 +1,4 @@
-package com.example.chocolatefactory.domain.dtos;
+package com.example.chocolatefactory.domain.responseDTOs;
 
 public class UserDTO {
     private Long id;

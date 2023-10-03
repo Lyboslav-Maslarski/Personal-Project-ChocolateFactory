@@ -18,20 +18,32 @@ const headers = new HttpHeaders().set('content-type', 'application/json');
 export class AuthService {
   currentUser = {};
 
-  constructor(private http: HttpClient, public router: Router) {
-    console.log(headers);
-  }
+  constructor(private http: HttpClient, public router: Router) {}
 
   // Sign-up
   signUp(user: User) {
-    console.log(headers);
+    if (this.getAuthToken() !== null) {
+      headers.set('Authorization', 'Bearer ' + this.getAuthToken());
+    }
     return this.http
       .post(`${API_URL}/users/register`, user, { headers: headers })
       .pipe(catchError(this.handleError))
-      .subscribe(() => this.router.navigate(['login']));
+      .subscribe({
+        next: (res: any) => {
+          window.localStorage.setItem('access_token', res.token);
+          this.router.navigate(['login']);
+        },
+        error: (err) => {
+          window.localStorage.removeItem('access_token');
+          console.log(err);
+        },
+      });
   }
   // Sign-in
   signIn(email: string, password: string) {
+    if (this.getAuthToken() !== null) {
+      headers.set('Authorization', 'Bearer ' + this.getAuthToken());
+    }
     return this.http
       .post<any>(
         `${API_URL}/users/login`,
@@ -39,17 +51,31 @@ export class AuthService {
         { headers: headers }
       )
       .pipe(catchError(this.handleError))
-      .subscribe((res: any) => {
-        localStorage.setItem('access_token', res.token);
-        // this.getUserProfile(res._id).subscribe((res) => {
-        //   this.currentUser = res;
-        //   this.router.navigate(['user-profile/' + res.msg._id]);
-        // });
+      .subscribe({
+        next: (res: any) => {
+          window.localStorage.setItem('access_token', res.token);
+          // this.getUserProfile(res._id).subscribe((res) => {
+          //   this.currentUser = res;
+          //   this.router.navigate(['user-profile/' + res.msg._id]);
+          // });
+        },
+        error: (err) => {
+          window.localStorage.removeItem('access_token');
+          console.log(err);
+        },
       });
   }
 
-  getToken() {
-    return localStorage.getItem('access_token');
+  getAuthToken(): string | null {
+    return window.localStorage.getItem('access_token');
+  }
+
+  setAuthToken(token: string | null): void {
+    if (token !== null) {
+      window.localStorage.setItem('access_token', token);
+    } else {
+      window.localStorage.removeItem('access_token');
+    }
   }
 
   get isLoggedIn(): boolean {
@@ -73,6 +99,7 @@ export class AuthService {
       catchError(this.handleError)
     );
   }
+
   // Error
   handleError(error: HttpErrorResponse) {
     let msg = '';
@@ -83,6 +110,7 @@ export class AuthService {
       // server-side error
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    window.alert(msg);
     return throwError(() => new Error(msg));
   }
 }
