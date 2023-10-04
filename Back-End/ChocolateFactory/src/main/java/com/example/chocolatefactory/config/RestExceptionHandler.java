@@ -1,6 +1,6 @@
 package com.example.chocolatefactory.config;
 
-import com.example.chocolatefactory.domain.responseDTOs.ErrorDTO;
+import com.example.chocolatefactory.domain.responseDTOs.error.ErrorDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

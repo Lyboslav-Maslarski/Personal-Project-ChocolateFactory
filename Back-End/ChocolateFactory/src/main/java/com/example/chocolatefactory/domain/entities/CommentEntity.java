@@ -1,19 +1,17 @@
 package com.example.chocolatefactory.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "comments")
 public class CommentEntity extends BaseEntity {
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Lob
+    @Column(nullable = false)
     private String text;
     @ManyToOne
     private ProductEntity product;
     @ManyToOne
-    private UserEntity reviewer;
+    private UserEntity user;
 
     public String getText() {
         return text;
@@ -33,12 +31,12 @@ public class CommentEntity extends BaseEntity {
         return this;
     }
 
-    public UserEntity getReviewer() {
-        return reviewer;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public CommentEntity setReviewer(UserEntity reviewer) {
-        this.reviewer = reviewer;
+    public CommentEntity setUser(UserEntity reviewer) {
+        this.user = reviewer;
         return this;
     }
 }

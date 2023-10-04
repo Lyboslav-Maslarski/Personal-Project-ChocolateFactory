@@ -2,6 +2,7 @@ package com.example.chocolatefactory.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
@@ -11,18 +12,19 @@ import java.math.BigDecimal;
 public class ProductEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String description;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(nullable = false)
     private String imageUrl;
-
     @Column(nullable = false)
     private Integer quantity;
-
     @Column(nullable = false)
     private BigDecimal price;
+    @Column(nullable = false)
+    private Boolean depleted;
+    @Column(nullable = false, name = "low_quantity")
+    private Boolean lowQuantity;
 
     public String getName() {
         return name;
@@ -66,6 +68,24 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setPrice(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    public Boolean getDepleted() {
+        return depleted;
+    }
+
+    public ProductEntity setDepleted(Boolean depleted) {
+        this.depleted = depleted;
+        return this;
+    }
+
+    public Boolean getLowQuantity() {
+        return lowQuantity;
+    }
+
+    public ProductEntity setLowQuantity(Boolean lowQuantity) {
+        this.lowQuantity = lowQuantity;
         return this;
     }
 }

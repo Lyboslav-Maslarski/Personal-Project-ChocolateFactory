@@ -1,29 +1,24 @@
-package com.example.chocolatefactory.domain.responseDTOs;
+package com.example.chocolatefactory.domain.responseDTOs.user;
 
-public class UserDTO {
+import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
+
+import java.util.List;
+
+public class UserDetailsDTO {
     private Long id;
-    private String token;
     private String email;
     private String fullName;
     private String city;
     private String address;
     private String phone;
+    private List<OrderDTO> orders;
 
     public Long getId() {
         return id;
     }
 
-    public UserDTO setId(Long id) {
+    public UserDetailsDTO setId(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public UserDTO setToken(String token) {
-        this.token = token;
         return this;
     }
 
@@ -31,7 +26,7 @@ public class UserDTO {
         return email;
     }
 
-    public UserDTO setEmail(String email) {
+    public UserDetailsDTO setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -40,7 +35,7 @@ public class UserDTO {
         return fullName;
     }
 
-    public UserDTO setFullName(String fullName) {
+    public UserDetailsDTO setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -49,7 +44,7 @@ public class UserDTO {
         return city;
     }
 
-    public UserDTO setCity(String city) {
+    public UserDetailsDTO setCity(String city) {
         this.city = city;
         return this;
     }
@@ -58,7 +53,7 @@ public class UserDTO {
         return address;
     }
 
-    public UserDTO setAddress(String address) {
+    public UserDetailsDTO setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -67,8 +62,17 @@ public class UserDTO {
         return phone;
     }
 
-    public UserDTO setPhone(String phone) {
+    public UserDetailsDTO setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public List<OrderDTO> getOrders() {
+        return orders;
+    }
+
+    public UserDetailsDTO setOrders(List<OrderDTO> orders) {
+        this.orders = orders;
         return this;
     }
 }

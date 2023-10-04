@@ -1,11 +1,13 @@
 package com.example.chocolatefactory.services;
 
-import com.example.chocolatefactory.domain.responseDTOs.UserDTO;
+import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
-import com.example.chocolatefactory.domain.requestDTOs.LoginDTO;
-import com.example.chocolatefactory.domain.requestDTOs.RegisterDTO;
+import com.example.chocolatefactory.domain.requestDTOs.user.LoginReqDTO;
+import com.example.chocolatefactory.domain.requestDTOs.user.UserReqDTO;
+import com.example.chocolatefactory.domain.responseDTOs.user.UserDetailsDTO;
+import com.example.chocolatefactory.domain.responseDTOs.user.UserShorDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;
@@ -15,8 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -63,28 +67,58 @@ public class UserService {
         }
     }
 
-    public UserDTO registerUser(RegisterDTO registerDTO) {
-        Optional<UserEntity> optionalUser = userRepository.findByEmail(registerDTO.email());
+    public UserDTO registerUser(UserReqDTO userReqDTO) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(userReqDTO.email());
         if (optionalUser.isPresent()) {
             throw new AppException("Email already exists!", HttpStatus.BAD_REQUEST);
         }
 
-        UserEntity userEntity = userMapper.registerDTOToUserEntity(registerDTO);
-        userEntity.setPassword(encoder.encode(CharBuffer.wrap(registerDTO.password())));
+        UserEntity userEntity = userMapper.registerDTOToUserEntity(userReqDTO);
+        userEntity.setPassword(encoder.encode(CharBuffer.wrap(userReqDTO.password())));
 
         UserEntity saved = userRepository.save(userEntity);
 
         return userMapper.toUserDTO(saved);
     }
 
-    public UserDTO loginUser(LoginDTO loginDTO) {
-        UserEntity userEntity = userRepository.findByEmail(loginDTO.email())
+    public UserDTO loginUser(LoginReqDTO loginReqDTO) {
+        UserEntity userEntity = userRepository.findByEmail(loginReqDTO.email())
                 .orElseThrow(() -> new AppException("Unknown user!", HttpStatus.NOT_FOUND));
 
-        if (encoder.matches(CharBuffer.wrap(loginDTO.password()), userEntity.getPassword())) {
+        if (encoder.matches(CharBuffer.wrap(loginReqDTO.password()), userEntity.getPassword())) {
             return userMapper.toUserDTO(userEntity);
         }
 
         throw new AppException("Invalid password!", HttpStatus.BAD_REQUEST);
+    }
+
+    public List<UserShorDTO> getAllUsers() {
+        List<UserEntity> allUsers = userRepository.findAll();
+
+        return allUsers.stream().map(userMapper::toUserShortDTO).collect(Collectors.toList());
+    }
+
+    public UserDetailsDTO getUser(Long id) {
+        return null;
+    }
+
+    public void updateUser(Long id, UserReqDTO userReqDTO) {
+
+    }
+
+    public void changePassword(Long id) {
+
+    }
+
+    public void promote(Long id) {
+
+    }
+
+    public void demoteUser(Long id) {
+
+    }
+
+    public void deleteUser(Long id) {
+
     }
 }
