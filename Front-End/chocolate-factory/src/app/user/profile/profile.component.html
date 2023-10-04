@@ -1,14 +1,82 @@
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="..." class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
+<h1>Profile</h1>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img
+        src="https://res.cloudinary.com/dmncdcgx9/image/upload/v1696099211/carousel-02_zwmu2c.jpg"
+        class="img-fluid rounded-start"
+        alt="profile-picture"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h2 class="card-title">Lyboslav Maslarski</h2>
+        <p class="card-text">Email: lyb4ooo@abv.bg</p>
+        <p class="card-text">City: Sofia</p>
+        <p class="card-text">Address: Carevo selo 5</p>
+        <p class="card-text">Phone: 08888888888</p>
+        <button>Delete Profile</button>
+        <a class="btn">Edit Profile</a>
       </div>
     </div>
   </div>
+  <div class="after"></div>
+</div>
+<h1>Orders</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Order</th>
+      <th scope="col">Total</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let country of countries; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <p>{{ country.name }}</p>
+      </td>
+      <td>
+        <p>{{ country.area | number }}</p>
+      </td>
+      <td>
+        <button class="btn-order">Details</button
+        ><button class="btn-order">Delete Order</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h1>Current Order</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product</th>
+      <th scope="col">Price</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let country of countries; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <p>{{ country.name }}</p>
+      </td>
+      <td>
+        <p>{{ country.area | number }}</p>
+      </td>
+      <td>
+        <button class="btn-order">Delete</button>
+      </td>
+    </tr>
+    <tr class="total">
+      <td colspan="3" style="letter-spacing: 1rem">Total</td>
+      <td>1231232 $</td>
+    </tr>
+    <tr>
+      <td colspan="4"><button>Order</button></td>
+    </tr>
+  </tbody>
+</table>

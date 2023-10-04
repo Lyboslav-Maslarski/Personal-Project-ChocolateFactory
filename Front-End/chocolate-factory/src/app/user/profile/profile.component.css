@@ -1,0 +1,102 @@
+h1 {
+    font-size: 4rem;
+    margin: 4rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
+.card {
+    width: 60%;
+    height: 30rem;
+    margin: 5rem auto;
+    padding: 2rem;
+    font-size: large;
+    background-color: rgb(57 32 18);
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
+
+.after {
+    background-image: url(https://res.cloudinary.com/dmncdcgx9/image/upload/v1696045070/whiteTopTransparent_kz6jbx.png);
+    height: 3rem;
+    width: 100%;
+
+}
+
+button {
+    background-color: rgb(194 168 96);
+    padding: 1rem 2rem;
+    color: #000;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+    margin: 1rem auto;
+}
+
+button:hover {
+    background-color: rgba(194, 191, 96, 0.687);
+    color: #000;
+}
+
+button.btn-order {
+    background-color: rgb(194 168 96);
+    color: #000;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+    width: 20%;
+    margin: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+button.btn-order:hover {
+    background-color: rgba(194, 191, 96, 0.687);
+}
+
+a {
+    background-color: rgb(194 168 96);
+    padding: 1rem 2rem;
+    color: #000;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+    margin: 1rem auto;
+}
+
+a:hover {
+    background-color: rgba(194, 191, 96, 0.687);
+    color: #000;
+}
+
+table,
+th,
+td {
+    background-color: rgb(57 32 18);
+    color: rgb(194 168 96);
+    text-align: center;
+    align-items: end;
+    vertical-align: middle;
+}
+
+table {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.order-btn {
+    width: 50%;
+}
+.total{
+    font-size: large;
+    font-weight: bold;
+    
+}
+@media (max-width:766px) {
+    .card {
+        height: 60rem;
+    }
+}

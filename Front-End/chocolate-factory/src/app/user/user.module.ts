@@ -7,8 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonsModule } from '../commons/commons.module';
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, ProfileComponent],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, CommonsModule],
+  declarations: [LoginComponent, RegisterComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonsModule,
+    ProfileComponent,
+  ],
   exports: [LoginComponent, RegisterComponent, ProfileComponent],
 })
 export class UserModule {}
