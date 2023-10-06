@@ -26,46 +26,21 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final OrderService orderService;
     private final PasswordEncoder encoder;
     private final UserMapper userMapper;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository,
-                       PasswordEncoder encoder, UserMapper userMapper) {
+                       OrderService orderService, PasswordEncoder encoder,
+                       UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.orderService = orderService;
         this.encoder = encoder;
         this.userMapper = userMapper;
     }
 
-    public void initRoles() {
-        if (roleRepository.count() == 0) {
-            roleRepository.save(new RoleEntity().setRole(RoleEnum.ROLE_USER));
-            roleRepository.save(new RoleEntity().setRole(RoleEnum.ROLE_MODERATOR));
-            roleRepository.save(new RoleEntity().setRole(RoleEnum.ROLE_ADMIN));
-        }
-    }
 
-    public void initInitialUsers() {
-        if (userRepository.count() == 0) {
-            RoleEntity userRole = roleRepository.findByRole(RoleEnum.ROLE_USER);
-            RoleEntity moderatorRole = roleRepository.findByRole(RoleEnum.ROLE_MODERATOR);
-            RoleEntity adminRole = roleRepository.findByRole(RoleEnum.ROLE_ADMIN);
-
-            UserEntity user = new UserEntity().setEmail("user@gmail.com")
-                    .setPassword(encoder.encode("1234")).setFullName("User Userov").setCity("Sofia")
-                    .setAddress("Geo Milev").setPhone("0888 111 111").setRoles(Set.of(userRole));
-            UserEntity moderator = new UserEntity().setEmail("moderator@gmail.com")
-                    .setPassword(encoder.encode("1234")).setFullName("Moderator Moderatorov").setCity("Sofia")
-                    .setAddress("Studentski").setPhone("0888 222 222").setRoles(Set.of(userRole, moderatorRole));
-            UserEntity admin = new UserEntity().setEmail("admin@gmail.com")
-                    .setPassword(encoder.encode("1234")).setFullName("Admin Adminov").setCity("Sofia")
-                    .setAddress("Ivan Vazov").setPhone("0888 333 333").setRoles(Set.of(userRole, moderatorRole, adminRole));
-
-            userRepository.save(user);
-            userRepository.save(moderator);
-            userRepository.save(admin);
-        }
-    }
 
     public UserDTO registerUser(UserReqDTO userReqDTO) {
         Optional<UserEntity> optionalUser = userRepository.findByEmail(userReqDTO.email());
@@ -99,7 +74,17 @@ public class UserService {
     }
 
     public UserDetailsDTO getUser(Long id) {
-        return null;
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        if (userEntity.isEmpty()) {
+            throw new AppException("User does not exist!", HttpStatus.BAD_REQUEST);
+        }
+
+        UserEntity user = userEntity.get();
+
+        UserDetailsDTO userDetailsDTO = userMapper.toUserDetailsDTO(user);
+        userDetailsDTO.setOrders(orderService.getAllOrdersByUserId(user.getId()));
+
+        return userDetailsDTO;
     }
 
     public void updateUser(Long id, UserReqDTO userReqDTO) {

@@ -26,7 +26,7 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="this.authService.isLoggedIn">
       <li class="nav-item">
-        <a [routerLink]="'/user-profile/:id'" class="nav-link">Profile</a>
+        <a [routerLink]="'/user-profile'" class="nav-link">Profile</a>
       </li>
       <li class="nav-item">
         <a (click)="logout()" class="nav-link">Logout</a>

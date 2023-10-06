@@ -47,7 +47,6 @@ public class UserController {
         }
 
         UserDTO userDTO = userService.registerUser(userReqDTO);
-        userDTO.setToken(userAuthProvider.createToken(userDTO));
 
         return ResponseEntity.created(URI.create("api/users/" + userDTO.getId())).body(userDTO);
     }

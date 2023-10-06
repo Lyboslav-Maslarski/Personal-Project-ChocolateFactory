@@ -10,7 +10,6 @@ import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
 
 const API_URL = environment.baseUrl;
-const headers = new HttpHeaders().set('content-type', 'application/json');
 
 @Injectable({
   providedIn: 'root',
@@ -22,45 +21,33 @@ export class AuthService {
 
   // Sign-up
   signUp(user: User) {
-    if (this.getAuthToken() !== null) {
-      headers.set('Authorization', 'Bearer ' + this.getAuthToken());
-    }
     return this.http
-      .post(`${API_URL}/users/register`, user, { headers: headers })
+      .post(`${API_URL}/users/register`, user)
       .pipe(catchError(this.handleError))
       .subscribe({
         next: (res: any) => {
-          window.localStorage.setItem('access_token', res.token);
+          this.setAuthToken(res);
           this.router.navigate(['login']);
         },
         error: (err) => {
-          window.localStorage.removeItem('access_token');
           console.log(err);
         },
       });
   }
   // Sign-in
   signIn(email: string, password: string) {
-    if (this.getAuthToken() !== null) {
-      headers.set('Authorization', 'Bearer ' + this.getAuthToken());
-    }
     return this.http
-      .post<any>(
-        `${API_URL}/users/login`,
-        { email, password },
-        { headers: headers }
-      )
+      .post<any>(`${API_URL}/users/login`, { email, password })
       .pipe(catchError(this.handleError))
       .subscribe({
         next: (res: any) => {
-          window.localStorage.setItem('access_token', res.token);
-          // this.getUserProfile(res._id).subscribe((res) => {
-          //   this.currentUser = res;
-          //   this.router.navigate(['user-profile/' + res.msg._id]);
-          // });
+          this.setAuthToken(res);
+          this.router.navigate(['user-profile']);
         },
         error: (err) => {
           window.localStorage.removeItem('access_token');
+          window.localStorage.removeItem('id');
+          window.localStorage.removeItem('roles');
           console.log(err);
         },
       });
@@ -70,11 +57,15 @@ export class AuthService {
     return window.localStorage.getItem('access_token');
   }
 
-  setAuthToken(token: string | null): void {
-    if (token !== null) {
-      window.localStorage.setItem('access_token', token);
+  setAuthToken(res: any): void {
+    if (res.token !== null) {
+      window.localStorage.setItem('access_token', res.token);
+      window.localStorage.setItem('id', res.id);
+      window.localStorage.setItem('roles', res.roles);
     } else {
       window.localStorage.removeItem('access_token');
+      window.localStorage.removeItem('id');
+      window.localStorage.removeItem('roles');
     }
   }
 
@@ -88,16 +79,6 @@ export class AuthService {
     if (removeToken == null) {
       this.router.navigate(['login']);
     }
-  }
-  // User profile
-  getUserProfile(id: any): Observable<any> {
-    let api = `${API_URL}/users/profile/${id}`;
-    return this.http.get(api, { headers: headers }).pipe(
-      map((res) => {
-        return res || {};
-      }),
-      catchError(this.handleError)
-    );
   }
 
   // Error

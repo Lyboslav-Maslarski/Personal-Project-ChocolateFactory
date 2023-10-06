@@ -1,5 +1,9 @@
 package com.example.chocolatefactory.domain.responseDTOs.user;
 
+import com.example.chocolatefactory.domain.enums.RoleEnum;
+
+import java.util.Set;
+
 public class UserDTO {
     private Long id;
     private String token;
@@ -8,6 +12,7 @@ public class UserDTO {
     private String city;
     private String address;
     private String phone;
+    private Set<String> roles;
 
     public Long getId() {
         return id;
@@ -69,6 +74,15 @@ public class UserDTO {
 
     public UserDTO setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public UserDTO setRoles(Set<String> roles) {
+        this.roles = roles;
         return this;
     }
 }

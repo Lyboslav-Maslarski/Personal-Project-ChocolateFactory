@@ -54,20 +54,6 @@ public class UserAuthProvider {
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
-    public Authentication validateToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
-
-        DecodedJWT verify = jwtVerifier.verify(token);
-
-        UserDTO userDTO = new UserDTO()
-                .setEmail(verify.getIssuer())
-                .setFullName(verify.getClaim("fullName").asString());
-
-        return new UsernamePasswordAuthenticationToken(userDTO, null, Collections.emptyList());
-    }
-
     public Authentication validateTokenStrongly(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
@@ -80,8 +66,6 @@ public class UserAuthProvider {
         } catch (UsernameNotFoundException ex) {
             throw new AppException(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
-//        UserEntity userEntity = userRepository.findByEmail(verify.getIssuer())
-//                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

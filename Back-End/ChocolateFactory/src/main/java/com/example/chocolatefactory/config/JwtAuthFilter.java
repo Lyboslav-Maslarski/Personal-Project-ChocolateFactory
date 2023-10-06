@@ -26,10 +26,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String[] authElements = header.split(" ");
             if (authElements.length == 2 && "Bearer".equals(authElements[0])) {
                 try {
-                    if ("GET".equals(request.getMethod())) {
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(authElements[1]));
-                    }else {
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(authElements[1]));
+                    String bearer = authElements[1];
+                    if (!bearer.equals("null")) {
+                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(bearer));
                     }
                 } catch (RuntimeException ex) {
                     SecurityContextHolder.clearContext();

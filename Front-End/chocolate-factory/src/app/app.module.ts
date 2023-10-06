@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { authInterceptorProviders } from '../app/utils/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [AuthGuard],
+  providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

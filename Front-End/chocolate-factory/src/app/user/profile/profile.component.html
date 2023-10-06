@@ -1,3 +1,4 @@
+<app-header></app-header>
 <h1>Profile</h1>
 <div class="card mb-3">
   <div class="row g-0">
@@ -10,11 +11,11 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h2 class="card-title">Lyboslav Maslarski</h2>
-        <p class="card-text">Email: lyb4ooo@abv.bg</p>
-        <p class="card-text">City: Sofia</p>
-        <p class="card-text">Address: Carevo selo 5</p>
-        <p class="card-text">Phone: 08888888888</p>
+        <h2 class="card-title">{{ currentUser.fullName }}</h2>
+        <p class="card-text">Email: {{ currentUser.email }}</p>
+        <p class="card-text">City: {{ currentUser.city }}</p>
+        <p class="card-text">Address: {{ currentUser.address }}</p>
+        <p class="card-text">Phone: {{ currentUser.phone }}</p>
         <button>Delete Profile</button>
         <a class="btn">Edit Profile</a>
       </div>
@@ -33,13 +34,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let country of countries; index as i">
-      <th scope="row">{{ i + 1 }}</th>
+    <tr>
+      <th scope="row"></th>
       <td>
-        <p>{{ country.name }}</p>
+        <p></p>
       </td>
       <td>
-        <p>{{ country.area | number }}</p>
+        <p></p>
       </td>
       <td>
         <button class="btn-order">Details</button
@@ -59,13 +60,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let country of countries; index as i">
-      <th scope="row">{{ i + 1 }}</th>
+    <!-- <tr *ngFor="let c for counties;index as i"> -->
+    <tr>
+      <!-- <th scope="row">{{ i + 1 }}</th> -->
+      <th scope="row"></th>
       <td>
-        <p>{{ country.name }}</p>
+        <p></p>
       </td>
       <td>
-        <p>{{ country.area | number }}</p>
+        <p></p>
       </td>
       <td>
         <button class="btn-order">Delete</button>
@@ -80,3 +83,4 @@
     </tr>
   </tbody>
 </table>
+<app-footer></app-footer>
