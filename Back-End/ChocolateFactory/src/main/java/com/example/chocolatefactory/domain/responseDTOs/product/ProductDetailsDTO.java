@@ -1,6 +1,9 @@
 package com.example.chocolatefactory.domain.responseDTOs.product;
 
+import com.example.chocolatefactory.domain.responseDTOs.comment.CommentDTO;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDetailsDTO {
     private Long id;
@@ -8,6 +11,7 @@ public class ProductDetailsDTO {
     private String description;
     private String imageUrl;
     private BigDecimal price;
+    private List<CommentDTO> comments;
 
     public Long getId() {
         return id;
@@ -51,6 +55,15 @@ public class ProductDetailsDTO {
 
     public ProductDetailsDTO setPrice(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    public List<CommentDTO> getComments() {
+        return comments;
+    }
+
+    public ProductDetailsDTO setComments(List<CommentDTO> comments) {
+        this.comments = comments;
         return this;
     }
 }

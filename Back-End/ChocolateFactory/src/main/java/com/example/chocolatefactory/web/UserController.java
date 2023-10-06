@@ -82,7 +82,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user data!"));
         }
-        userService.changePassword(id);
+        userService.changePassword(id,passwordDTO);
 
         return ResponseEntity.ok().build();
     }

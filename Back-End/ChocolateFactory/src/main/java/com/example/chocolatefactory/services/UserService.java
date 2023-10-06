@@ -1,5 +1,6 @@
 package com.example.chocolatefactory.services;
 
+import com.example.chocolatefactory.domain.requestDTOs.user.PasswordDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
@@ -12,6 +13,7 @@ import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,6 @@ public class UserService {
         this.encoder = encoder;
         this.userMapper = userMapper;
     }
-
 
 
     public UserDTO registerUser(UserReqDTO userReqDTO) {
@@ -88,22 +89,56 @@ public class UserService {
     }
 
     public void updateUser(Long id, UserReqDTO userReqDTO) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
+        userEntity
+                .setEmail(userReqDTO.email())
+                .setFullName(userReqDTO.fullName())
+                .setCity(userReqDTO.city())
+                .setAddress(userReqDTO.address())
+                .setPhone(userReqDTO.phone());
+
+        userRepository.save(userEntity);
     }
 
-    public void changePassword(Long id) {
+    public void changePassword(Long id, PasswordDTO passwordDTO) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
+        if (encoder.matches(CharBuffer.wrap(passwordDTO.oldPassword()), userEntity.getPassword())) {
+           userEntity.setPassword(encoder.encode(CharBuffer.wrap(passwordDTO.newPassword())));
+           userRepository.save(userEntity);
+        }
+
+        throw new AppException("Invalid password!", HttpStatus.BAD_REQUEST);
     }
 
     public void promote(Long id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
+        Set<RoleEntity> roles = userEntity.getRoles();
+        roles.add(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR));
+
+        userEntity.setRoles(roles);
+
+        userRepository.save(userEntity);
     }
 
     public void demoteUser(Long id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
+        Set<RoleEntity> roles = userEntity.getRoles();
+        roles.remove(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR));
+
+        userEntity.setRoles(roles);
+
+        userRepository.save(userEntity);
     }
 
     public void deleteUser(Long id) {
-
+        userRepository.deleteById(id);
     }
 }
