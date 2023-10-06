@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonsModule } from 'src/app/commons/commons.module';
-import { UserDetails } from 'src/app/interfaces/responses/UserDetails';
+import { UserDetails } from 'src/app/interfaces/User';
 import { environment } from 'src/environments/environment.prod';
 
 const API_URL = environment.baseUrl;

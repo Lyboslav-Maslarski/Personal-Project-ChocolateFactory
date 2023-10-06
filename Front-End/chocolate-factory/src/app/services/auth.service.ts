@@ -7,7 +7,7 @@ import {
 import {  catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
-import { UserReq } from '../interfaces/requests/UserReq';
+import { UserReq } from '../interfaces/User';
 
 const API_URL = environment.baseUrl;
 
