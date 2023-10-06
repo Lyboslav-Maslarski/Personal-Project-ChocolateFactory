@@ -20,6 +20,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.http
       .get(`${API_URL}/users/` + window.localStorage.getItem('id'))
-      .subscribe((user: UserDetails) => (this.currentUser = user));
+      .subscribe((user: UserDetails) => {
+        this.currentUser = user;
+        console.log(user);
+        
+      });
   }
 }

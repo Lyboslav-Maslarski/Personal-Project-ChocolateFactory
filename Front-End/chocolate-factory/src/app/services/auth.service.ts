@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
-import {  catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
-import { UserReq } from '../interfaces/User';
+import { User, UserReq } from '../interfaces/User';
 
 const API_URL = environment.baseUrl;
 
@@ -15,7 +11,16 @@ const API_URL = environment.baseUrl;
   providedIn: 'root',
 })
 export class AuthService {
-  currentUser = {};
+  currentUser:User = {
+    id: 0,
+    token: '',
+    email: '',
+    fullName: '',
+    city: '',
+    address: '',
+    phone: '',
+    roles: []
+  };
 
   constructor(private http: HttpClient, public router: Router) {}
 
@@ -26,7 +31,6 @@ export class AuthService {
       .pipe(catchError(this.handleError))
       .subscribe({
         next: (res: any) => {
-          this.setAuthToken(res);
           this.router.navigate(['login']);
         },
         error: (err) => {

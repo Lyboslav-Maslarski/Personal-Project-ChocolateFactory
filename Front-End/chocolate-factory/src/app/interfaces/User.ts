@@ -1,3 +1,5 @@
+import { Order } from "./Order";
+
 export interface User {
   id: number;
   token: string;
@@ -16,7 +18,7 @@ export interface UserDetails {
   city?: string;
   address?: string;
   phone?: string;
-  orders?: [];
+  orders?:Order [];
 }
 
 export interface UserShort {

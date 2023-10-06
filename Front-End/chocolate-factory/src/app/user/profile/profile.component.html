@@ -33,14 +33,14 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <th scope="row"></th>
+  <tbody *ngIf="currentUser.orders?.length !== 0">
+    <tr *ngFor="let order of currentUser.orders; index as i">
+      <th scope="row">{{ i + 1 }}</th>
       <td>
-        <p></p>
+        <p>{{ order.orderNumber }}</p>
       </td>
       <td>
-        <p></p>
+        <p>{{ order.total }} $</p>
       </td>
       <td>
         <button class="btn-order">Details</button
