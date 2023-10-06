@@ -17,10 +17,12 @@ export class RegisterComponent {
   phone: string = '';
   constructor(public authService: AuthService) {}
   registerUser(): void {
+    if(this.password!==this.confirmPassword){
+      // TODO display error
+    }
     this.authService.signUp({
       email: this.email,
       password: this.password,
-      confirmPassword: this.confirmPassword,
       fullName: this.fullName,
       city: this.city,
       address: this.address,

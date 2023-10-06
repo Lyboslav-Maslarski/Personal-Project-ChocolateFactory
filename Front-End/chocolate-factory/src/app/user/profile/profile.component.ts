@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonsModule } from 'src/app/commons/commons.module';
-import { User } from 'src/app/interfaces/User';
+import { UserDetails } from 'src/app/interfaces/responses/UserDetails';
 import { environment } from 'src/environments/environment.prod';
 
 const API_URL = environment.baseUrl;
@@ -15,11 +15,11 @@ const API_URL = environment.baseUrl;
   imports: [CommonModule, CommonsModule],
 })
 export class ProfileComponent implements OnInit {
-  currentUser: User = {};
+  currentUser: UserDetails = {};
   constructor(private http: HttpClient) {}
   ngOnInit(): void {
     this.http
       .get(`${API_URL}/users/` + window.localStorage.getItem('id'))
-      .subscribe((user: User) => (this.currentUser = user));
+      .subscribe((user: UserDetails) => (this.currentUser = user));
   }
 }

@@ -4,10 +4,10 @@ import {
   HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
-import { User } from '../interfaces/User';
+import {  catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
+import { UserReq } from '../interfaces/requests/UserReq';
 
 const API_URL = environment.baseUrl;
 
@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private http: HttpClient, public router: Router) {}
 
   // Sign-up
-  signUp(user: User) {
+  signUp(user: UserReq) {
     return this.http
       .post(`${API_URL}/users/register`, user)
       .pipe(catchError(this.handleError))
