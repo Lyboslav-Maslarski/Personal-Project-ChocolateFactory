@@ -19,6 +19,18 @@ body {
     line-height: normal;
 }
 
-button {
+button,.btn {
+    background-color: rgb(194 168 96);
+    padding: 1rem 2rem;
+    color: #000;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
     cursor: pointer;
+}
+
+button:hover,.btn:hover {
+    background-color: rgba(194, 191, 96, 0.687);
+    color: #000;
 }

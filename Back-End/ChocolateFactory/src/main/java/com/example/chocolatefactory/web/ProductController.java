@@ -22,7 +22,9 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> allProducts(){
-        return null;
+        List<ProductDTO> products =   productService.getAllProducts();
+
+        return ResponseEntity.ok(products);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProductDetailsDTO> getProduct(@PathVariable Long id){

@@ -1,1 +1,17 @@
-<p>product-list works!</p>
+<app-header></app-header>
+<div class="row row-cols-md-3 g-5">
+  <div class="col" *ngFor="let p of products">
+    <div class="card" style="width: 20rem">
+      <h1 class="card-title">{{ p.name }}</h1>
+      <img src="{{ p.imageUrl }}" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h1 class="card-title">{{ p.price }} $</h1>
+        <div class="btns">
+          <a [routerLink]="'/home'" class="card-link btn">Details</a>
+          <button type="button">Add to order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

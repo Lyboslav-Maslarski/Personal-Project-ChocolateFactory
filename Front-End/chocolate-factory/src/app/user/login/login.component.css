@@ -37,6 +37,11 @@ div {
     margin: 0;
 }
 
+input {
+    width: 60%;
+    height: 3rem;
+}
+
 button {
     background-color: rgb(194 168 96);
     padding: 1rem 2rem;
@@ -45,11 +50,6 @@ button {
     text-transform: uppercase;
     border: none;
     width: 100%;
-}
-
-input {
-    width: 60%;
-    height: 3rem;
 }
 
 button:hover {

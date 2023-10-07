@@ -32,6 +32,9 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) ->
+                        requests.requestMatchers(HttpMethod.GET, "api/products/all", "api/products/{id}")
+                        .permitAll())
+                .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.POST, "api/users/login", "api/users/register")
                                 .permitAll()
                                 .anyRequest().authenticated());

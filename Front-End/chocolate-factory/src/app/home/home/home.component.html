@@ -1,18 +1,4 @@
 <app-header></app-header>
-<section id="hero_big" class="hero-big hero-big--countdown hero-big--london">
-  <video
-    autoplay
-    loop
-    muted
-    playsinline
-    class="video-background video-background--desktop"
-  >
-    <source
-      src="https://res.cloudinary.com/fever/video/upload/q_auto/f_auto/v1642604303/Originals%20and%20Other%20Projects/25_Chocolate%20Factory/CF%20Edited/Landings/16X9_LFDC_HERO.mp4"
-      type="video/mp4"
-    />
-  </video>
-</section>
 <ngb-carousel *ngIf="images" class="carousel">
   <ng-template ngbSlide>
     <div class="picsum-img-wrapper">
@@ -28,7 +14,7 @@
     </div>
     <div class="carousel-caption">
       <p>Here we build your CHOCOLATE DREAMS</p>
-      <button>About Us</button>
+      <button [routerLink]="'/about'">About Us</button>
     </div>
   </ng-template>
   <ng-template ngbSlide>
@@ -37,8 +23,22 @@
     </div>
     <div class="carousel-caption">
       <p>We have wide variety of custom made sweets</p>
-      <button>Products</button>
+      <button [routerLink]="'/products'">Products</button>
     </div>
   </ng-template>
 </ngb-carousel>
+<section id="hero_big" class="hero-big hero-big--countdown hero-big--london">
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    class="video-background video-background--desktop"
+  >
+    <source
+      src="https://res.cloudinary.com/fever/video/upload/q_auto/f_auto/v1642604303/Originals%20and%20Other%20Projects/25_Chocolate%20Factory/CF%20Edited/Landings/16X9_LFDC_HERO.mp4"
+      type="video/mp4"
+    />
+  </video>
+</section>
 <app-footer></app-footer>
