@@ -3,12 +3,14 @@
   <div class="col" *ngFor="let p of products">
     <div class="card" style="width: 20rem">
       <h1 class="card-title">{{ p.name }}</h1>
-      <img src="{{ p.imageUrl }}" class="card-img-top" alt="..." />
+      <img src="{{ p.imageUrl }}" class="card-img-top" alt="{{ p.name }}" />
       <div class="card-body">
         <h1 class="card-title">{{ p.price }} $</h1>
         <div class="btns">
-          <a [routerLink]="'/home'" class="card-link btn">Details</a>
-          <button type="button">Add to order</button>
+          <a [routerLink]="['/products', p.id]" class="card-link btn"
+            >Details</a
+          >
+          <button (click)="addToCart(p.id)" type="button">Add to order</button>
         </div>
       </div>
     </div>

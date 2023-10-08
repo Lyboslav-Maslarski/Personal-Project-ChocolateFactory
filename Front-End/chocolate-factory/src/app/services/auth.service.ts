@@ -4,6 +4,7 @@ import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
 import { User, UserReq } from '../interfaces/User';
+import { CartService } from './cart.service';
 
 const API_URL = environment.baseUrl;
 
@@ -11,7 +12,7 @@ const API_URL = environment.baseUrl;
   providedIn: 'root',
 })
 export class AuthService {
-  currentUser:User = {
+  currentUser: User = {
     id: 0,
     token: '',
     email: '',
@@ -19,12 +20,16 @@ export class AuthService {
     city: '',
     address: '',
     phone: '',
-    roles: []
+    roles: [],
   };
 
-  constructor(private http: HttpClient, public router: Router) {}
+  constructor(
+    private http: HttpClient,
+    public router: Router,
+    private cart: CartService
+  ) {}
 
-  // Sign-up
+  // Register
   signUp(user: UserReq) {
     return this.http
       .post(`${API_URL}/users/register`, user)
@@ -38,7 +43,8 @@ export class AuthService {
         },
       });
   }
-  // Sign-in
+
+  // Login
   signIn(email: string, password: string) {
     return this.http
       .post<any>(`${API_URL}/users/login`, { email, password })
@@ -46,6 +52,7 @@ export class AuthService {
       .subscribe({
         next: (res: any) => {
           this.setAuthToken(res);
+          this.cart.initProducts();
           this.router.navigate(['user-profile']);
         },
         error: (err) => {

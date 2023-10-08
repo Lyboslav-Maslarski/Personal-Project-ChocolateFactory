@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/interfaces/Product';
+import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({
@@ -10,15 +11,18 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient, private cart: CartService) {}
+
   ngOnInit(): void {
     this.http
       .get(`${environment.baseUrl}/products/all`)
       .subscribe((data: any) => {
-        console.log(this.products);
         this.products = data;
-        console.log(this.products);
-        
       });
+  }
+
+  addToCart(id: number): void {
+    this.cart.addProduct(id);
   }
 }

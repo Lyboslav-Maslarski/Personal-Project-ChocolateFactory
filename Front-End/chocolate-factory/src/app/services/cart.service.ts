@@ -10,7 +10,7 @@ export class CartService {
 
   constructor() {}
 
-  public saveProduct(product_id: number): void {
+  public addProduct(product_id: number): void {
     this.products.push(product_id);
     window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.products));
   }
@@ -21,12 +21,8 @@ export class CartService {
       : [];
   }
 
-  public setProducts(): void {
+  public initProducts(): void {
     window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.getProducts()));
-  }
-
-  public saveProducts(products: number[]): void {
-    window.sessionStorage.setItem(PRODUCTS, JSON.stringify(products));
   }
 
   public removeProduct(product_id: number): void {
