@@ -10,8 +10,8 @@ export class CartService {
 
   constructor() {}
 
-  public addProduct(product_id: number): void {
-    this.products.push(product_id);
+  public addProduct(product_id: number|undefined): void {
+    this.products.push(product_id!);
     window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.products));
   }
 

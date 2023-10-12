@@ -1,0 +1,78 @@
+.card {
+    background-color: rgb(57 32 18);
+    width: 60%;
+    margin: 0 auto;
+    color: rgb(194 168 96);
+}
+
+img {
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 3rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
+.btns {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment-form {
+    color: rgb(194 168 96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea {
+    width: 100%;
+    color: rgb(57 32 18);
+    border-color: rgb(57 32 18);
+    resize: none;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.comment-form-button {
+    width: 50%;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    color: rgb(57 32 18);
+}
+
+.comment {
+    width: 50%;
+    border: 0.3rem solid rgb(57 32 18);
+    border-radius: 1rem;
+    color: rgb(57 32 18);
+    margin: 0 auto;
+}
+
+.comment h4,
+p {
+    margin: 0.5rem;
+}
+
+@media (max-width:1650px) {
+    .btns {
+        flex-direction: column;
+    }
+}

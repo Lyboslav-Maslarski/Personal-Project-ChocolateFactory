@@ -1,9 +1,19 @@
 package com.example.chocolatefactory.domain.responseDTOs.comment;
 
 public class CommentDTO {
+    private Long id;
     private String text;
     private String user;
     private Boolean isOwner;
+
+    public Long getId() {
+        return id;
+    }
+
+    public CommentDTO setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getText() {
         return text;

@@ -5,8 +5,9 @@ import {
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
@@ -26,7 +27,19 @@ export class AuthInterceptor implements HttpInterceptor {
         .set('content-type', 'application/json'),
     });
 
-    return next.handle(authReq);
+    return next.handle(authReq).pipe(
+      catchError((err) => {
+        if (
+          err instanceof HttpErrorResponse &&
+          !request.url.includes('users/login') &&
+          err.status === 403
+        ) {
+          this.authService.doLogout();
+          return next.handle(authReq);
+        }
+        return next.handle(authReq);
+      })
+    );
   }
 }
 

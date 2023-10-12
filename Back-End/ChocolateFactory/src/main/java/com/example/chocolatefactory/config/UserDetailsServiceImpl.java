@@ -1,10 +1,10 @@
-package com.example.chocolatefactory.services;
+package com.example.chocolatefactory.config;
 
+import com.example.chocolatefactory.domain.AppUserDetails;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,14 +28,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails map(UserEntity userEntity) {
-        return User.builder().
-                username(userEntity.getEmail()).
-                password(userEntity.getPassword()).
-                authorities(userEntity.
+        return new AppUserDetails(
+                userEntity.getEmail(),
+                userEntity.getPassword(),
+                userEntity.
                         getRoles().
                         stream().
                         map(r -> new SimpleGrantedAuthority(r.getRole().name())).
-                        toList()).
-                build();
+                        toList())
+                .setId(userEntity.getId())
+                .setFullName(userEntity.getFullName());
     }
 }

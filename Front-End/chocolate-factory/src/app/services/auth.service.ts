@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
-import { User, UserReq } from '../interfaces/User';
+import { User, UserRegister } from '../interfaces/User';
 import { CartService } from './cart.service';
 
 const API_URL = environment.baseUrl;
@@ -30,7 +30,7 @@ export class AuthService {
   ) {}
 
   // Register
-  signUp(user: UserReq) {
+  signUp(user: UserRegister) {
     return this.http
       .post(`${API_URL}/users/register`, user)
       .pipe(catchError(this.handleError))

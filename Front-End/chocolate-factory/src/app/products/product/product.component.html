@@ -1,1 +1,50 @@
-<p>product works!</p>
+<app-header></app-header>
+<h1>{{ product?.name }}</h1>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img
+        src="{{ product?.imageUrl }}"
+        class="img-fluid rounded-start"
+        alt="profile-picture"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h2 class="card-title">Price: {{ product?.price }} $</h2>
+        <p class="card-text">Description: {{ product?.description }}</p>
+        <div class="btns">
+          <button (click)="addToCart(product?.id)">Add to order</button>
+          <a [routerLink]="['/products']" class="btn">All Products</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="after"></div>
+</div>
+<h1>Comments</h1>
+<div
+  *ngIf="(product?.comments)!.length !== 0; else elseBlock"
+  class="comments-container"
+>
+  <div class="comment" *ngFor="let comment of product?.comments">
+    <h4>{{ comment.user }}</h4>
+    <p>{{ comment.text }}</p>
+  </div>
+</div>
+<ng-template #elseBlock><h2>No comments yet!</h2></ng-template>
+<div class="comment-form">
+  <h1 class="comment-form-title">Write comment</h1>
+  <form (ngSubmit)="submitComment(product?.id)">
+    <textarea
+      placeholder="Write comment here"
+      class="comment-form-textarea"
+      rows="5"
+      cols="100"
+      name="text"
+      [(ngModel)]="text"
+    ></textarea>
+    <button class="comment-form-button" type="submit">Add comment</button>
+  </form>
+</div>
+<app-footer></app-footer>

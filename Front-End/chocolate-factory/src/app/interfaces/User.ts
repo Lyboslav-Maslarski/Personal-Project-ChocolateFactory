@@ -1,4 +1,4 @@
-import { Order } from "./Order";
+import { Order } from './Order';
 
 export interface User {
   id: number;
@@ -18,7 +18,7 @@ export interface UserDetails {
   city?: string;
   address?: string;
   phone?: string;
-  orders?:Order [];
+  orders?: Order[];
 }
 
 export interface UserShort {
@@ -27,9 +27,9 @@ export interface UserShort {
   isModerator: boolean;
 }
 
-export interface UserReq {
+export interface UserRegister {
   email?: string;
-  password?:string;
+  password?: string;
   fullName?: string;
   city?: string;
   address?: string;

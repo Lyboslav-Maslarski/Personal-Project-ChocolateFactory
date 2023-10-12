@@ -1,3 +1,4 @@
+import { Comment } from './Comment';
 export interface Product {
   id: number;
   name: string;
@@ -11,6 +12,7 @@ export interface ProductDetails {
   description: string;
   imageUrl: string;
   price: number;
+  comments: Comment[];
 }
 
 export interface ProductOrder {
@@ -18,4 +20,3 @@ export interface ProductOrder {
   name: string;
   price: number;
 }
-

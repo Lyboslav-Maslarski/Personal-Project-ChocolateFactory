@@ -4,7 +4,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/chocolate-factory?
         allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&
         serverTimezone=UTC&characterEncoding=UTF-8&&useUnicode=true"
-    username: root
+    username: ${DB_USERNAME:root}
     password: ''
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -23,9 +23,9 @@ spring:
       filter:
         enabled: true
 example:
-    app:
-        jwtExpirationMs: 86400000
-        jwtSecret: Top+Secret+Key+123456789Top+Secret+Key+123456789
+  app:
+    jwtExpirationMs: 86400000
+    jwtSecret: Top+Secret+Key+123456789Top+Secret+Key+123456789
 logging:
   level:
     blog: WARN

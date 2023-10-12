@@ -22,8 +22,6 @@ export class ProfileComponent implements OnInit {
       .get(`${API_URL}/users/` + window.localStorage.getItem('id'))
       .subscribe((user: UserDetails) => {
         this.currentUser = user;
-        console.log(user);
-        
       });
   }
 }

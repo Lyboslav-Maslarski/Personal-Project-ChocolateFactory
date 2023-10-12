@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "comments")
 public class CommentEntity extends BaseEntity {
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String text;
     @ManyToOne
     private ProductEntity product;
