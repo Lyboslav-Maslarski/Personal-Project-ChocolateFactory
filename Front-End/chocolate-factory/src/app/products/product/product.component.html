@@ -38,8 +38,11 @@
   class="comments-container"
 >
   <div class="comment" *ngFor="let comment of product.comments">
-    <h4>{{ comment.user }}</h4>
+    <h4>Author: {{ comment.user }}</h4>
     <p>{{ comment.text }}</p>
+    <div *ngIf="comment.owner" class="delete">
+      <button (click)="deleteComment(comment.id)">Delete</button>
+    </div>
   </div>
 </div>
 <ng-template #elseBlock><h2>No comments yet!</h2></ng-template>
@@ -47,7 +50,7 @@
   <h1 class="comment-form-title">Write comment</h1>
   <form (ngSubmit)="submitComment(product.id)">
     <textarea
-      placeholder="Write comment here"
+      placeholder=" Write comment here"
       class="comment-form-textarea"
       rows="5"
       cols="100"

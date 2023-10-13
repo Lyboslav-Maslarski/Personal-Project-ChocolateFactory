@@ -56,4 +56,12 @@ export class ProductComponent implements OnInit {
       )
       .subscribe(() => window.location.reload());
   }
+
+  deleteComment(id: number): void {
+    this.http
+    .delete(
+      `${environment.baseUrl}/comments/${id}`,
+    )
+    .subscribe(() => window.location.reload());
+  }
 }

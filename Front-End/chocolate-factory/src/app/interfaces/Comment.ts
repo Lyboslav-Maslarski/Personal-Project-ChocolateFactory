@@ -1,5 +1,6 @@
 export interface Comment {
+  id: number;
   text: string;
   user: string;
-  isOwner: boolean;
+  owner: boolean;
 }

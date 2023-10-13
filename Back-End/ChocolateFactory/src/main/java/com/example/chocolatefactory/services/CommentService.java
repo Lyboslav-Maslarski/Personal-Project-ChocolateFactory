@@ -35,4 +35,8 @@ public class CommentService {
 
         return commentMapper.commentEntityToCommentDTO(saved);
     }
+
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
 }
