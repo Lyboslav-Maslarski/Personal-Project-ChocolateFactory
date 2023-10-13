@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Comment } from 'src/app/interfaces/Comment';
-import { ProductDetails } from 'src/app/interfaces/Product';
+import { ProductDetails, ProductOrder } from 'src/app/interfaces/Product';
 import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
 
@@ -13,7 +13,14 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class ProductComponent implements OnInit {
   text: string = '';
-  product: ProductDetails | undefined;
+  product: ProductDetails = {
+    id: 0,
+    name: '',
+    description: '',
+    imageUrl: '',
+    price: 0,
+    comments: [],
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,8 +38,8 @@ export class ProductComponent implements OnInit {
       });
   }
 
-  addToCart(id: number | undefined): void {
-    this.cart.addProduct(id);
+  addToCart(product: ProductOrder): void {
+    this.cart.addProduct(product);
   }
 
   submitComment(id: number | undefined): void {

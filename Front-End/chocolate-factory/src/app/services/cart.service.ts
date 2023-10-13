@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ProductOrder } from '../interfaces/Product';
 
 const PRODUCTS = 'products';
 
@@ -6,27 +7,29 @@ const PRODUCTS = 'products';
   providedIn: 'root',
 })
 export class CartService {
-  products: number[] = [];
+  products: ProductOrder[] = [];
 
   constructor() {}
 
-  public addProduct(product_id: number|undefined): void {
-    this.products.push(product_id!);
+  public addProduct(product: ProductOrder): void {
+    this.products = this.getProducts();
+    this.products.push(product);
     window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.products));
   }
 
-  public getProducts(): number[] {
+  public getProducts(): [] {
     return window.sessionStorage.getItem(PRODUCTS)
       ? JSON.parse(window.sessionStorage.getItem(PRODUCTS)!)
       : [];
   }
 
   public initProducts(): void {
-    window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.getProducts()));
+    window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.products));
   }
 
-  public removeProduct(product_id: number): void {
-    const index = this.products.indexOf(product_id);
+  public removeProduct(product: ProductOrder): void {
+    this.products = this.getProducts();
+    const index = this.products.findIndex((p) => p.id === product.id);
     this.products.splice(index, 1);
     window.sessionStorage.setItem(PRODUCTS, JSON.stringify(this.products));
   }

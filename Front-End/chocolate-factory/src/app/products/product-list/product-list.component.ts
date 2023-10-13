@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/interfaces/Product';
+import { Product, ProductOrder } from 'src/app/interfaces/Product';
 import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
 
@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  addToCart(id: number): void {
-    this.cart.addProduct(id);
+  addToCart(product: ProductOrder): void {
+    this.cart.addProduct(product);
   }
 }

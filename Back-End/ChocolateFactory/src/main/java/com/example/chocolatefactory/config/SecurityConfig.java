@@ -38,6 +38,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST,"api/comments/add")
                                 .authenticated()
+                                .requestMatchers(HttpMethod.POST,"api/orders/add")
+                                .authenticated()
                                 .anyRequest().authenticated());
 
         return http.build();

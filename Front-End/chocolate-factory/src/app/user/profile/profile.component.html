@@ -59,27 +59,35 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <!-- <tr *ngFor="let c for counties;index as i"> -->
-    <tr>
-      <!-- <th scope="row">{{ i + 1 }}</th> -->
-      <th scope="row"></th>
+  <tbody *ngIf="products.length !== 0">
+    <tr *ngFor="let p of products; index as i">
+      <th scope="row">{{ i + 1 }}</th>
       <td>
-        <p></p>
+        <p>{{ p.name }}</p>
       </td>
       <td>
-        <p></p>
+        <p>{{ p.price }}</p>
       </td>
       <td>
-        <button class="btn-order">Delete</button>
+        <button
+          (click)="
+            removeItemFromCart({ id: p.id, name: p.name, price: p.price })
+          "
+          class="btn-order"
+        >
+          Delete
+        </button>
       </td>
     </tr>
     <tr class="total">
       <td colspan="3" style="letter-spacing: 1rem">Total</td>
-      <td>1231232 $</td>
+      <td>{{ total }} $</td>
     </tr>
     <tr>
-      <td colspan="4"><button>Order</button></td>
+      <td colspan="2">
+        <button (click)="clearCart()">Remove all products</button>
+      </td>
+      <td colspan="2"><button (click)="makeOrder()">Order</button></td>
     </tr>
   </tbody>
 </table>
