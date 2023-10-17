@@ -1,2 +1,5 @@
-package com.example.chocolatefactory.domain.enums;public class UserStatus {
+package com.example.chocolatefactory.domain.enums;
+
+public enum UserStatus {
+    ACTIVE, INACTIVE, DELETED
 }

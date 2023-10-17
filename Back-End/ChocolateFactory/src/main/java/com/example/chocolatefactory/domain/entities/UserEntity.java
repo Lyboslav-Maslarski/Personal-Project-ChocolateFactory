@@ -1,5 +1,6 @@
 package com.example.chocolatefactory.domain.entities;
 
+import com.example.chocolatefactory.domain.enums.UserStatus;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -21,6 +22,9 @@ public class UserEntity extends BaseEntity {
     private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     public String getEmail() {
         return email;
@@ -82,6 +86,15 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public UserEntity setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
         return this;
     }
 }

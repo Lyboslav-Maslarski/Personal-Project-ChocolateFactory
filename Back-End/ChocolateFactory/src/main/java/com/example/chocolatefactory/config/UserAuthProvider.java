@@ -6,8 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.exceptions.AppException;
-import com.example.chocolatefactory.mappers.UserMapper;
-import com.example.chocolatefactory.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,14 +25,10 @@ public class UserAuthProvider {
 
     @Value("${secuurity.jwt.token.secret-key:secret-key}")
     private String secretKey;
-    private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
-    private final UserMapper userMapper;
 
-    public UserAuthProvider(UserRepository userRepository, UserDetailsService userDetailsService, UserMapper userMapper) {
-        this.userRepository = userRepository;
+    public UserAuthProvider(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.userMapper = userMapper;
     }
 
     @PostConstruct

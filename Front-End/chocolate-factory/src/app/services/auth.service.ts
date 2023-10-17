@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
 import { User, UserRegister } from '../interfaces/User';
@@ -31,24 +30,20 @@ export class AuthService {
 
   // Register
   signUp(user: UserRegister) {
-    return this.http
-      .post(`${API_URL}/users/register`, user)
-      .pipe(catchError(this.handleError))
-      .subscribe({
-        next: (res: any) => {
-          this.router.navigate(['login']);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    return this.http.post(`${API_URL}/users/register`, user).subscribe({
+      next: (res: any) => {
+        this.router.navigate(['login']);
+      },
+      error: (err) => {
+        window.alert(err.error.message);
+      },
+    });
   }
 
   // Login
   signIn(email: string, password: string) {
     return this.http
       .post<any>(`${API_URL}/users/login`, { email, password })
-      .pipe(catchError(this.handleError))
       .subscribe({
         next: (res: any) => {
           this.setAuthToken(res);
@@ -57,9 +52,9 @@ export class AuthService {
         },
         error: (err) => {
           window.localStorage.removeItem('access_token');
-          window.localStorage.removeItem('id');
+          window.localStorage.removeItem('user');
           window.localStorage.removeItem('roles');
-          console.log(err);
+          window.alert(err.error.message);
         },
       });
   }
@@ -72,10 +67,11 @@ export class AuthService {
     if (res.token !== null) {
       window.localStorage.setItem('access_token', res.token);
       window.localStorage.setItem('id', res.id);
+      window.localStorage.setItem('user', JSON.stringify(res));
       window.localStorage.setItem('roles', res.roles);
     } else {
       window.localStorage.removeItem('access_token');
-      window.localStorage.removeItem('id');
+      window.localStorage.removeItem('user');
       window.localStorage.removeItem('roles');
     }
   }
@@ -87,22 +83,11 @@ export class AuthService {
 
   doLogout() {
     let removeToken = localStorage.removeItem('access_token');
+    window.localStorage.removeItem('user');
+    window.localStorage.removeItem('id');
+    window.localStorage.removeItem('roles');
     if (removeToken == null) {
       this.router.navigate(['login']);
     }
-  }
-
-  // Error
-  handleError(error: HttpErrorResponse) {
-    let msg = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      msg = error.error.message;
-    } else {
-      // server-side error
-      msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(msg);
-    return throwError(() => new Error(msg));
   }
 }

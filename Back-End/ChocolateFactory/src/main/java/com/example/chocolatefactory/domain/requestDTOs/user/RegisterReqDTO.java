@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record UserReqDTO(@NotBlank @Size(min = 6, max = 20) String email,
-                         @NotNull @Size(min = 6, max = 20) char[] password,
-                         @NotBlank @Size(min = 6, max = 30) String fullName,
-                         @NotBlank @Size(min = 3, max = 10) String city,
-                         @NotBlank @Size(min = 6, max = 50) String address,
-                         @NotBlank @Size(min = 6, max = 20) String phone) {
+public record RegisterReqDTO(@NotBlank @Size(min = 6, max = 20) String email,
+                             @NotNull @Size(min = 6, max = 20) char[] password,
+                             @NotBlank @Size(min = 6, max = 30) String fullName,
+                             @NotBlank @Size(min = 3, max = 10) String city,
+                             @NotBlank @Size(min = 6, max = 50) String address,
+                             @NotBlank @Size(min = 6, max = 20) String phone) {
 }

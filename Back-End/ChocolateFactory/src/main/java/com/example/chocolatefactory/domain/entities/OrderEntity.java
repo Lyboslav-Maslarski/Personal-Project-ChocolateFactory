@@ -1,5 +1,6 @@
 package com.example.chocolatefactory.domain.entities;
 
+import com.example.chocolatefactory.domain.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -22,9 +23,8 @@ public class OrderEntity extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal total;
     @Column(nullable = false)
-    private Boolean approved;
-    @Column(nullable = false)
-    private Boolean dispatched;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 
     public List<ProductEntity> getProducts() {
@@ -63,21 +63,12 @@ public class OrderEntity extends BaseEntity {
         return this;
     }
 
-    public Boolean getApproved() {
-        return approved;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public OrderEntity setApproved(Boolean approved) {
-        this.approved = approved;
-        return this;
-    }
-
-    public Boolean getDispatched() {
-        return dispatched;
-    }
-
-    public OrderEntity setDispatched(Boolean dispatched) {
-        this.dispatched = dispatched;
+    public OrderEntity setStatus(OrderStatus status) {
+        this.status = status;
         return this;
     }
 }

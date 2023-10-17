@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { authInterceptorProviders } from '../app/utils/auth.interceptor';
 import { ProductsModule } from './products/products.module';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [AppComponent],

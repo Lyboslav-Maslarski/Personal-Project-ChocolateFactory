@@ -2,7 +2,8 @@ package com.example.chocolatefactory.web;
 
 import com.example.chocolatefactory.config.UserAuthProvider;
 import com.example.chocolatefactory.domain.requestDTOs.user.PasswordDTO;
-import com.example.chocolatefactory.domain.requestDTOs.user.UserReqDTO;
+import com.example.chocolatefactory.domain.requestDTOs.user.RegisterReqDTO;
+import com.example.chocolatefactory.domain.requestDTOs.user.UserUpdateDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.domain.responseDTOs.error.ErrorDTO;
 import com.example.chocolatefactory.domain.requestDTOs.user.LoginReqDTO;
@@ -41,12 +42,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserReqDTO userReqDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterReqDTO registerReqDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid register request data!"));
         }
 
-        UserDTO userDTO = userService.registerUser(userReqDTO);
+        UserDTO userDTO = userService.registerUser(registerReqDTO);
 
         return ResponseEntity.created(URI.create("api/users/" + userDTO.getId())).body(userDTO);
     }
@@ -65,15 +66,16 @@ public class UserController {
         return ResponseEntity.ok(userDetailsDTO);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserReqDTO userReqDTO,
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userUpdateDTO,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user data!"));
         }
-        userService.updateUser(id, userReqDTO);
 
-        return ResponseEntity.ok().build();
+        UserDTO userDTO = userService.updateUser(id, userUpdateDTO);
+
+        return ResponseEntity.ok(userDTO);
     }
 
     @PatchMapping("/{id}/password")
@@ -82,7 +84,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user data!"));
         }
-        userService.changePassword(id,passwordDTO);
+        userService.changePassword(id, passwordDTO);
 
         return ResponseEntity.ok().build();
     }

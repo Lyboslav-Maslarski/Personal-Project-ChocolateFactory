@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonsModule } from 'src/app/commons/commons.module';
 import { ProductOrder } from 'src/app/interfaces/Product';
 import { UserDetails } from 'src/app/interfaces/User';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
 
@@ -14,14 +16,18 @@ const API_URL = environment.baseUrl;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
   standalone: true,
-  imports: [CommonModule, CommonsModule],
+  imports: [CommonModule, CommonsModule, RouterModule],
 })
 export class ProfileComponent implements OnInit {
   currentUser: UserDetails = {};
   products: ProductOrder[] = [];
   total: number = 0;
 
-  constructor(private http: HttpClient, private cart: CartService) {}
+  constructor(
+    private http: HttpClient,
+    private cart: CartService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.http
@@ -63,5 +69,11 @@ export class ProfileComponent implements OnInit {
         this.cart.removeAllProducts();
         window.location.reload();
       });
+  }
+
+  deleteProfile(id: number | undefined) {
+    this.http.delete(`${environment.baseUrl}/users/` + id).subscribe((res) => {
+      this.auth.doLogout();
+    });
   }
 }

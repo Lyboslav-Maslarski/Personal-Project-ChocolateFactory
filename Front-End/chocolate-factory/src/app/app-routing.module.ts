@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home/home.component';
 import { AboutComponent } from './home/about/about.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductComponent } from './products/product/product.component';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +20,16 @@ const routes: Routes = [
   {
     path: 'user-profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-edit-profile',
+    component: EditProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-edit-password',
+    component: ChangePasswordComponent,
     canActivate: [AuthGuard],
   },
   { path: 'products', component: ProductListComponent },

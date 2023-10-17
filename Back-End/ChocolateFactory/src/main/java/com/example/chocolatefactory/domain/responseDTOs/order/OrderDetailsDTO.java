@@ -10,8 +10,7 @@ public class OrderDetailsDTO {
     private Long id;
     private UUID orderNumber;
     private BigDecimal total;
-    private Boolean approved;
-    private Boolean dispatched;
+    private String status;
     private List<ProductDTO> products;
 
     public Long getId() {
@@ -41,21 +40,12 @@ public class OrderDetailsDTO {
         return this;
     }
 
-    public Boolean getApproved() {
-        return approved;
+    public String getStatus() {
+        return status;
     }
 
-    public OrderDetailsDTO setApproved(Boolean approved) {
-        this.approved = approved;
-        return this;
-    }
-
-    public Boolean getDispatched() {
-        return dispatched;
-    }
-
-    public OrderDetailsDTO setDispatched(Boolean dispatched) {
-        this.dispatched = dispatched;
+    public OrderDetailsDTO setStatus(String status) {
+        this.status = status;
         return this;
     }
 

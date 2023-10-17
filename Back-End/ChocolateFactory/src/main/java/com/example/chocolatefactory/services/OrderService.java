@@ -3,6 +3,7 @@ package com.example.chocolatefactory.services;
 import com.example.chocolatefactory.domain.AppUserDetails;
 import com.example.chocolatefactory.domain.entities.OrderEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
+import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderAddDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
 import com.example.chocolatefactory.exceptions.AppException;
@@ -50,8 +51,7 @@ public class OrderService {
         OrderEntity orderEntity = new OrderEntity()
                 .setProducts(productEntities)
                 .setOrderNumber(UUID.randomUUID())
-                .setApproved(false)
-                .setDispatched(false)
+                .setStatus(OrderStatus.WAITING)
                 .setBuyer(userRepository.findById(appUserDetails.getId())
                         .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND)))
                 .setTotal(productEntities.stream().map(ProductEntity::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add));

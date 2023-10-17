@@ -4,13 +4,13 @@ import com.example.chocolatefactory.domain.entities.OrderEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
+import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
+import com.example.chocolatefactory.domain.enums.UserStatus;
 import com.example.chocolatefactory.repositories.OrderRepository;
 import com.example.chocolatefactory.repositories.ProductRepository;
 import com.example.chocolatefactory.repositories.RoleRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
-import com.example.chocolatefactory.services.OrderService;
-import com.example.chocolatefactory.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,15 +68,33 @@ public class DbInit implements CommandLineRunner {
             RoleEntity moderatorRole = roleRepository.findByRole(RoleEnum.ROLE_MODERATOR);
             RoleEntity adminRole = roleRepository.findByRole(RoleEnum.ROLE_ADMIN);
 
-            user = new UserEntity().setEmail("user@gmail.com")
-                    .setPassword(passwordEncoder.encode("123456")).setFullName("User Userov").setCity("Sofia")
-                    .setAddress("Geo Milev").setPhone("0888 111 111").setRoles(Set.of(userRole));
-            moderator = new UserEntity().setEmail("moderator@gmail.com")
-                    .setPassword(passwordEncoder.encode("123456")).setFullName("Moderator Moderatorov").setCity("Sofia")
-                    .setAddress("Studentski").setPhone("0888 222 222").setRoles(Set.of(userRole, moderatorRole));
-            admin = new UserEntity().setEmail("admin@gmail.com")
-                    .setPassword(passwordEncoder.encode("123456")).setFullName("Admin Adminov").setCity("Sofia")
-                    .setAddress("Ivan Vazov").setPhone("0888 333 333").setRoles(Set.of(userRole, moderatorRole, adminRole));
+            user = new UserEntity()
+                    .setEmail("user@gmail.com")
+                    .setPassword(passwordEncoder.encode("123456"))
+                    .setFullName("User Userov")
+                    .setCity("Sofia")
+                    .setAddress("Geo Milev")
+                    .setPhone("0888 111 111")
+                    .setRoles(Set.of(userRole))
+                    .setUserStatus(UserStatus.ACTIVE);
+            moderator = new UserEntity()
+                    .setEmail("moderator@gmail.com")
+                    .setPassword(passwordEncoder.encode("123456"))
+                    .setFullName("Moderator Moderatorov")
+                    .setCity("Sofia")
+                    .setAddress("Studentski")
+                    .setPhone("0888 222 222")
+                    .setRoles(Set.of(userRole, moderatorRole))
+                    .setUserStatus(UserStatus.ACTIVE);
+            admin = new UserEntity()
+                    .setEmail("admin@gmail.com")
+                    .setPassword(passwordEncoder.encode("123456"))
+                    .setFullName("Admin Adminov")
+                    .setCity("Sofia")
+                    .setAddress("Ivan Vazov")
+                    .setPhone("0888 333 333")
+                    .setRoles(Set.of(userRole, moderatorRole, adminRole))
+                    .setUserStatus(UserStatus.ACTIVE);
 
             userRepository.save(user);
             userRepository.save(moderator);
@@ -129,8 +147,7 @@ public class DbInit implements CommandLineRunner {
 
             OrderEntity orderEntity1 = new OrderEntity()
                     .setOrderNumber(UUID.randomUUID())
-                    .setApproved(false)
-                    .setDispatched(false)
+                    .setStatus(OrderStatus.WAITING)
                     .setBuyer(user)
                     .setProducts(products1)
                     .setTotal(total1);
@@ -140,8 +157,7 @@ public class DbInit implements CommandLineRunner {
 
             OrderEntity orderEntity2 = new OrderEntity()
                     .setOrderNumber(UUID.randomUUID())
-                    .setApproved(false)
-                    .setDispatched(false)
+                    .setStatus(OrderStatus.WAITING)
                     .setBuyer(admin)
                     .setProducts(products2)
                     .setTotal(total2);

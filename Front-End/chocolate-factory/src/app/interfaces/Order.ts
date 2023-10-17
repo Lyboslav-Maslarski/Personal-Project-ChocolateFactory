@@ -1,18 +1,16 @@
-import {Product} from "./Product";
+import { Product } from './Product';
 
 export interface Order {
-  id: number
-  orderNumber: string
-  total: number
-  approved: boolean
-  dispatched: boolean
+  id: number;
+  orderNumber: string;
+  total: number;
+  status: string;
 }
 
 export interface OrderDetails {
   id: number;
   orderNumber: string;
   total: number;
-  approved: boolean;
-  dispatched: boolean;
+  status: string;
   products: Product[];
 }

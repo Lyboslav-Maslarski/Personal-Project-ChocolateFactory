@@ -3,14 +3,13 @@ package com.example.chocolatefactory.mappers;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
-import com.example.chocolatefactory.domain.requestDTOs.user.UserReqDTO;
+import com.example.chocolatefactory.domain.requestDTOs.user.RegisterReqDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDetailsDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserShorDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
-    UserEntity registerDTOToUserEntity(UserReqDTO userReqDTO);
+    UserEntity registerDTOToUserEntity(RegisterReqDTO registerReqDTO);
 
     @Mapping(target = "moderator", expression = "java(isModerator(userEntity))")
     UserShorDTO toUserShortDTO(UserEntity userEntity);

@@ -5,16 +5,31 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonsModule } from '../commons/commons.module';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    ChangePasswordComponent,
+    EditProfileComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CommonsModule,
     ProfileComponent,
+    RouterModule
   ],
-  exports: [LoginComponent, RegisterComponent, ProfileComponent],
+  exports: [
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    ChangePasswordComponent,
+    EditProfileComponent,
+  ],
 })
 export class UserModule {}

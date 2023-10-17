@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   exports: [FooterComponent, HeaderComponent],
 })
 export class CommonsModule {}

@@ -34,11 +34,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.POST, "api/users/login", "api/users/register")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "api/users/{id}")
+                                .authenticated()
+                                .requestMatchers(HttpMethod.PATCH, "api/users/{id}","api/users/{id}/password")
+                                .authenticated()
                                 .requestMatchers(HttpMethod.GET, "api/products/all", "api/products/{id}")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST,"api/comments/add")
+                                .requestMatchers(HttpMethod.POST, "api/comments/add")
                                 .authenticated()
-                                .requestMatchers(HttpMethod.POST,"api/orders/add")
+                                .requestMatchers(HttpMethod.POST, "api/orders/add")
                                 .authenticated()
                                 .anyRequest().authenticated());
 
