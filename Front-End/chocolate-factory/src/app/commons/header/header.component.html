@@ -3,6 +3,13 @@
     <a [routerLink]="'/home'" class="navbar-brand"
       ><img src="../../../assets/logo.jpg" alt="logo.png"
     /></a>
+    <button
+      *ngIf="showAdminBtn"
+      class="btn btn-lg btn-outline-primary"
+      (click)="open()"
+    >
+      Admin
+    </button>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
         <a [routerLink]="'/home'" class="nav-link">Home</a>

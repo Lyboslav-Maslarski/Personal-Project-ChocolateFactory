@@ -38,3 +38,25 @@ a {
 a:hover {
     color: #fff;
 }
+
+.btn-outline-primary {
+    width: 10%;
+    padding: 1rem;
+}
+
+@media (max-width:1000px) {
+    .btn-outline-primary {
+        visibility: hidden;
+    }
+
+    .btn-outline-primary::after {
+        content: "A";
+        visibility: visible;
+        background-color: rgb(194 168 96);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: block;
+        position: absolute;
+        top: 4rem;
+    }
+}
