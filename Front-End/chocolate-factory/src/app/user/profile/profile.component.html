@@ -55,8 +55,15 @@
       </td>
       <td>
         <div class="btns">
-          <button>Details</button>
-          <button>Delete Order</button>
+          <a [routerLink]="['/order-details/', order.orderNumber]" class="btn"
+            >Details</a
+          >
+          <button
+            *ngIf="order.status === 'WAITING'"
+            (click)="deleteOrder(order.id)"
+          >
+            Delete Order
+          </button>
         </div>
       </td>
     </tr>

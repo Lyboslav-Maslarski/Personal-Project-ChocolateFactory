@@ -19,6 +19,7 @@ const API_URL = environment.baseUrl;
   imports: [CommonModule, CommonsModule, RouterModule],
 })
 export class ProfileComponent implements OnInit {
+
   currentUser: UserDetails = {};
   products: ProductOrder[] = [];
   total: number = 0;
@@ -76,4 +77,10 @@ export class ProfileComponent implements OnInit {
       this.auth.doLogout();
     });
   }
+
+  deleteOrder(id: number) {
+    this.http.delete(`${environment.baseUrl}/orders/` + id).subscribe((res) => {
+      window.location.reload();
+    });
+    }
 }

@@ -38,11 +38,20 @@ public class SecurityConfig {
                                 .authenticated()
                                 .requestMatchers(HttpMethod.PATCH, "api/users/{id}","api/users/{id}/password")
                                 .authenticated()
+
                                 .requestMatchers(HttpMethod.GET, "api/products/all", "api/products/{id}")
                                 .permitAll()
+
                                 .requestMatchers(HttpMethod.POST, "api/comments/add")
                                 .authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "api/comments/{id}")
+                                .authenticated()
+
                                 .requestMatchers(HttpMethod.POST, "api/orders/add")
+                                .authenticated()
+                                .requestMatchers(HttpMethod.GET, "api/orders/{orderNumber}")
+                                .authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "api/orders/{id}")
                                 .authenticated()
                                 .anyRequest().authenticated());
 

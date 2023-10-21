@@ -6,6 +6,7 @@ import com.example.chocolatefactory.domain.entities.ProductEntity;
 import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderAddDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
+import com.example.chocolatefactory.domain.responseDTOs.order.OrderDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.OrderMapper;
 import com.example.chocolatefactory.repositories.OrderRepository;
@@ -59,5 +60,16 @@ public class OrderService {
         OrderEntity saved = orderRepository.save(orderEntity);
 
         return orderMapper.toOrderDTO(saved);
+    }
+
+    public OrderDetailsDTO getOrder(UUID orderNumber) {
+        OrderEntity order = orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new AppException("Order not found!", HttpStatus.NOT_FOUND));
+
+        return orderMapper.toOrderDetailsDTO(order);
+    }
+
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }

@@ -10,6 +10,7 @@ import { ProductListComponent } from './products/product-list/product-list.compo
 import { ProductComponent } from './products/product/product.component';
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
+import { OrderDetailsComponent } from './order/order-details/order-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
   },
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductComponent },
+  { path: 'order-details/:orderNumber', component: OrderDetailsComponent },
 ];
 
 @NgModule({

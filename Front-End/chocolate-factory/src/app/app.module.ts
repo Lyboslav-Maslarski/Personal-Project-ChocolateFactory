@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { authInterceptorProviders } from '../app/utils/auth.interceptor';
 import { ProductsModule } from './products/products.module';
-import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
+import { OrderModule } from './order/order.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +33,8 @@ import { EditProfileComponent } from './user/edit-profile/edit-profile.component
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ProductsModule
+    ProductsModule,
+    OrderModule
   ],
   providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
