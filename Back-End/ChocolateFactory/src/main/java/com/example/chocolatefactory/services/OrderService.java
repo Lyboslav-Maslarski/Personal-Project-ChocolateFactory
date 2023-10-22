@@ -38,6 +38,7 @@ public class OrderService {
     public List<OrderDTO> getAllOrdersByUserId(Long id) {
         return orderRepository.findByBuyerId(id)
                 .stream()
+                .filter(o -> !o.getStatus().equals(OrderStatus.CANCELLED))
                 .map(orderMapper::toOrderDTO)
                 .collect(Collectors.toList());
     }
@@ -70,6 +71,11 @@ public class OrderService {
     }
 
     public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+        OrderEntity orderEntity = orderRepository.findById(id)
+                .orElseThrow(() -> new AppException("Order not found!", HttpStatus.NOT_FOUND));
+
+        orderEntity.setStatus(OrderStatus.CANCELLED);
+
+        orderRepository.save(orderEntity);
     }
 }

@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { authInterceptorProviders } from '../app/utils/auth.interceptor';
 import { ProductsModule } from './products/products.module';
 import { OrderModule } from './order/order.module';
+import { AdministrationModule } from './administration/administration.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +35,8 @@ import { OrderModule } from './order/order.module';
     MatFormFieldModule,
     MatInputModule,
     ProductsModule,
-    OrderModule
+    OrderModule,
+    AdministrationModule
   ],
   providers: [authInterceptorProviders, AuthGuard],
   bootstrap: [AppComponent],
