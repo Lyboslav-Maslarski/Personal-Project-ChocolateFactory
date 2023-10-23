@@ -17,6 +17,8 @@ import { authInterceptorProviders } from '../app/utils/auth.interceptor';
 import { ProductsModule } from './products/products.module';
 import { OrderModule } from './order/order.module';
 import { AdministrationModule } from './administration/administration.module';
+import { ModeratorGuard } from './utils/ModeratorGuard';
+import { AdminGuard } from './utils/AdminGuard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,9 +38,9 @@ import { AdministrationModule } from './administration/administration.module';
     MatInputModule,
     ProductsModule,
     OrderModule,
-    AdministrationModule
+    AdministrationModule,
   ],
-  providers: [authInterceptorProviders, AuthGuard],
+  providers: [authInterceptorProviders, AuthGuard, ModeratorGuard, AdminGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

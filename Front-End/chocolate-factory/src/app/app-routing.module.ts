@@ -11,6 +11,12 @@ import { ProductComponent } from './products/product/product.component';
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { OrderDetailsComponent } from './order/order-details/order-details.component';
+import { AddProductComponent } from './administration/add-product/add-product.component';
+import { ModeratorGuard } from './utils/ModeratorGuard';
+import { AdminAllProductsComponent } from './administration/admin-all-products/admin-all-products.component';
+import { AdminAllOrdersComponent } from './administration/admin-all-orders/admin-all-orders.component';
+import { AdminGuard } from './utils/AdminGuard';
+import { AdminAllUsersComponent } from './administration/admin-all-users/admin-all-users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -36,6 +42,26 @@ const routes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductComponent },
   { path: 'order-details/:orderNumber', component: OrderDetailsComponent },
+  {
+    path: 'product-add',
+    component: AddProductComponent,
+    canActivate: [AuthGuard, ModeratorGuard],
+  },
+  {
+    path: 'products-all',
+    component: AdminAllProductsComponent,
+    canActivate: [AuthGuard, ModeratorGuard],
+  },
+  {
+    path: 'orders-all',
+    component: AdminAllOrdersComponent,
+    canActivate: [AuthGuard, ModeratorGuard],
+  },
+  {
+    path: 'users-all',
+    component: AdminAllUsersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
 ];
 
 @NgModule({

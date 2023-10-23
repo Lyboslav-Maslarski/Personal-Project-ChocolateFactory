@@ -25,13 +25,13 @@
     ></textarea>
   </div>
   <div class="col-12">
-    <label for="password" class="form-label">Password</label>
+    <label for="picture" class="form-label">Picture</label>
     <input
-      type="password"
+      type="file"
+      (change)="uploadPhoto($event)"
       class="form-control"
-      id="password"
-      name="password"
-      [(ngModel)]="password"
+      id="picture"
+      name="picture"
       required
     />
   </div>

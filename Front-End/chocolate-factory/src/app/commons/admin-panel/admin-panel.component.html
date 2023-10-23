@@ -3,16 +3,16 @@
     <h2>Moderator</h2>
     <hr />
     <ul>
-      <li><a href="">Add Product</a></li>
-      <li><a href="">All Products</a></li>
-      <li><a href="">All Orders</a></li>
+      <li><a [routerLink]="'/product-add'">Add Product</a></li>
+      <li><a [routerLink]="'/products-all'">All Products</a></li>
+      <li><a [routerLink]="'/orders-all'">All Orders</a></li>
     </ul>
   </div>
   <div class="admin" *ngIf="showAdminPart">
     <h2>Admin</h2>
     <hr />
     <ul>
-      <li><a href="">All Users</a></li>
+      <li><a [routerLink]="'/users-all'">All Users</a></li>
     </ul>
   </div>
 </div>

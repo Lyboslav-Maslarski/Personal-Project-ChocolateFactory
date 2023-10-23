@@ -10,7 +10,7 @@ form {
     flex-direction: column;
     align-items: center;
     font-size: 1.5rem;
-    background-image: url(https://res.cloudinary.com/dmncdcgx9/image/upload/v1696043900/footerBackground_mbyuup.jpg);
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696043900/footerBackground_mbyuup.jpg);
     margin: 5rem auto;
     width: 50%;
     gap: 0.5rem;
@@ -25,13 +25,13 @@ div {
 }
 
 .after {
-    background-image: url(https://res.cloudinary.com/dmncdcgx9/image/upload/v1696045070/whiteTopTransparent_kz6jbx.png);
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696045070/whiteTopTransparent_kz6jbx.png);
     height: 3rem;
     width: 100%;
 }
 
 .before {
-    background-image: url(https://res.cloudinary.com/dmncdcgx9/image/upload/v1696113598/whiteBotTransparent_yexsao.png);
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696113598/whiteBotTransparent_yexsao.png);
     height: 3rem;
     padding: 0;
     margin: 0;
