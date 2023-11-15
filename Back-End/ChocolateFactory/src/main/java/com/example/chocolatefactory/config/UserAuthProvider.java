@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -48,12 +47,13 @@ public class UserAuthProvider {
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
-    public Authentication validateTokenStrongly(String token) {
+    public Authentication validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
 
         DecodedJWT verify = jwtVerifier.verify(token);
+
         UserDetails userDetails;
         try {
             userDetails = userDetailsService.loadUserByUsername(verify.getIssuer());

@@ -1,5 +1,5 @@
 <app-header></app-header>
-<h1>Register</h1>
+<h1>Add Product</h1>
 <form class="row g-3" (ngSubmit)="addProduct()">
   <div class="before"></div>
   <div class="col-12">
@@ -23,6 +23,17 @@
       [(ngModel)]="description"
       required
     ></textarea>
+  </div>
+  <div class="col-12">
+    <label for="imageUrl" class="form-label">Image URL</label>
+    <input
+      type="url"
+      class="form-control"
+      id="imageUrl"
+      name="imageUrl"
+      [(ngModel)]="imageUrl"
+      readonly
+    />
   </div>
   <div class="col-12">
     <label for="picture" class="form-label">Picture</label>
