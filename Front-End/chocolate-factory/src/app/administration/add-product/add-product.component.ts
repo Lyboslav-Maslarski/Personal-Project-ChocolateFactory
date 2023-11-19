@@ -1,4 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 const CLOUD_NAME = 'lyb4ooo';
 
@@ -14,7 +17,7 @@ export class AddProductComponent {
   quantity: number = 0;
   price: number = 0;
 
-  constructor() {}
+  constructor(public http: HttpClient, public router: Router) {}
 
   async uploadPhoto(event: any) {
     const file = event.target.files[0];
@@ -31,9 +34,29 @@ export class AddProductComponent {
       }
     ).then((res) => res.json());
 
-    console.log(secure_url);
     this.imageUrl = secure_url.toString();
   }
 
-  addProduct() {}
+  addProduct() {
+    this.http
+      .post(
+        `${environment.baseUrl}/products/add`,
+        {
+          name: this.name,
+          description: this.description,
+          imageUrl: this.imageUrl,
+          quantity: this.quantity,
+          price: this.price,
+        },
+        {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        }
+      )
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['products']);
+        },
+        error: (err: Error) => window.alert(err.message),
+      });
+  }
 }

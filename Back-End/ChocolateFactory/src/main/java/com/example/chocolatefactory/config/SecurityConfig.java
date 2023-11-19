@@ -41,6 +41,8 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "api/products/all", "api/products/{id}")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.POST,"api/products/add")
+                                .hasRole("MODERATOR")
 
                                 .requestMatchers(HttpMethod.POST, "api/comments/add")
                                 .authenticated()

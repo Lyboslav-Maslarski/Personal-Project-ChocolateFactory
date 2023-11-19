@@ -6,6 +6,8 @@ import { AdminAllOrdersComponent } from './admin-all-orders/admin-all-orders.com
 import { AdminAllUsersComponent } from './admin-all-users/admin-all-users.component';
 import { CommonsModule } from '../commons/commons.module';
 import { FormsModule } from '@angular/forms';
+import { AdminAllMessagesComponent } from './admin-all-messages/admin-all-messages.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     AdminAllProductsComponent,
     AdminAllOrdersComponent,
     AdminAllUsersComponent,
+    AdminAllMessagesComponent,
   ],
-  imports: [CommonModule, CommonsModule, FormsModule],
+  imports: [CommonModule, CommonsModule, FormsModule, RouterModule],
 })
 export class AdministrationModule {}

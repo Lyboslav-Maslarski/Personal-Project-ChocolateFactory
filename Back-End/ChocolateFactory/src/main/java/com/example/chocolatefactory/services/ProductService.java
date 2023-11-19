@@ -2,6 +2,7 @@ package com.example.chocolatefactory.services;
 
 import com.example.chocolatefactory.domain.entities.CommentEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
+import com.example.chocolatefactory.domain.requestDTOs.product.ProductAddDTO;
 import com.example.chocolatefactory.domain.responseDTOs.comment.CommentDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductDetailsDTO;
@@ -54,5 +55,19 @@ public class ProductService {
         productDetailsDTO.setComments(comments);
 
         return productDetailsDTO;
+    }
+
+    public ProductDTO addProduct(ProductAddDTO productAddDTO) {
+        ProductEntity productEntity = productMapper.productDtoToEntity(productAddDTO)
+                .setDepleted(false)
+                .setLowQuantity(false);
+
+        ProductEntity saved = productRepository.save(productEntity);
+
+        return productMapper.entityToProductDTO(saved);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }

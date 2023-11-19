@@ -17,6 +17,7 @@ import { AdminAllProductsComponent } from './administration/admin-all-products/a
 import { AdminAllOrdersComponent } from './administration/admin-all-orders/admin-all-orders.component';
 import { AdminGuard } from './utils/AdminGuard';
 import { AdminAllUsersComponent } from './administration/admin-all-users/admin-all-users.component';
+import { AdminAllMessagesComponent } from './administration/admin-all-messages/admin-all-messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -55,6 +56,11 @@ const routes: Routes = [
   {
     path: 'orders-all',
     component: AdminAllOrdersComponent,
+    canActivate: [AuthGuard, ModeratorGuard],
+  },
+  {
+    path: 'messages-all',
+    component: AdminAllMessagesComponent,
     canActivate: [AuthGuard, ModeratorGuard],
   },
   {
