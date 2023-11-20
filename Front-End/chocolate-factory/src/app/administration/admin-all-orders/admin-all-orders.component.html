@@ -1,1 +1,36 @@
-<p>admin-all-orders works!</p>
+<app-header></app-header>
+<h1>All Orders</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Order</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="orders?.length !== 0">
+    <tr *ngFor="let order of orders; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <p>{{ order.orderNumber }}</p>
+      </td>
+      <td>
+        <div class="btns">
+          <button
+            *ngIf="order.status === 'WAITING'"
+            (click)="acceptOrder(order.id)"
+          >
+            Accept Order
+          </button>
+          <button
+            *ngIf="order.status === 'ACCEPTED'"
+            (click)="shipOrder(order.id)"
+          >
+            Ship Order
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<app-footer></app-footer>

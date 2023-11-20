@@ -24,7 +24,7 @@ export interface UserDetails {
 export interface UserShort {
   id: number;
   email: string;
-  isModerator: boolean;
+  moderator: boolean;
 }
 
 export interface UserRegister {

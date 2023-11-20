@@ -1,1 +1,30 @@
-<p>admin-all-users works!</p>
+<app-header></app-header>
+<h1>All Users</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">User</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="users?.length !== 0">
+    <tr *ngFor="let user of users; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <p>{{ user.email }}</p>
+      </td>
+      <td>
+        <div class="btns">
+          <button *ngIf="!user.moderator" (click)="promoteUser(user.id)">
+            Promote User
+          </button>
+          <button *ngIf="user.moderator" (click)="demoteUser(user.id)">
+            Demote User
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<app-footer></app-footer>
