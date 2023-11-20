@@ -91,7 +91,7 @@ public class UserController {
 
     @PatchMapping("/{id}/promote")
     public ResponseEntity<?> promoteUser(@PathVariable Long id) {
-        userService.promote(id);
+        userService.promoteUser(id);
 
         return ResponseEntity.ok().build();
     }

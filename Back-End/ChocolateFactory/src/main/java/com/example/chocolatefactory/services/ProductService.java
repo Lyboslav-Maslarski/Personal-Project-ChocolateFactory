@@ -3,9 +3,11 @@ package com.example.chocolatefactory.services;
 import com.example.chocolatefactory.domain.entities.CommentEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
 import com.example.chocolatefactory.domain.requestDTOs.product.ProductAddDTO;
+import com.example.chocolatefactory.domain.requestDTOs.product.ProductUpdateDTO;
 import com.example.chocolatefactory.domain.responseDTOs.comment.CommentDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductDetailsDTO;
+import com.example.chocolatefactory.domain.responseDTOs.product.ProductUpdateDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.CommentMapper;
 import com.example.chocolatefactory.mappers.ProductMapper;
@@ -69,5 +71,25 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+
+    public ProductUpdateDetailsDTO getProductForUpdate(Long id) {
+        ProductEntity productEntity = productRepository.findById(id)
+                .orElseThrow(() -> new AppException("Product with id " + id + "not found!", HttpStatus.NOT_FOUND));
+
+        return productMapper.entityToProductUpdateDTO(productEntity);
+    }
+
+    public void updateProduct(Long id, ProductUpdateDTO productUpdateDTO) {
+        ProductEntity productEntity = productRepository.findById(id)
+                .orElseThrow(() -> new AppException("Product with id " + id + "not found!", HttpStatus.NOT_FOUND));
+
+        productEntity
+                .setName(productUpdateDTO.name())
+                .setDescription(productUpdateDTO.description())
+                .setQuantity(productUpdateDTO.quantity())
+                .setPrice(productUpdateDTO.price());
+
+        productRepository.save(productEntity);
     }
 }

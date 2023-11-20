@@ -20,3 +20,11 @@ export interface ProductOrder {
   name: string;
   price: number;
 }
+
+export interface ProductUpdate {
+  id: number;
+  name: string;
+  description: string;
+  quantity: number;
+  price: number;
+}

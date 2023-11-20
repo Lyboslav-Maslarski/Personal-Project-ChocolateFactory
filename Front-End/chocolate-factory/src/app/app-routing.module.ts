@@ -18,6 +18,7 @@ import { AdminAllOrdersComponent } from './administration/admin-all-orders/admin
 import { AdminGuard } from './utils/AdminGuard';
 import { AdminAllUsersComponent } from './administration/admin-all-users/admin-all-users.component';
 import { AdminAllMessagesComponent } from './administration/admin-all-messages/admin-all-messages.component';
+import { UpdateProductComponent } from './administration/update-product/update-product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -43,6 +44,11 @@ const routes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductComponent },
   { path: 'order-details/:orderNumber', component: OrderDetailsComponent },
+  {
+    path: 'product-update/:id',
+    component: UpdateProductComponent,
+    canActivate: [AuthGuard, ModeratorGuard],
+  },
   {
     path: 'product-add',
     component: AddProductComponent,

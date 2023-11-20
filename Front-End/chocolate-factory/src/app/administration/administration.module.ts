@@ -8,6 +8,7 @@ import { CommonsModule } from '../commons/commons.module';
 import { FormsModule } from '@angular/forms';
 import { AdminAllMessagesComponent } from './admin-all-messages/admin-all-messages.component';
 import { RouterModule } from '@angular/router';
+import { UpdateProductComponent } from './update-product/update-product.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { RouterModule } from '@angular/router';
     AdminAllOrdersComponent,
     AdminAllUsersComponent,
     AdminAllMessagesComponent,
+    UpdateProductComponent,
   ],
   imports: [CommonModule, CommonsModule, FormsModule, RouterModule],
 })

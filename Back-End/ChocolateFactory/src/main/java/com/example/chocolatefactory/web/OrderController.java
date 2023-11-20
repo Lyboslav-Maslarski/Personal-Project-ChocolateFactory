@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -49,5 +50,12 @@ public class OrderController {
         orderService.deleteOrder(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+        List<OrderDTO> orders = orderService.getAllOrders();
+
+        return ResponseEntity.ok(orders);
     }
 }

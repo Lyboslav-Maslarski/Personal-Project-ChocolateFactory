@@ -1,0 +1,71 @@
+h1 {
+    font-size: 4rem;
+    margin: 2rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696043900/footerBackground_mbyuup.jpg);
+    margin: 5rem auto;
+    width: 50%;
+    gap: 0.5rem;
+    color: rgb(194 168 96);
+}
+
+div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+}
+
+.after {
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696045070/whiteTopTransparent_kz6jbx.png);
+    height: 3rem;
+    width: 100%;
+}
+
+.before {
+    background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696113598/whiteBotTransparent_yexsao.png);
+    height: 3rem;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    background-color: rgb(194 168 96);
+    padding: 1rem 2rem;
+    color: #000;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+}
+
+input {
+    width: 100%;
+    height: 3rem;
+}
+
+.btn-div {
+    grid-template-columns: auto;
+}
+
+button:hover {
+    background-color: rgba(194, 191, 96, 0.687);
+    color: #000;
+}
+
+@media (max-width:600px) {
+    div {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    button {
+        margin: 2rem 0rem;
+    }
+}

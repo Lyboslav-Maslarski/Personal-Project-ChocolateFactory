@@ -43,6 +43,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST,"api/products/add")
                                 .hasRole("MODERATOR")
+                                .requestMatchers(HttpMethod.PATCH,"api/products/update/")
+                                .hasRole("MODERATOR")
 
                                 .requestMatchers(HttpMethod.POST, "api/comments/add")
                                 .authenticated()

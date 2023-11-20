@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -78,7 +79,10 @@ public class UserService {
     public List<UserShorDTO> getAllUsers() {
         List<UserEntity> allUsers = userRepository.findAll();
 
-        return allUsers.stream().map(userMapper::toUserShortDTO).collect(Collectors.toList());
+        return allUsers.stream()
+                .map(userMapper::toUserShortDTO)
+                .sorted(Comparator.comparing(UserShorDTO::getModerator).reversed())
+                .collect(Collectors.toList());
     }
 
     public UserDetailsDTO getUser(Long id) {
@@ -123,7 +127,7 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public void promote(Long id) {
+    public void promoteUser(Long id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
@@ -140,7 +144,7 @@ public class UserService {
                 .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
         Set<RoleEntity> roles = userEntity.getRoles();
-        roles.remove(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR));
+        roles.removeIf(r -> r.getRole().equals(RoleEnum.ROLE_MODERATOR));
 
         userEntity.setRoles(roles);
 

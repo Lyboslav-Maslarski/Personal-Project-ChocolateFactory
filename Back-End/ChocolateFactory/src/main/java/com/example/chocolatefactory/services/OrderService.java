@@ -78,4 +78,12 @@ public class OrderService {
 
         orderRepository.save(orderEntity);
     }
+
+    public List<OrderDTO> getAllOrders() {
+        List<OrderEntity> allOrders = orderRepository.findAllByStatusNotOrderByStatus(OrderStatus.CANCELLED);
+
+        return allOrders.stream()
+                .map(orderMapper::toOrderDTO)
+                .collect(Collectors.toList());
+    }
 }
