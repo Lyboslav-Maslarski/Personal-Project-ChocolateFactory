@@ -1,0 +1,45 @@
+<app-header></app-header>
+<h1>Contact us</h1>
+<form class="row g-3" (ngSubmit)="sendMessage()">
+  <div class="before"></div>
+  <div class="col-12">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="email"
+      class="form-control"
+      id="title"
+      name="title"
+      [(ngModel)]="title"
+      required
+    />
+  </div>
+  <div class="col-12">
+    <label for="email" class="form-label">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      [(ngModel)]="email"
+      required
+    />
+  </div>
+  <div class="col-12">
+    <label for="message" class="form-label">Message</label>
+    <textarea
+      type="text"
+      class="form-control"
+      id="message"
+      name="message"
+      [(ngModel)]="message"
+      required
+      rows="10"
+    ></textarea>
+  </div>
+  <div class="col-12 btn-div">
+    <button type="submit" class="btn btn-primary">Send</button>
+  </div>
+  <div class="after"></div>
+</form>
+<app-footer></app-footer>
+

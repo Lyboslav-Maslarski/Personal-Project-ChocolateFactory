@@ -19,11 +19,13 @@ import { AdminGuard } from './utils/AdminGuard';
 import { AdminAllUsersComponent } from './administration/admin-all-users/admin-all-users.component';
 import { AdminAllMessagesComponent } from './administration/admin-all-messages/admin-all-messages.component';
 import { UpdateProductComponent } from './administration/update-product/update-product.component';
+import { ContactComponent } from './home/contact/contact.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
