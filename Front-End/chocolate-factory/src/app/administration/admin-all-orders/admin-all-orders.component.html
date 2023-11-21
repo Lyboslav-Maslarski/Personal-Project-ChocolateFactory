@@ -24,10 +24,11 @@
           </button>
           <button
             *ngIf="order.status === 'ACCEPTED'"
-            (click)="shipOrder(order.id)"
+            (click)="dispatchOrder(order.id)"
           >
-            Ship Order
+            Dispatch Order
           </button>
+          <p *ngIf="order.status === 'SHIPPED'">{{ order.status }}</p>
         </div>
       </td>
     </tr>

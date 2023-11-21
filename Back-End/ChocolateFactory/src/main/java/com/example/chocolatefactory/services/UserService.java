@@ -77,7 +77,7 @@ public class UserService {
     }
 
     public List<UserShorDTO> getAllUsers() {
-        List<UserEntity> allUsers = userRepository.findAll();
+        List<UserEntity> allUsers = userRepository.findAllByEmailNot("admin@gmail.com");
 
         return allUsers.stream()
                 .map(userMapper::toUserShortDTO)

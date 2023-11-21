@@ -2,6 +2,7 @@ package com.example.chocolatefactory.web;
 
 import com.example.chocolatefactory.domain.AppUserDetails;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderAddDTO;
+import com.example.chocolatefactory.domain.requestDTOs.order.OrderIdDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
@@ -33,29 +34,43 @@ public class OrderController {
             throw new AppException("Invalid order data!", HttpStatus.BAD_REQUEST);
         }
 
-        OrderDTO orderDTO = orderService.saveOrder(orderAddDTO,appUserDetails);
+        OrderDTO orderDTO = orderService.saveOrder(orderAddDTO, appUserDetails);
 
         return ResponseEntity.created(URI.create("api/orders/" + orderDTO.getId())).body(orderDTO);
     }
 
     @GetMapping("/{orderNumber}")
-    public ResponseEntity<?> getOrderDetails(@PathVariable UUID orderNumber){
+    public ResponseEntity<?> getOrderDetails(@PathVariable UUID orderNumber) {
         OrderDetailsDTO order = orderService.getOrder(orderNumber);
 
         return ResponseEntity.ok(order);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Long id){
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> orders = orderService.getAllOrders();
 
         return ResponseEntity.ok(orders);
+    }
+
+    @PatchMapping("/accept")
+    public ResponseEntity<?> acceptOrder(@Valid @RequestBody OrderIdDTO orderIdDTO) {
+        orderService.acceptOrder(orderIdDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/dispatch")
+    public ResponseEntity<?> dispatchOrder(@Valid @RequestBody OrderIdDTO orderIdDTO) {
+        orderService.dispatchOrder(orderIdDTO);
+
+        return ResponseEntity.ok().build();
     }
 }

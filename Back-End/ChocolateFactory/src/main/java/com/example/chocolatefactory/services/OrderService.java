@@ -5,6 +5,7 @@ import com.example.chocolatefactory.domain.entities.OrderEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
 import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderAddDTO;
+import com.example.chocolatefactory.domain.requestDTOs.order.OrderIdDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
@@ -85,5 +86,23 @@ public class OrderService {
         return allOrders.stream()
                 .map(orderMapper::toOrderDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void acceptOrder(OrderIdDTO orderIdDTO) {
+        OrderEntity orderEntity = orderRepository.findById(orderIdDTO.id())
+                .orElseThrow(() -> new AppException("Order not found!", HttpStatus.NOT_FOUND));
+
+        orderEntity.setStatus(OrderStatus.ACCEPTED);
+
+        orderRepository.save(orderEntity);
+    }
+
+    public void dispatchOrder(OrderIdDTO orderIdDTO) {
+        OrderEntity orderEntity = orderRepository.findById(orderIdDTO.id())
+                .orElseThrow(() -> new AppException("Order not found!", HttpStatus.NOT_FOUND));
+
+        orderEntity.setStatus(OrderStatus.SHIPPED);
+
+        orderRepository.save(orderEntity);
     }
 }

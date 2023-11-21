@@ -22,10 +22,19 @@ export class AdminAllOrdersComponent implements OnInit {
       });
   }
 
-  shipOrder(arg0: number) {
-    throw new Error('Method not implemented.');
+  acceptOrder(id: number) {
+    this.http
+      .patch(`${environment.baseUrl}/orders/accept`, { id })
+      .subscribe((data: any) => {
+        window.location.reload();
+      });
   }
-  acceptOrder(arg0: number) {
-    throw new Error('Method not implemented.');
+
+  dispatchOrder(id: number) {
+    this.http
+      .patch(`${environment.baseUrl}/orders/dispatch`, { id })
+      .subscribe((data: any) => {
+        window.location.reload();
+      });
   }
 }

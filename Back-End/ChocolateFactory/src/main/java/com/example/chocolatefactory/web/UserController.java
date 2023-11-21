@@ -97,14 +97,14 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/demote")
-    public ResponseEntity<UserDTO> demoteUser(@PathVariable Long id) {
+    public ResponseEntity<?> demoteUser(@PathVariable Long id) {
         userService.demoteUser(id);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
 
         return ResponseEntity.noContent().build();
