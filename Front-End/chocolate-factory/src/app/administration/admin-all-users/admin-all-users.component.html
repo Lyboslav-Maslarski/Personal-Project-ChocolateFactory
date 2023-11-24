@@ -6,6 +6,7 @@
       <th scope="col">#</th>
       <th scope="col">User</th>
       <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody *ngIf="users?.length !== 0">
@@ -19,6 +20,10 @@
           <button *ngIf="!user.moderator" (click)="promoteUser(user.id)">
             Promote User
           </button>
+        </div>
+      </td>
+      <td>
+        <div class="btns">
           <button *ngIf="user.moderator" (click)="demoteUser(user.id)">
             Demote User
           </button>

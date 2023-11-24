@@ -7,25 +7,22 @@ a>img {
     height: 10rem;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-}
-
 .after {
     background-image: url(https://res.cloudinary.com/lyb4ooo/image/upload/v1696045070/whiteTopTransparent_kz6jbx.png);
     height: 3rem;
     width: 100%;
 }
 
+.navbar-collapse {
+    justify-content: space-between;
+}
+
 ul {
-    padding: 0;
     list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2rem;
-    margin-right: 2rem;
+    gap: 3rem;
 }
 
 a {
@@ -41,11 +38,10 @@ a:hover {
 
 .btn-outline-primary {
     width: 10%;
-    padding: 1rem;
 }
 
 @media (max-width:1000px) {
-    .btn-outline-primary {
+    /* .btn-outline-primary {
         visibility: hidden;
     }
 
@@ -58,5 +54,7 @@ a:hover {
         display: block;
         position: absolute;
         top: 4rem;
-    }
+    } */
 }
+
+@media (max-width:1300px) {}

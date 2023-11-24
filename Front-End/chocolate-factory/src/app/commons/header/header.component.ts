@@ -10,6 +10,7 @@ import { AdminPanelComponent } from '../admin-panel/admin-panel.component';
 })
 export class HeaderComponent implements OnInit {
   showAdminBtn: boolean = false;
+  collapsed: boolean = true;
 
   constructor(
     public authService: AuthService,

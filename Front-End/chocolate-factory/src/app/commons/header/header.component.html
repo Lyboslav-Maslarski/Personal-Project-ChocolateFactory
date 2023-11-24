@@ -1,47 +1,67 @@
 <header>
-  <nav class="navbar navbar-expand">
+  <nav class="navbar navbar-expand-xxl">
     <a [routerLink]="'/home'" class="navbar-brand"
       ><img src="../../../assets/logo.jpg" alt="logo.png"
     /></a>
-    <button
-      *ngIf="showAdminBtn"
-      class="btn btn-lg btn-outline-primary"
-      (click)="open()"
-    >
-      Admin
-    </button>
-    <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item">
-        <a [routerLink]="'/home'" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="'/products'" class="nav-link">Products</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="'/about'" class="nav-link">About Us</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="'/contact'" class="nav-link">Contact Us</a>
-      </li>
-    </ul>
 
-    <ul class="navbar-nav ml-auto" *ngIf="!this.authService.isLoggedIn">
-      <li class="nav-item">
-        <a [routerLink]="'/register'" class="nav-link">Register</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="'/login'" class="nav-link">Login</a>
-      </li>
-    </ul>
+    <div class="container-fluid">
+      <button
+        class="btn navbar-toggler"
+        type="button"
+        aria-controls="navbarContent"
+        [attr.aria-expanded]="!collapsed"
+        aria-label="Toggle navigation"
+        (click)="collapsed = !collapsed"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <ul class="navbar-nav ml-auto" *ngIf="this.authService.isLoggedIn">
-      <li class="nav-item">
-        <a [routerLink]="'/user-profile'" class="nav-link">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="logout()" class="nav-link">Logout</a>
-      </li>
-    </ul>
+      <div
+        class="navbar-collapse"
+        [class.collapse]="collapsed"
+        id="navbarContent"
+      >
+        <ul class="navbar-nav mr-auto" routerLinkActive="active">
+          <li><hr class="dropdown-divider" /></li>
+          <li class="nav-item">
+            <button *ngIf="showAdminBtn" class="btn admin-btn" (click)="open()">
+              Admin
+            </button>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'/home'" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'/products'" class="nav-link">Products</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'/about'" class="nav-link">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'/contact'" class="nav-link">Contact Us</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="!this.authService.isLoggedIn">
+          <li class="nav-item">
+            <a [routerLink]="'/register'" class="nav-link">Register</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="'/login'" class="nav-link">Login</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="this.authService.isLoggedIn">
+          <li class="nav-item">
+            <a [routerLink]="'/user-profile'" class="nav-link">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="logout()" class="nav-link">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
   <div class="after"></div>
 </header>
