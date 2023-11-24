@@ -42,7 +42,7 @@ public class MessageService {
     }
 
     public List<MessageDTO> getAllMessages() {
-        return messageRepository.findAll()
+        return messageRepository.findAllByStatus(MessageStatus.UNANSWERED)
                 .stream()
                 .map(messageMapper::entityToMessageDto)
                 .collect(Collectors.toList());

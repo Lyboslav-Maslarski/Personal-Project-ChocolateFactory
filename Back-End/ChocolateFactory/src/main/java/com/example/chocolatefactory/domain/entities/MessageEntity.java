@@ -1,15 +1,19 @@
 package com.example.chocolatefactory.domain.entities;
 
 import com.example.chocolatefactory.domain.enums.MessageStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "messages")
 public class MessageEntity extends BaseEntity {
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String contact;
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private MessageStatus status;
 
     public String getTitle() {

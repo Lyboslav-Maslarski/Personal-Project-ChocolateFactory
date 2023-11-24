@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminAllMessagesComponent } from './admin-all-messages/admin-all-messages.component';
 import { RouterModule } from '@angular/router';
 import { UpdateProductComponent } from './update-product/update-product.component';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,12 @@ import { UpdateProductComponent } from './update-product/update-product.componen
     AdminAllMessagesComponent,
     UpdateProductComponent,
   ],
-  imports: [CommonModule, CommonsModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    CommonsModule,
+    FormsModule,
+    RouterModule,
+    NgbAccordionModule,
+  ],
 })
 export class AdministrationModule {}

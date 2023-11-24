@@ -1,11 +1,25 @@
 <app-header></app-header>
+<h1>Welcome to the Chocolate Factory</h1>
+<div class="separator"></div>
+<section id="hero_big" class="hero-big hero-big--countdown hero-big--london">
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    class="video-background video-background--desktop"
+  >
+    <source
+      src="https://res.cloudinary.com/fever/video/upload/q_auto/f_auto/v1642604303/Originals%20and%20Other%20Projects/25_Chocolate%20Factory/CF%20Edited/Landings/16X9_LFDC_HERO.mp4"
+      type="video/mp4"
+    />
+  </video>
+</section>
+<div class="separator"></div>
 <ngb-carousel *ngIf="images" class="carousel">
   <ng-template ngbSlide>
     <div class="picsum-img-wrapper">
       <img [src]="images[0]" alt="Random first slide" />
-    </div>
-    <div class="carousel-caption">
-      <p>Welcome to the Chocolate Factory</p>
     </div>
   </ng-template>
   <ng-template ngbSlide>
@@ -27,18 +41,4 @@
     </div>
   </ng-template>
 </ngb-carousel>
-<section id="hero_big" class="hero-big hero-big--countdown hero-big--london">
-  <video
-    autoplay
-    loop
-    muted
-    playsinline
-    class="video-background video-background--desktop"
-  >
-    <source
-      src="https://res.cloudinary.com/fever/video/upload/q_auto/f_auto/v1642604303/Originals%20and%20Other%20Projects/25_Chocolate%20Factory/CF%20Edited/Landings/16X9_LFDC_HERO.mp4"
-      type="video/mp4"
-    />
-  </video>
-</section>
 <app-footer></app-footer>

@@ -1,1 +1,40 @@
-<p>admin-all-messages works!</p>
+<app-header></app-header>
+<h1>All Messages</h1>
+<div class="separator"></div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">From</th>
+      <th scope="col">Title</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let message of messages; index as i">
+    <tr>
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <p>{{ message.contact }}</p>
+      </td>
+      <td>
+        <p>{{ message.title }}</p>
+      </td>
+      <td>
+        <div class="btns">
+          <button (click)="showContent(message.id)">
+            {{ message.showContent ? "Hide Content" : "Show Content" }}
+          </button>
+          <button (click)="setToAnswered(message.id)">Answered</button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="message.showContent">
+      <td colspan="4">
+        <p class="content">
+          {{ message.content }}
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<app-footer></app-footer>

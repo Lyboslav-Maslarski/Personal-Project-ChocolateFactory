@@ -11,7 +11,14 @@ img {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 4rem;
+    margin: 2rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
     margin: 2rem auto;
     color: rgb(194 168 96);
     text-align: center;

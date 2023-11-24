@@ -25,6 +25,13 @@ button {
     border-radius: 2.5rem;
 }
 
-video{
+video {
     width: 100%;
+}
+
+h1 {
+    font-size: 4rem;
+    margin: 2rem auto;
+    color: rgb(194 168 96);
+    text-align: center;
 }

@@ -35,3 +35,9 @@ button:hover,.btn:hover {
     background-color: rgba(194, 191, 96, 0.687);
     color: #000;
 }
+
+.separator{
+    height: 0.2rem;
+    background-color: rgb(194 168 96);
+    margin: 5rem;
+}

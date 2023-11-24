@@ -3,4 +3,5 @@ export interface Message {
   title: string;
   contact: string;
   content: string;
+  showContent: boolean;
 }
