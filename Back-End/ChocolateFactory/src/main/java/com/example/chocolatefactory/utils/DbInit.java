@@ -106,22 +106,22 @@ public class DbInit implements CommandLineRunner {
         if (productRepository.count() == 0) {
             productEntity1 = new ProductEntity()
                     .setName("2 bons").setDescription("2 bons")
-                    .setImageUrl("https://res.cloudinary.com/dmncdcgx9/image/upload/v1696582706/2pc_bons_zxy5nm.jpg")
+                    .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582706/2pc_bons_zxy5nm.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
                     .setDepleted(false).setLowQuantity(false);
             productEntity2 = new ProductEntity()
                     .setName("8 bons").setDescription("8 bons")
-                    .setImageUrl("https://res.cloudinary.com/dmncdcgx9/image/upload/v1696582728/8PC_Interior_wshc3w.jpg")
+                    .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582728/8PC_Interior_wshc3w.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
                     .setDepleted(false).setLowQuantity(false);
             productEntity3 = new ProductEntity()
                     .setName("16 bons").setDescription("16 bons")
-                    .setImageUrl("https://res.cloudinary.com/dmncdcgx9/image/upload/v1696582735/16pcbons_n5a4u7.jpg")
+                    .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582735/16pcbons_n5a4u7.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
                     .setDepleted(false).setLowQuantity(false);
             productEntity4 = new ProductEntity()
                     .setName("20 bons").setDescription("20 bons")
-                    .setImageUrl("https://res.cloudinary.com/dmncdcgx9/image/upload/v1696582740/20pc_Bonbon_Interior_gcpgou.jpg")
+                    .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582740/20pc_Bonbon_Interior_gcpgou.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
                     .setDepleted(false).setLowQuantity(false);
 
