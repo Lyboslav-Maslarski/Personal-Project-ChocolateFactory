@@ -10,8 +10,8 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class ContactComponent {
   title: string = '';
-  email: string = '';
-  message: string = '';
+  contact: string = '';
+  content: string = '';
 
   constructor(public http: HttpClient, public router: Router) {}
 
@@ -21,8 +21,8 @@ export class ContactComponent {
         `${environment.baseUrl}/messages/add`,
         {
           title: this.title,
-          email: this.email,
-          message: this.message,
+          contact: this.contact,
+          content: this.content,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

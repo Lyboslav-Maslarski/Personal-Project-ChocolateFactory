@@ -8,7 +8,6 @@ import com.example.chocolatefactory.services.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +30,12 @@ public class CommentController {
         }
 
         CommentDTO commentDTO = commentService.saveComment(commentAddDTO, appUserDetails);
+
         return ResponseEntity.created(URI.create("api/comments/" + commentDTO.getId())).body(commentDTO);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
 
         return ResponseEntity.noContent().build();
