@@ -11,6 +11,7 @@ export class LoginComponent {
   password: string = '';
 
   constructor(public authService: AuthService) {}
+ 
   onSubmitLogin(): void {
     this.authService.signIn(this.email, this.password);
   }
