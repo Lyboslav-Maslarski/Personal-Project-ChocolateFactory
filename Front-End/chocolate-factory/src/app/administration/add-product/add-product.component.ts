@@ -11,11 +11,9 @@ const CLOUD_NAME = 'lyb4ooo';
   styleUrls: ['./add-product.component.css'],
 })
 export class AddProductComponent {
-  name: string = '';
-  description: string = '';
+  error: string = '';
+  success: boolean = false;
   imageUrl: string = '';
-  quantity: number = 0;
-  price: number = 0;
 
   constructor(public http: HttpClient, public router: Router) {}
 
@@ -37,26 +35,31 @@ export class AddProductComponent {
     this.imageUrl = secure_url.toString();
   }
 
-  addProduct() {
+  addProduct(form: {
+    name: string;
+    description: string;
+    quantity: number;
+    price: number;
+  }) {
     this.http
       .post(
         `${environment.baseUrl}/products/add`,
         {
-          name: this.name,
-          description: this.description,
+          name: form.name,
+          description: form.description,
           imageUrl: this.imageUrl,
-          quantity: this.quantity,
-          price: this.price,
+          quantity: form.quantity,
+          price: form.price,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         }
       )
       .subscribe({
-        next: (res) => {
-          this.router.navigate(['products']);
+        next: () => {
+          this.success = true;
         },
-        error: (err: Error) => window.alert(err.message),
+        error: (err) => (this.error = err.error.message),
       });
   }
 }

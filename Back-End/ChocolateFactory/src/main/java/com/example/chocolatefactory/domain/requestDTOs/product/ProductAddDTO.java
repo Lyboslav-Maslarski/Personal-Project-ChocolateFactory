@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 public record ProductAddDTO(@NotBlank @Size(min = 6, max = 20) String name,
                             @NotBlank @Size(min = 6) String description,
-                            @NotBlank @Size(min = 6, max = 100) String imageUrl,
+                            @NotBlank String imageUrl,
                             @NotNull @Positive Integer quantity,
                             @NotNull @Positive BigDecimal price) {
 }

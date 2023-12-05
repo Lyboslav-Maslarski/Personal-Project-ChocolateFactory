@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./update-product.component.css'],
 })
 export class UpdateProductComponent implements OnInit {
+  error: string = '';
+  success: boolean = false;
   id = this.activatedRoute.snapshot.params.id;
   name: string = '';
   description: string = '';
@@ -36,25 +38,30 @@ export class UpdateProductComponent implements OnInit {
       });
   }
 
-  updateProduct() {
+  updateProduct(form: {
+    name: string;
+    description: string;
+    quantity: number;
+    price: number;
+  }) {
     this.http
       .patch(
         `${environment.baseUrl}/products/${this.id}`,
         {
-          name: this.name,
-          description: this.description,
-          quantity: this.quantity,
-          price: this.price,
+          name: form.name,
+          description: form.description,
+          quantity: form.quantity,
+          price: form.price,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         }
       )
       .subscribe({
-        next: (res) => {
-          this.router.navigate(['products-all']);
+        next: () => {
+          this.success = true;
         },
-        error: (err: Error) => window.alert(err.message),
+        error: (err) => (this.error = err.error.message),
       });
   }
 }

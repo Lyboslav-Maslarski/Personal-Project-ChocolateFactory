@@ -1,7 +1,11 @@
 <app-header></app-header>
 <h1>Add Product</h1>
 <div class="separator"></div>
-<form class="row g-3" (ngSubmit)="addProduct()">
+<form
+  class="row g-3"
+  #addProductFrom="ngForm"
+  (ngSubmit)="addProduct(addProductFrom.value)"
+>
   <div class="before"></div>
   <div class="col-12">
     <label for="name" class="form-label">Name</label>
@@ -10,10 +14,21 @@
       class="form-control"
       id="name"
       name="name"
-      [(ngModel)]="name"
+      ngModel
+      #nameInput="ngModel"
       required
+      minlength="6"
+      maxlength="20"
     />
   </div>
+  <ng-container *ngIf="nameInput.touched || nameInput.dirty">
+    <div class="error" *ngIf="nameInput.errors?.['required']">
+      Name is required.
+    </div>
+    <div class="error" *ngIf="nameInput.errors?.['minlength']">
+      Name should be between 6 and 20 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="description" class="form-label">Description</label>
     <textarea
@@ -21,10 +36,20 @@
       class="form-control"
       id="description"
       name="description"
-      [(ngModel)]="description"
+      ngModel
+      #descriptionInput="ngModel"
       required
+      minlength="6"
     ></textarea>
   </div>
+  <ng-container *ngIf="descriptionInput.touched || descriptionInput.dirty">
+    <div class="error" *ngIf="descriptionInput.errors?.['required']">
+      Description is required.
+    </div>
+    <div class="error" *ngIf="descriptionInput.errors?.['minlength']">
+      Description must be more than 6 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="imageUrl" class="form-label">Image URL</label>
     <input
@@ -33,9 +58,16 @@
       id="imageUrl"
       name="imageUrl"
       [(ngModel)]="imageUrl"
+      #imageInput="ngModel"
       readonly
+      required
     />
   </div>
+  <ng-container *ngIf="quantityInput.touched">
+    <div class="error" *ngIf="imageInput.errors?.['required']">
+      Image URL is required. Please choose a file below.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="picture" class="form-label">Picture</label>
     <input
@@ -44,7 +76,6 @@
       class="form-control"
       id="picture"
       name="picture"
-      required
     />
   </div>
   <div class="col-12">
@@ -54,10 +85,20 @@
       class="form-control"
       id="quantity"
       name="quantity"
-      [(ngModel)]="quantity"
+      ngModel
+      #quantityInput="ngModel"
       required
+      min="0"
     />
   </div>
+  <ng-container *ngIf="quantityInput.touched || quantityInput.dirty">
+    <div class="error" *ngIf="quantityInput.errors?.['required']">
+      Quantity is required.
+    </div>
+    <div class="error" *ngIf="quantityInput.errors?.['min']">
+      Quantity must be positive.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="price" class="form-label">Price</label>
     <input
@@ -65,13 +106,27 @@
       class="form-control"
       id="price"
       name="price"
-      [(ngModel)]="price"
+      ngModel
+      #priceInput="ngModel"
       required
+      min="0"
     />
+  </div>
+  <ng-container *ngIf="priceInput.touched || priceInput.dirty">
+    <div class="error" *ngIf="priceInput.errors?.['required']">
+      Price is required.
+    </div>
+    <div class="error" *ngIf="priceInput.errors?.['min']">
+      Price must be positive.
+    </div>
+  </ng-container>
+  <div class="error" *ngIf="error !== ''">
+    {{ error }}
   </div>
   <div class="col-12 btn-div">
     <button type="submit" class="btn btn-primary">Add product</button>
   </div>
+  <div class="success" *ngIf="success">Product successfully added!</div>
   <div class="after"></div>
 </form>
 <app-footer></app-footer>

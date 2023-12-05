@@ -1,19 +1,34 @@
 <app-header></app-header>
 <h1>Update Product</h1>
 <div class="separator"></div>
-<form class="row g-3" (ngSubmit)="updateProduct()">
+<form
+  class="row g-3"
+  #updateProductFrom="ngForm"
+  (ngSubmit)="updateProduct(updateProductFrom.value)"
+>
   <div class="before"></div>
   <div class="col-12">
     <label for="name" class="form-label">Name</label>
     <input
-      type="email"
+      type="text"
       class="form-control"
       id="name"
       name="name"
       [(ngModel)]="name"
+      #nameInput="ngModel"
       required
+      minlength="6"
+      maxlength="20"
     />
   </div>
+  <ng-container *ngIf="nameInput.touched || nameInput.dirty">
+    <div class="error" *ngIf="nameInput.errors?.['required']">
+      Name is required.
+    </div>
+    <div class="error" *ngIf="nameInput.errors?.['minlength']">
+      Name should be between 6 and 20 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="description" class="form-label">Description</label>
     <textarea
@@ -22,9 +37,19 @@
       id="description"
       name="description"
       [(ngModel)]="description"
+      #descriptionInput="ngModel"
       required
+      minlength="6"
     ></textarea>
   </div>
+  <ng-container *ngIf="descriptionInput.touched || descriptionInput.dirty">
+    <div class="error" *ngIf="descriptionInput.errors?.['required']">
+      Description is required.
+    </div>
+    <div class="error" *ngIf="descriptionInput.errors?.['minlength']">
+      Description must be more than 6 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="quantity" class="form-label">Quantity</label>
     <input
@@ -33,9 +58,19 @@
       id="quantity"
       name="quantity"
       [(ngModel)]="quantity"
+      #quantityInput="ngModel"
       required
+      min="0"
     />
   </div>
+  <ng-container *ngIf="quantityInput.touched || quantityInput.dirty">
+    <div class="error" *ngIf="quantityInput.errors?.['required']">
+      Quantity is required.
+    </div>
+    <div class="error" *ngIf="quantityInput.errors?.['min']">
+      Quantity must be positive.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="price" class="form-label">Price</label>
     <input
@@ -44,12 +79,26 @@
       id="price"
       name="price"
       [(ngModel)]="price"
+      #priceInput="ngModel"
       required
+      min="0"
     />
+  </div>
+  <ng-container *ngIf="priceInput.touched || priceInput.dirty">
+    <div class="error" *ngIf="priceInput.errors?.['required']">
+      Price is required.
+    </div>
+    <div class="error" *ngIf="priceInput.errors?.['min']">
+      Price must be positive.
+    </div>
+  </ng-container>
+  <div class="error" *ngIf="error !== ''">
+    {{ error }}
   </div>
   <div class="col-12 btn-div">
     <button type="submit" class="btn btn-primary">Update product</button>
   </div>
+  <div class="success" *ngIf="success">Product successfully updated!</div>
   <div class="after"></div>
 </form>
 <app-footer></app-footer>
