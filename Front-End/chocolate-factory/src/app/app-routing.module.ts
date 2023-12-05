@@ -20,6 +20,7 @@ import { AdminAllUsersComponent } from './administration/admin-all-users/admin-a
 import { AdminAllMessagesComponent } from './administration/admin-all-messages/admin-all-messages.component';
 import { UpdateProductComponent } from './administration/update-product/update-product.component';
 import { ContactComponent } from './home/contact/contact.component';
+import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -76,6 +77,7 @@ const routes: Routes = [
     component: AdminAllUsersComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

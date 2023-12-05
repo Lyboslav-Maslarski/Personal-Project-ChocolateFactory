@@ -26,7 +26,7 @@ export class AdminAllProductsComponent {
     this.http
       .delete(`${environment.baseUrl}/products/${productId}`)
       .subscribe((data: any) => {
-        this.router.navigate(['products-all']);
+        window.location.reload();
       });
   }
 }
