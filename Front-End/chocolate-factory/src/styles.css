@@ -19,7 +19,8 @@ body {
     line-height: normal;
 }
 
-button,.btn {
+button,
+.btn {
     background-color: rgb(194 168 96);
     padding: 1rem 2rem;
     margin: auto;
@@ -31,13 +32,35 @@ button,.btn {
     cursor: pointer;
 }
 
-button:hover,.btn:hover {
+button:hover,
+.btn:hover {
     background-color: rgba(194, 191, 96, 0.687);
     color: #000;
 }
 
-.separator{
+.separator {
     height: 0.2rem;
     background-color: rgb(194 168 96);
     margin: 5rem;
+}
+
+.error {
+    grid-template-columns: 1fr !important;
+    background-color: rgba(194, 191, 96, 0.687);
+    color: rgb(57 32 18);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    align-self: flex-end;
+    margin-right: 1rem;
+    max-width: 58%;
+}
+
+.success {
+    grid-template-columns: 1fr !important;
+    background-color: rgba(194, 191, 96, 0.687);
+    color: rgb(57 32 18);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: 50%;
 }

@@ -1,7 +1,11 @@
 <app-header></app-header>
 <h1>Login</h1>
 <div class="separator"></div>
-<form class="row g-3" #loginForm="ngForm" (ngSubmit)="onSubmitLogin()">
+<form
+  class="row g-3"
+  #loginForm="ngForm"
+  (ngSubmit)="onSubmitLogin(loginForm.value)"
+>
   <div class="before"></div>
   <div class="col-md-6">
     <label for="email" class="form-label">Email</label>
@@ -14,20 +18,20 @@
       #emailInput="ngModel"
       placeholder="example@exmaple.com"
       required
-      pattern="^[^@]{6,}@(abv|gmail)\.(bg|com)$"
-      minlength="6"
+      pattern="^[^@]{3,}@(abv|gmail)\.(bg|com)$"
+      minlength="10"
       maxlength="30"
     />
   </div>
-  <ng-container *ngIf="emailInput.touched || emailInput.dirty">
+  <ng-container *ngIf="emailInput.touched">
     <div class="error" *ngIf="emailInput.errors?.['required']">
-      Email is required
+      Email is required.
     </div>
     <div class="error" *ngIf="emailInput.errors?.['pattern']">
-      Invalid email
+      Invalid email.
     </div>
     <div class="error" *ngIf="emailInput.errors?.['minlength']">
-      Email should be between 6 and 30 symbols
+      Email should be between 6 and 30 symbols.
     </div>
   </ng-container>
   <div class="col-md-6">
@@ -45,13 +49,18 @@
       maxlength="20"
     />
   </div>
-  <ng-container *ngIf="passwordInput.touched || passwordInput.dirty">
+  <ng-container *ngIf="passwordInput.touched">
     <div class="error" *ngIf="passwordInput.errors?.['required']">
-      Password is required
+      Password is required.
     </div>
 
     <div class="error" *ngIf="passwordInput.errors?.['minlength']">
-      Password should be between 6 and 20 symbols
+      Password should be between 6 and 20 symbols.
+    </div>
+  </ng-container>
+  <ng-container>
+    <div class="error" *ngIf="error !== ''">
+      {{ error }}
     </div>
   </ng-container>
   <div class="col-12">

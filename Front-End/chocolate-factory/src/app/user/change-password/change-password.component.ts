@@ -10,10 +10,9 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./change-password.component.css'],
 })
 export class ChangePasswordComponent {
+  passwordMissMatch: boolean = false;
+  error: string = '';
   id: number = 0;
-  oldPassword: string = '';
-  newPassword: string = '';
-  confirmPassword: string = '';
 
   constructor(public http: HttpClient, public router: Router) {}
 
@@ -22,27 +21,31 @@ export class ChangePasswordComponent {
     this.id = user.id;
   }
 
-  submitForm() {
-    if (this.newPassword !== this.confirmPassword) {
-      window.alert("password don't match!");
+  submitForm(form: {
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) {
+    if (form.newPassword !== form.confirmPassword) {
+      this.passwordMissMatch = true;
     }
 
     this.http
       .patch(
         `${environment.baseUrl}/users/${this.id}/password`,
         {
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
+          oldPassword: form.oldPassword,
+          newPassword: form.newPassword,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         }
       )
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.router.navigate(['user-profile']);
         },
-        error: (err: Error) => window.alert(err.message),
+        error: (err) => (this.error = err.error.message),
       });
   }
 }

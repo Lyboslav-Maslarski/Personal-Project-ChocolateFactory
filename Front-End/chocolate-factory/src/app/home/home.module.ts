@@ -4,13 +4,12 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonsModule } from '../commons/commons.module';
-import { RouterModule } from '@angular/router';
 import { ContactComponent } from './contact/contact.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [HomeComponent, AboutComponent, ContactComponent],
-  imports: [CommonModule, NgbCarouselModule, CommonsModule, RouterModule, FormsModule],
+  imports: [CommonModule, NgbCarouselModule, CommonsModule, FormsModule],
   exports: [HomeComponent, AboutComponent],
 })
 export class HomeModule {}

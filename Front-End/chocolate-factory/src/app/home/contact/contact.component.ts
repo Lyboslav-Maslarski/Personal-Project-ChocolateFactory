@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({
@@ -9,31 +8,29 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./contact.component.css'],
 })
 export class ContactComponent {
-  title: string = '';
-  contact: string = '';
-  content: string = '';
+  error: string = '';
+  success: boolean = false;
 
-  constructor(public http: HttpClient, public router: Router) {}
+  constructor(public http: HttpClient) {}
 
-  sendMessage() {
+  sendMessage(form: { title: string; email: string; message: string }) {
     this.http
       .post(
         `${environment.baseUrl}/messages/add`,
         {
-          title: this.title,
-          contact: this.contact,
-          content: this.content,
+          title: form.title,
+          contact: form.email,
+          content: form.message,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         }
       )
       .subscribe({
-        next: (res) => {
-          this.router.navigate(['home']);
-          window.alert('Message successfully send!');
+        next: () => {
+          this.success = true;
         },
-        error: (err: Error) => window.alert(err.message),
+        error: (err) => (this.error = err.error.message),
       });
   }
 }

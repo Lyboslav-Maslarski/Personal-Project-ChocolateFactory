@@ -1,7 +1,11 @@
 <app-header></app-header>
 <h1>Edit Profile</h1>
 <div class="separator"></div>
-<form class="row g-3" (ngSubmit)="submitForm()">
+<form
+  class="row g-3"
+  #editProfileForm="ngForm"
+  (ngSubmit)="submitForm(editProfileForm.value)"
+>
   <div class="before"></div>
   <div class="col-12">
     <label for="email" class="form-label">Email</label>
@@ -11,10 +15,25 @@
       id="email"
       name="email"
       [(ngModel)]="email"
+      #emailInput="ngModel"
       placeholder="example@exmaple.com"
       required
+      pattern="^[^@]{3,}@(abv|gmail)\.(bg|com)$"
+      minlength="10"
+      maxlength="30"
     />
   </div>
+  <ng-container *ngIf="emailInput.touched || emailInput.dirty">
+    <div class="error" *ngIf="emailInput.errors?.['required']">
+      Email is required.
+    </div>
+    <div class="error" *ngIf="emailInput.errors?.['pattern']">
+      Invalid email.
+    </div>
+    <div class="error" *ngIf="emailInput.errors?.['minlength']">
+      Email should be between 6 and 30 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="fullName" class="form-label">Full name</label>
     <input
@@ -22,11 +41,22 @@
       class="form-control"
       id="fullName"
       name="fullName"
-      placeholder="Example Example"
       [(ngModel)]="fullName"
+      #fullNameInput="ngModel"
+      placeholder="John Dow"
       required
+      minlength="5"
+      maxlength="30"
     />
   </div>
+  <ng-container *ngIf="fullNameInput.touched || fullNameInput.dirty">
+    <div class="error" *ngIf="fullNameInput.errors?.['required']">
+      Name is required.
+    </div>
+    <div class="error" *ngIf="fullNameInput.errors?.['minlength']">
+      Name should be between 5 and 30 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="city" class="form-label">City</label>
     <input
@@ -37,8 +67,19 @@
       placeholder="Sofia"
       [(ngModel)]="city"
       required
+      #cityInput="ngModel"
+      minlength="3"
+      maxlength="10"
     />
   </div>
+  <ng-container *ngIf="cityInput.touched || cityInput.dirty">
+    <div class="error" *ngIf="cityInput.errors?.['required']">
+      City is required.
+    </div>
+    <div class="error" *ngIf="cityInput.errors?.['minlength']">
+      City should be between 3 and 10 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="address" class="form-label">Address</label>
     <input
@@ -49,8 +90,19 @@
       placeholder="1234 Main St"
       [(ngModel)]="address"
       required
+      #addressInput="ngModel"
+      minlength="10"
+      maxlength="100"
     />
   </div>
+  <ng-container *ngIf="addressInput.touched || addressInput.dirty">
+    <div class="error" *ngIf="addressInput.errors?.['required']">
+      Address is required.
+    </div>
+    <div class="error" *ngIf="addressInput.errors?.['minlength']">
+      Address should be between 10 and 100 symbols.
+    </div>
+  </ng-container>
   <div class="col-12">
     <label for="phone" class="form-label">Phone</label>
     <input
@@ -61,7 +113,21 @@
       placeholder="+359 888 888 888"
       [(ngModel)]="phone"
       required
+      #phoneInput="ngModel"
+      minlength="6"
+      maxlength="20"
     />
+  </div>
+  <ng-container *ngIf="phoneInput.touched || phoneInput.dirty">
+    <div class="error" *ngIf="phoneInput.errors?.['required']">
+      Phone is required.
+    </div>
+    <div class="error" *ngIf="phoneInput.errors?.['minlength']">
+      Phone should be between 6 and 20 symbols.
+    </div>
+  </ng-container>
+  <div class="error" *ngIf="error !== ''">
+    {{ error }}
   </div>
   <div class="col-12 btn-div">
     <button type="submit" class="btn btn-primary">Edit Profile</button>
@@ -69,4 +135,3 @@
   <div class="after"></div>
 </form>
 <app-footer></app-footer>
-

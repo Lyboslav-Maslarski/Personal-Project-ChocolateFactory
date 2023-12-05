@@ -17,7 +17,7 @@ form {
     color: rgb(194 168 96);
 }
 
-div {
+.col-md-6 {
     display: flex;
     gap: 3rem;
     justify-content: space-between;

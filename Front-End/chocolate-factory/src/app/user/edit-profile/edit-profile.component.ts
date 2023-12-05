@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./edit-profile.component.css'],
 })
 export class EditProfileComponent implements OnInit {
+  error: string = '';
   id: number = 0;
   email: string = '';
   fullName: string = '';
@@ -18,7 +19,7 @@ export class EditProfileComponent implements OnInit {
   phone: string = '';
 
   constructor(public http: HttpClient, public router: Router) {}
-  
+
   ngOnInit(): void {
     const user: User = JSON.parse(localStorage.getItem('user')!);
     this.id = user.id;
@@ -29,16 +30,22 @@ export class EditProfileComponent implements OnInit {
     this.phone = user.phone;
   }
 
-  submitForm() {
+  submitForm(form: {
+    email: string;
+    fullName: string;
+    city: string;
+    address: string;
+    phone: string;
+  }) {
     this.http
       .patch(
         `${environment.baseUrl}/users/${this.id}`,
         {
-          email: this.email,
-          fullName: this.fullName,
-          city: this.city,
-          address: this.address,
-          phone: this.phone,
+          email: form.email,
+          fullName: form.fullName,
+          city: form.city,
+          address: form.address,
+          phone: form.phone,
         },
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -49,7 +56,7 @@ export class EditProfileComponent implements OnInit {
           window.localStorage.setItem('user', JSON.stringify(res));
           this.router.navigate(['user-profile']);
         },
-        error: (err: Error) => window.alert(err.message),
+        error: (err) => (this.error = err.error.message),
       });
   }
 }

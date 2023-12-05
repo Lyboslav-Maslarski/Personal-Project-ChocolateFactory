@@ -44,7 +44,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterReqDTO registerReqDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(new ErrorDTO("Invalid register request data!"));
+            return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user register data!"));
         }
 
         UserDTO userDTO = userService.registerUser(registerReqDTO);
