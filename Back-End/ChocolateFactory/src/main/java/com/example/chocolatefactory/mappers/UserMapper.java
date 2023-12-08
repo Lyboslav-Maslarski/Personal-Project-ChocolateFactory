@@ -9,12 +9,16 @@ import com.example.chocolatefactory.domain.responseDTOs.user.UserDetailsDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserShorDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
     @Mapping(target = "roles", expression = "java(getEnumValue(userEntity))")
     UserDTO toUserDTO(UserEntity userEntity);
 
@@ -25,6 +29,7 @@ public interface UserMapper {
 
     @Mapping(target = "moderator", expression = "java(isModerator(userEntity))")
     UserShorDTO toUserShortDTO(UserEntity userEntity);
+
     @Mapping(target = "orders", ignore = true)
     UserDetailsDTO toUserDetailsDTO(UserEntity userEntity);
 

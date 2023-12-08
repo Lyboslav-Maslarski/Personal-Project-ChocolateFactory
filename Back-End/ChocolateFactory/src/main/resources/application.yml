@@ -5,7 +5,7 @@ spring:
         allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&
         serverTimezone=UTC&characterEncoding=UTF-8&&useUnicode=true"
     username: ${DB_USERNAME:root}
-    password: ''
+    password: ${DB_PASSWORD:}
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
@@ -15,9 +15,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        #  sql:
-        #    init:
-        #      mode: always
   mvc:
     hidden-method:
       filter:

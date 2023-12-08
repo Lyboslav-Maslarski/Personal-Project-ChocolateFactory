@@ -132,7 +132,10 @@ public class UserService {
                 .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
         Set<RoleEntity> roles = userEntity.getRoles();
-        roles.add(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR));
+
+        if (roles.stream().noneMatch(role -> role.getRole().name().equals(RoleEnum.ROLE_MODERATOR.name()))) {
+            roles.add(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR));
+        }
 
         userEntity.setRoles(roles);
 
