@@ -1,7 +1,12 @@
 spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:hsqldb:mem:test_db;sql.syntax_mys=true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     open-in-view: false
     defer-datasource-initialization: true
     properties:

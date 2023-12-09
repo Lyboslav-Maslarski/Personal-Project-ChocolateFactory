@@ -54,6 +54,7 @@ public class UserService {
         UserEntity userEntity = userMapper.registerDTOToUserEntity(registerReqDTO);
         userEntity.setPassword(encoder.encode(CharBuffer.wrap(registerReqDTO.password())));
         userEntity.setRoles(Set.of(roleRepository.findByRole(RoleEnum.ROLE_USER)));
+        userEntity.setUserStatus(UserStatus.ACTIVE);
 
         UserEntity saved = userRepository.save(userEntity);
 

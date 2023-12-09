@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
 import { Router } from '@angular/router';
-import { User, UserRegister } from '../interfaces/User';
+import { UserRegister } from '../interfaces/User';
 
 const API_URL = environment.baseUrl;
 

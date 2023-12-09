@@ -1,5 +1,6 @@
 package com.example.chocolatefactory.services;
 
+import com.example.chocolatefactory.config.UserAuthProvider;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
@@ -16,19 +17,16 @@ import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.CharBuffer;
