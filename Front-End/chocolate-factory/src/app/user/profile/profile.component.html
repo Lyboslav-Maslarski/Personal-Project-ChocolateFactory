@@ -94,6 +94,9 @@
         <p>{{ p.price }}</p>
       </td>
       <td>
+        <div class="overlay-container" aria-live="polite">
+          <div id="toast-container" class="toast-bottom toast-container"></div>
+        </div>
         <button
           (click)="
             removeItemFromCart({ id: p.id, name: p.name, price: p.price })
@@ -110,10 +113,19 @@
     </tr>
     <tr>
       <td colspan="2">
+        <div class="overlay-container" aria-live="polite">
+          <div id="toast-container" class="toast-bottom toast-container"></div>
+        </div>
         <button (click)="clearCart()">Remove all products</button>
       </td>
-      <td colspan="2"><button (click)="makeOrder()">Order</button></td>
+      <td colspan="2">
+        <div class="overlay-container" aria-live="polite">
+          <div id="toast-container" class="toast-bottom toast-container"></div>
+        </div>
+        <button (click)="makeOrder()">Order</button>
+      </td>
     </tr>
   </tbody>
 </table>
+
 <app-footer></app-footer>

@@ -20,14 +20,10 @@ export class ModeratorGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!this.authService.isLoggedIn) {
-      window.alert('Access not allowed!aaaaaaa');
+    const roles = localStorage.getItem('roles');
+    if (!roles || !roles?.includes('ROLE_MODERATOR')) {
       this.router.navigate(['access-denied']);
-      const roles = localStorage.getItem('roles');
-      if (!roles?.includes('ROLE_MODERATOR')) {
-        window.alert('Access not allowed!sssssss');
-        this.router.navigate(['access-denied']);
-      }
+      return false;
     }
     return true;
   }

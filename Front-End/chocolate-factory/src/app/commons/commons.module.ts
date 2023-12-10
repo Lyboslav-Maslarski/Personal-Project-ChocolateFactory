@@ -7,9 +7,10 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { LoginRequiredComponent } from './login-required/login-required.component';
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent, AdminPanelComponent, PageNotFoundComponent, AccessDeniedComponent],
+  declarations: [FooterComponent, HeaderComponent, AdminPanelComponent, PageNotFoundComponent, AccessDeniedComponent, LoginRequiredComponent],
   imports: [CommonModule, RouterModule, NgbDropdownModule],
   exports: [FooterComponent, HeaderComponent],
 })

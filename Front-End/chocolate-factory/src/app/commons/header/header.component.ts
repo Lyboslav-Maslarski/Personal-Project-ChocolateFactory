@@ -10,6 +10,7 @@ import { AdminPanelComponent } from '../admin-panel/admin-panel.component';
 })
 export class HeaderComponent implements OnInit {
   showAdminBtn: boolean = false;
+  showContactBtn: boolean = false;
   collapsed: boolean = true;
 
   constructor(
@@ -19,6 +20,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     const roles = localStorage.getItem('roles');
+    if (roles) {
+      this.showContactBtn = true;
+    }
     if (roles?.includes('ROLE_ADMIN') || roles?.includes('ROLE_MODERATOR')) {
       this.showAdminBtn = true;
     }

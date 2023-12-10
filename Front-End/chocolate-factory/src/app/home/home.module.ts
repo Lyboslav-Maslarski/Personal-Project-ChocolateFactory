@@ -6,9 +6,10 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonsModule } from '../commons/commons.module';
 import { ContactComponent } from './contact/contact.component';
 import { FormsModule } from '@angular/forms';
+import { MaintenanceComponent } from './maintenance/maintenance.component';
 
 @NgModule({
-  declarations: [HomeComponent, AboutComponent, ContactComponent],
+  declarations: [HomeComponent, AboutComponent, ContactComponent, MaintenanceComponent],
   imports: [CommonModule, NgbCarouselModule, CommonsModule, FormsModule],
   exports: [HomeComponent, AboutComponent],
 })

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product, ProductOrder } from 'src/app/interfaces/Product';
 import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +13,11 @@ import { environment } from 'src/environments/environment.prod';
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private http: HttpClient, private cart: CartService) {}
+  constructor(
+    private http: HttpClient,
+    private cart: CartService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.http
@@ -23,6 +28,7 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: ProductOrder): void {
+    this.toastr.success('Product successfully added!');
     this.cart.addProduct(product);
   }
 }

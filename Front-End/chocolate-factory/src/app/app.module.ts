@@ -19,6 +19,7 @@ import { OrderModule } from './order/order.module';
 import { AdministrationModule } from './administration/administration.module';
 import { ModeratorGuard } from './utils/ModeratorGuard';
 import { AdminGuard } from './utils/AdminGuard';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,7 @@ import { AdminGuard } from './utils/AdminGuard';
     ProductsModule,
     OrderModule,
     AdministrationModule,
+    ToastrModule.forRoot({ positionClass: 'toast-top-center' }),
   ],
   providers: [authInterceptorProviders, AuthGuard, ModeratorGuard, AdminGuard],
   bootstrap: [AppComponent],

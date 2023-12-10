@@ -20,15 +20,10 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!this.authService.isLoggedIn) {
-      window.alert('Access not allowed!HERE');
+    const roles = localStorage.getItem('roles');
+    if (!roles || !roles?.includes('ROLE_ADMIN')) {
       this.router.navigate(['access-denied']);
-    debugger
-      const roles = localStorage.getItem('roles');
-      if (!roles?.includes('ROLE_ADMIN')) {
-        window.alert('Access not allowed!asd');
-        this.router.navigate(['access-denied']);
-      }
+      return false;
     }
     return true;
   }

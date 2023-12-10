@@ -22,14 +22,17 @@ import { UpdateProductComponent } from './administration/update-product/update-p
 import { ContactComponent } from './home/contact/contact.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
 import { AccessDeniedComponent } from './commons/access-denied/access-denied.component';
+import { LoginRequiredComponent } from './commons/login-required/login-required.component';
+import { MaintenanceComponent } from './home/maintenance/maintenance.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'maintenance', component: MaintenanceComponent },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   {
     path: 'user-profile',
     component: ProfileComponent,
@@ -47,43 +50,49 @@ const routes: Routes = [
   },
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductComponent },
-  { path: 'order-details/:orderNumber', component: OrderDetailsComponent },
+  {
+    path: 'order-details/:orderNumber',
+    component: OrderDetailsComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'product-update/:id',
     component: UpdateProductComponent,
-    canActivate: [AuthGuard, ModeratorGuard],
+    canActivate: [ModeratorGuard],
   },
   {
     path: 'product-add',
     component: AddProductComponent,
-    canActivate: [AuthGuard, ModeratorGuard],
+    canActivate: [ModeratorGuard],
   },
   {
     path: 'products-all',
     component: AdminAllProductsComponent,
-    canActivate: [AuthGuard, ModeratorGuard],
+    canActivate: [ModeratorGuard],
   },
   {
     path: 'orders-all',
     component: AdminAllOrdersComponent,
-    canActivate: [AuthGuard, ModeratorGuard],
+    canActivate: [ModeratorGuard],
   },
   {
     path: 'messages-all',
     component: AdminAllMessagesComponent,
-    canActivate: [AuthGuard, ModeratorGuard],
+    canActivate: [ModeratorGuard],
   },
   {
     path: 'users-all',
     component: AdminAllUsersComponent,
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AdminGuard],
   },
   { path: 'access-denied', component: AccessDeniedComponent },
+  { path: 'login-required', component: LoginRequiredComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
+  providers: [AuthGuard, ModeratorGuard, AdminGuard],
 })
 export class AppRoutingModule {}

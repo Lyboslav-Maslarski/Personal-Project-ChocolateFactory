@@ -9,10 +9,11 @@ import {
 } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -31,10 +32,9 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((err) => {
         if (
           err instanceof HttpErrorResponse &&
-          !request.url.includes('users/login') &&
-          err.status === 403
+          err.status === 503
         ) {
-          this.authService.doLogout();
+          this.router.navigate(['/maintenance'])
           return next.handle(authReq);
         }
         return next.handle(authReq);

@@ -1,4 +1,5 @@
-section{
+section {
+    display: flex;
     padding: 0rem 5rem;
 }
 

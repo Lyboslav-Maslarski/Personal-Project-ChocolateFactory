@@ -8,6 +8,7 @@ import { UserDetails } from 'src/app/interfaces/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment.prod';
+import { ToastrService } from 'ngx-toastr';
 
 const API_URL = environment.baseUrl;
 
@@ -19,7 +20,6 @@ const API_URL = environment.baseUrl;
   imports: [CommonModule, CommonsModule, RouterModule],
 })
 export class ProfileComponent implements OnInit {
-
   currentUser: UserDetails = {};
   products: ProductOrder[] = [];
   total: number = 0;
@@ -27,7 +27,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private cart: CartService,
-    private auth: AuthService
+    private auth: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +48,13 @@ export class ProfileComponent implements OnInit {
   }
 
   removeItemFromCart(product: ProductOrder): void {
+    this.toastr.success('Product successfully removed!');
     this.cart.removeProduct(product);
     window.location.reload();
   }
 
   clearCart(): void {
+    this.toastr.success('Shopping cart cleared!');
     this.cart.removeAllProducts();
     window.location.reload();
   }
@@ -67,6 +70,7 @@ export class ProfileComponent implements OnInit {
         }
       )
       .subscribe(() => {
+        this.toastr.success('Order successfully placed!');
         this.cart.removeAllProducts();
         window.location.reload();
       });
@@ -82,5 +86,5 @@ export class ProfileComponent implements OnInit {
     this.http.delete(`${environment.baseUrl}/orders/` + id).subscribe((res) => {
       window.location.reload();
     });
-    }
+  }
 }
