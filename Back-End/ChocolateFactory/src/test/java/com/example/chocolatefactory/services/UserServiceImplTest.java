@@ -1,6 +1,5 @@
 package com.example.chocolatefactory.services;
 
-import com.example.chocolatefactory.config.UserAuthProvider;
 import com.example.chocolatefactory.domain.entities.RoleEntity;
 import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
@@ -17,6 +16,8 @@ import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.UserMapper;
 import com.example.chocolatefactory.repositories.RoleRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
+import com.example.chocolatefactory.services.impl.OrderServiceImpl;
+import com.example.chocolatefactory.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.CharBuffer;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class UserServiceTest {
+class UserServiceImplTest {
     public static final String EMAIL = "email@abv.bg";
     public static final String PASSWORD = "123456";
     public static final String FULL_NAME = "John Doe";
@@ -47,13 +47,13 @@ class UserServiceTest {
     public static final String ADDRESS = "Mladost 5";
     public static final String PHONE = "0 888 8888 888";
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
     @Mock
     private UserRepository userRepository;
     @Mock
     private RoleRepository roleRepository;
     @Mock
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
     @Mock
     private PasswordEncoder encoder;
     @Spy
@@ -61,7 +61,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, roleRepository, orderService, encoder, userMapper);
+        userServiceImpl = new UserServiceImpl(userRepository, roleRepository, orderServiceImpl, encoder, userMapper);
     }
 
     @Test
@@ -80,7 +80,7 @@ class UserServiceTest {
         when(encoder.encode(any())).thenReturn("encodedPassword");
 
 //      Act
-        UserDTO actualUserDTO = userService.registerUser(registerReqDTO);
+        UserDTO actualUserDTO = userServiceImpl.registerUser(registerReqDTO);
 
 //      Assert
         assertNotNull(actualUserDTO);
@@ -95,7 +95,7 @@ class UserServiceTest {
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new UserEntity()));
 
-        AppException appException = assertThrows(AppException.class, () -> userService.registerUser(registerReqDTO));
+        AppException appException = assertThrows(AppException.class, () -> userServiceImpl.registerUser(registerReqDTO));
         assertEquals("Email already exists!", appException.getMessage());
     }
 
@@ -113,7 +113,7 @@ class UserServiceTest {
         when(userMapper.toUserDTO(userEntity)).thenReturn(expectedUserDTO);
         when(encoder.matches(CharBuffer.wrap(PASSWORD), PASSWORD)).thenReturn(true);
 
-        UserDTO actualUserDTO = userService.loginUser(loginReqDTO);
+        UserDTO actualUserDTO = userServiceImpl.loginUser(loginReqDTO);
 
         assertNotNull(actualUserDTO);
         assertEquals(expectedUserDTO, actualUserDTO);
@@ -126,7 +126,7 @@ class UserServiceTest {
         LoginReqDTO loginReqDTO = new LoginReqDTO(EMAIL, PASSWORD.toCharArray());
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
-        AppException appException = assertThrows(AppException.class, () -> userService.loginUser(loginReqDTO));
+        AppException appException = assertThrows(AppException.class, () -> userServiceImpl.loginUser(loginReqDTO));
         assertEquals("Unknown user!", appException.getMessage());
     }
 
@@ -137,7 +137,7 @@ class UserServiceTest {
         deletedUser.setUserStatus(UserStatus.DELETED);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(deletedUser));
 
-        AppException appException = assertThrows(AppException.class, () -> userService.loginUser(loginReqDTO));
+        AppException appException = assertThrows(AppException.class, () -> userServiceImpl.loginUser(loginReqDTO));
         assertEquals("User deleted!", appException.getMessage());
     }
 
@@ -149,7 +149,7 @@ class UserServiceTest {
         userEntity.setPassword(Arrays.toString(PASSWORD.toCharArray()) + "123");
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
 
-        AppException appException = assertThrows(AppException.class, () -> userService.loginUser(loginReqDTO));
+        AppException appException = assertThrows(AppException.class, () -> userServiceImpl.loginUser(loginReqDTO));
         assertEquals("Invalid password!", appException.getMessage());
     }
 
@@ -169,7 +169,7 @@ class UserServiceTest {
         when(userMapper.toUserShortDTO(moderator)).thenReturn(moderatorShort);
         when(userMapper.toUserShortDTO(user2)).thenReturn(user2Short);
 
-        List<UserShorDTO> actualUsers = userService.getAllUsers();
+        List<UserShorDTO> actualUsers = userServiceImpl.getAllUsers();
 
         assertNotNull(actualUsers);
         assertEquals(3, actualUsers.size());
@@ -198,9 +198,9 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
         when(userMapper.toUserDetailsDTO(existingUser)).thenReturn(detailsDTO);
-        when(orderService.getAllOrdersByUserId(userId)).thenReturn(List.of(new OrderDTO()));
+        when(orderServiceImpl.getAllOrdersByUserId(userId)).thenReturn(List.of(new OrderDTO()));
 
-        UserDetailsDTO userDetailsDTO = userService.getUser(userId);
+        UserDetailsDTO userDetailsDTO = userServiceImpl.getUser(userId);
 
         assertNotNull(userDetailsDTO);
         assertEquals(existingUser.getEmail(), userDetailsDTO.getEmail());
@@ -212,7 +212,7 @@ class UserServiceTest {
 
         verify(userRepository, times(1)).findById(userId);
         verify(userMapper, times(1)).toUserDetailsDTO(existingUser);
-        verify(orderService, times(1)).getAllOrdersByUserId(userId);
+        verify(orderServiceImpl, times(1)).getAllOrdersByUserId(userId);
     }
 
     @Test
@@ -221,11 +221,11 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> userService.getUser(userId));
+        assertThrows(AppException.class, () -> userServiceImpl.getUser(userId));
 
         verify(userRepository, times(1)).findById(userId);
         verify(userMapper, never()).toUserDetailsDTO(any());
-        verify(orderService, never()).getAllOrdersByUserId(any());
+        verify(orderServiceImpl, never()).getAllOrdersByUserId(any());
     }
 
     @Test
@@ -252,7 +252,7 @@ class UserServiceTest {
         when(userMapper.toUserDTO(existingUser)).thenReturn(userDTO);
         when(userRepository.save(any())).thenReturn(existingUser);
 
-        UserDTO updatedUserDTO = userService.updateUser(userId, userUpdateDTO);
+        UserDTO updatedUserDTO = userServiceImpl.updateUser(userId, userUpdateDTO);
 
         assertNotNull(updatedUserDTO);
         assertEquals(EMAIL, updatedUserDTO.getEmail());
@@ -269,7 +269,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> userService.updateUser(userId, userUpdateDTO));
+        assertThrows(AppException.class, () -> userServiceImpl.updateUser(userId, userUpdateDTO));
 
         verify(userRepository, times(1)).findById(userId);
         verify(userRepository, never()).save(any());
@@ -289,7 +289,7 @@ class UserServiceTest {
         when(encoder.matches(passwordDTO.oldPassword(), existingUser.getPassword())).thenReturn(true);
         when(encoder.encode(passwordDTO.newPassword())).thenReturn("encodedNewPassword");
 
-        userService.changePassword(userId, passwordDTO);
+        userServiceImpl.changePassword(userId, passwordDTO);
 
         verify(userRepository, times(1)).findById(userId);
         verify(encoder, times(1)).encode(passwordDTO.newPassword());
@@ -310,7 +310,7 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(encoder.matches(passwordDTO.oldPassword(), existingUser.getPassword())).thenReturn(false);
 
-        assertThrows(AppException.class, () -> userService.changePassword(userId, passwordDTO));
+        assertThrows(AppException.class, () -> userServiceImpl.changePassword(userId, passwordDTO));
 
         verify(userRepository, times(1)).findById(userId);
         verify(encoder, times(1)).matches(passwordDTO.oldPassword(), existingUser.getPassword());
@@ -335,7 +335,7 @@ class UserServiceTest {
         when(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR)).thenReturn(moderatorRole);
         when(userRepository.save(any())).thenReturn(existingUser);
 
-        userService.promoteUser(userId);
+        userServiceImpl.promoteUser(userId);
 
         assertTrue(existingUser.getRoles().contains(moderatorRole));
 
@@ -363,7 +363,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
-        userService.promoteUser(userId);
+        userServiceImpl.promoteUser(userId);
 
         assertTrue(existingUser.getRoles().contains(userRole));
         assertTrue(existingUser.getRoles().contains(moderatorRole));
@@ -392,7 +392,7 @@ class UserServiceTest {
         when(roleRepository.findByRole(RoleEnum.ROLE_MODERATOR)).thenReturn(moderatorRole);
         when(userRepository.save(any())).thenReturn(existingUser);
 
-        userService.demoteUser(userId);
+        userServiceImpl.demoteUser(userId);
 
         assertFalse(existingUser.getRoles().contains(moderatorRole));
 
@@ -419,7 +419,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
-        userService.demoteUser(userId);
+        userServiceImpl.demoteUser(userId);
 
         assertTrue(existingUser.getRoles().contains(userRole));
         assertFalse(existingUser.getRoles().contains(moderatorRole));
@@ -438,7 +438,7 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any())).thenReturn(existingUser);
 
-        userService.deleteUser(userId);
+        userServiceImpl.deleteUser(userId);
 
         assertEquals(UserStatus.DELETED, existingUser.getUserStatus());
 
@@ -452,7 +452,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> userService.deleteUser(userId));
+        assertThrows(AppException.class, () -> userServiceImpl.deleteUser(userId));
 
         verify(userRepository, times(1)).findById(userId);
         verify(userRepository, never()).save(any());

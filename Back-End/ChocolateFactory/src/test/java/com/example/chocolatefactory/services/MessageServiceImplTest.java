@@ -7,6 +7,7 @@ import com.example.chocolatefactory.domain.responseDTOs.message.MessageDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.MessageMapper;
 import com.example.chocolatefactory.repositories.MessageRepository;
+import com.example.chocolatefactory.services.impl.MessageServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class MessageServiceTest {
+class MessageServiceImplTest {
     public static final String TITLE = "title";
     public static final String EMAIL = "example@example.com";
     public static final String CONTENT = "Some content";
@@ -36,11 +37,11 @@ class MessageServiceTest {
     private MessageMapper messageMapper;
 
     @InjectMocks
-    private MessageService messageService;
+    private MessageServiceImpl messageServiceImpl;
 
     @BeforeEach
     void setUp() {
-        messageService = new MessageService(messageRepository, messageMapper);
+        messageServiceImpl = new MessageServiceImpl(messageRepository, messageMapper);
     }
 
     @Test
@@ -53,7 +54,7 @@ class MessageServiceTest {
         when(messageRepository.save(messageEntity)).thenReturn(messageEntity);
         when(messageMapper.entityToMessageDto(messageEntity)).thenReturn(expected);
 
-        MessageDTO savedMessage = messageService.saveMessage(messageAddDTO);
+        MessageDTO savedMessage = messageServiceImpl.saveMessage(messageAddDTO);
 
         assertNotNull(savedMessage);
         assertEquals(expected.getTitle(), savedMessage.getTitle());
@@ -72,7 +73,7 @@ class MessageServiceTest {
         when(messageRepository.findById(messageId)).thenReturn(Optional.of(messageEntity));
         when(messageRepository.save(messageEntity)).thenReturn(messageEntity);
 
-        assertDoesNotThrow(() -> messageService.changeMessageStatus(messageId));
+        assertDoesNotThrow(() -> messageServiceImpl.changeMessageStatus(messageId));
 
         assertEquals(MessageStatus.ANSWERED, messageEntity.getStatus());
 
@@ -85,7 +86,7 @@ class MessageServiceTest {
         Long messageId = 1L;
         when(messageRepository.findById(messageId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> messageService.changeMessageStatus(messageId));
+        assertThrows(AppException.class, () -> messageServiceImpl.changeMessageStatus(messageId));
 
         verify(messageRepository, times(1)).findById(messageId);
         verify(messageRepository, never()).save(any());
@@ -104,7 +105,7 @@ class MessageServiceTest {
         when(messageMapper.entityToMessageDto(messageEntity1)).thenReturn(messageDTO1);
         when(messageMapper.entityToMessageDto(messageEntity2)).thenReturn(messageDTO2);
 
-        List<MessageDTO> unansweredMessages = messageService.getAllMessages();
+        List<MessageDTO> unansweredMessages = messageServiceImpl.getAllMessages();
 
         assertNotNull(unansweredMessages);
         assertEquals(2, unansweredMessages.size());

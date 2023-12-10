@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  baseUrl: 'https://chocolate-factory-server.orangehill-0743d71f.westeurope.azurecontainerapps.io',
 };
 
 /*

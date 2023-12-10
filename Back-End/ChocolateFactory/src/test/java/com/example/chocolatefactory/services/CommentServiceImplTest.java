@@ -10,6 +10,7 @@ import com.example.chocolatefactory.mappers.CommentMapper;
 import com.example.chocolatefactory.repositories.CommentRepository;
 import com.example.chocolatefactory.repositories.ProductRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
+import com.example.chocolatefactory.services.impl.CommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class CommentServiceTest {
+class CommentServiceImplTest {
     public static final String TEXT_COMMENT = "text comment";
     @Mock
     private CommentRepository commentRepository;
@@ -38,11 +39,11 @@ class CommentServiceTest {
     @Mock
     private CommentMapper commentMapper;
     @InjectMocks
-    private CommentService commentService;
+    private CommentServiceImpl commentServiceImpl;
 
     @BeforeEach
     void setUp() {
-        commentService = new CommentService(commentRepository, userRepository, productRepository, commentMapper);
+        commentServiceImpl = new CommentServiceImpl(commentRepository, userRepository, productRepository, commentMapper);
     }
 
     @Test
@@ -62,7 +63,7 @@ class CommentServiceTest {
         when(commentRepository.save(commentEntity)).thenReturn(commentEntity);
         when(commentMapper.commentEntityToCommentDTO(commentEntity)).thenReturn(expected);
 
-        CommentDTO savedComment = commentService.saveComment(commentAddDTO, appUserDetails);
+        CommentDTO savedComment = commentServiceImpl.saveComment(commentAddDTO, appUserDetails);
 
         assertNotNull(savedComment);
         assertEquals(TEXT_COMMENT,savedComment.getText());
@@ -78,7 +79,7 @@ class CommentServiceTest {
     void testDeleteComment_ShouldDeleteComment() {
         Long commentId = 1L;
 
-        assertDoesNotThrow(() -> commentService.deleteComment(commentId));
+        assertDoesNotThrow(() -> commentServiceImpl.deleteComment(commentId));
 
         verify(commentRepository, times(1)).deleteById(commentId);
     }

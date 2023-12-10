@@ -2,8 +2,8 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST:localhost}:3306/chocolate-factory?
-      allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&
-      serverTimezone=UTC&characterEncoding=UTF-8&&useUnicode=true
+        allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&
+        serverTimezone=UTC&characterEncoding=UTF-8&&useUnicode=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:}
   jpa:

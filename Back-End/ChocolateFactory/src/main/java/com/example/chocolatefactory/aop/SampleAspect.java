@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class SampleAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(SampleAspect.class);
 
-    @Pointcut("execution(* com.example.chocolatefactory.services.OrderService.saveOrder(..))")
+    @Pointcut("execution(* com.example.chocolatefactory.services.impl.OrderServiceImpl.saveOrder(..))")
     void placeOrder() {
     }
 

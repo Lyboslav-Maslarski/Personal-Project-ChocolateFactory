@@ -14,6 +14,7 @@ import com.example.chocolatefactory.mappers.CommentMapper;
 import com.example.chocolatefactory.mappers.ProductMapper;
 import com.example.chocolatefactory.repositories.CommentRepository;
 import com.example.chocolatefactory.repositories.ProductRepository;
+import com.example.chocolatefactory.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ProductServiceTest {
+class ProductServiceImplTest {
     public static final String PRODUCT_1 = "product1";
     public static final String PRODUCT_2 = "product2";
     public static final BigDecimal PRICE_1 = BigDecimal.valueOf(10);
@@ -52,11 +53,11 @@ class ProductServiceTest {
     @Mock
     private CommentMapper commentMapper;
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productServiceImpl;
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository, commentRepository, productMapper, commentMapper);
+        productServiceImpl = new ProductServiceImpl(productRepository, commentRepository, productMapper, commentMapper);
     }
 
     @Test
@@ -79,7 +80,7 @@ class ProductServiceTest {
         when(productMapper.entityToProductDTO(product2)).thenReturn(productDTO2);
 
         // Act
-        List<ProductDTO> result = productService.getAllProducts();
+        List<ProductDTO> result = productServiceImpl.getAllProducts();
 
         // Assertions
         assertNotNull(result);
@@ -121,7 +122,7 @@ class ProductServiceTest {
         when(productMapper.entityToProductDetailsDTO(productEntity)).thenReturn(expected);
         when(commentMapper.commentEntityToCommentDTO(any())).thenReturn(commentDTO);
 
-        ProductDetailsDTO result = productService.getProductDetails(productId, appUserDetailsId);
+        ProductDetailsDTO result = productServiceImpl.getProductDetails(productId, appUserDetailsId);
 
         assertNotNull(result);
         assertEquals(1, result.getComments().size());
@@ -140,7 +141,7 @@ class ProductServiceTest {
 
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> productService.getProductDetails(productId, appUserDetailsId));
+        assertThrows(AppException.class, () -> productServiceImpl.getProductDetails(productId, appUserDetailsId));
 
         verify(productRepository, times(1)).findById(productId);
         verify(commentRepository, never()).findByProductId(any());
@@ -166,7 +167,7 @@ class ProductServiceTest {
         when(productRepository.save(productEntity)).thenReturn(productEntity);
         when(productMapper.entityToProductDTO(productEntity)).thenReturn(expected);
 
-        ProductDTO result = productService.addProduct(productAddDTO);
+        ProductDTO result = productServiceImpl.addProduct(productAddDTO);
 
         assertNotNull(result);
         assertEquals(expected.getName(), result.getName());
@@ -183,7 +184,7 @@ class ProductServiceTest {
         ProductEntity productEntity = new ProductEntity().setName(PRODUCT_1);
         when(productRepository.findById(productId)).thenReturn(Optional.of(productEntity));
 
-        productService.deleteProduct(productId);
+        productServiceImpl.deleteProduct(productId);
 
         verify(productRepository, times(1)).findById(productId);
         assertTrue(productEntity.getDeleted());
@@ -199,7 +200,7 @@ class ProductServiceTest {
 
         when(productMapper.entityToProductUpdateDTO(productEntity)).thenReturn(expected);
 
-        ProductUpdateDetailsDTO result = productService.getProductForUpdate(productId);
+        ProductUpdateDetailsDTO result = productServiceImpl.getProductForUpdate(productId);
 
         assertNotNull(result);
         assertEquals(expected.getName(), result.getName());
@@ -215,7 +216,7 @@ class ProductServiceTest {
 
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> productService.getProductForUpdate(productId));
+        assertThrows(AppException.class, () -> productServiceImpl.getProductForUpdate(productId));
 
         verify(productRepository, times(1)).findById(productId);
 
@@ -238,7 +239,7 @@ class ProductServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(existingProductEntity));
         when(productRepository.save(existingProductEntity)).thenReturn(existingProductEntity);
 
-        productService.updateProduct(productId, productUpdateDTO);
+        productServiceImpl.updateProduct(productId, productUpdateDTO);
 
         assertEquals(PRODUCT_2, existingProductEntity.getName());
 

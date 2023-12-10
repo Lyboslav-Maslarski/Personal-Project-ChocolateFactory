@@ -6,7 +6,7 @@ import com.example.chocolatefactory.domain.requestDTOs.order.OrderIdDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
-import com.example.chocolatefactory.services.OrderService;
+import com.example.chocolatefactory.services.impl.OrderServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
-    private final OrderService orderService;
+    private final OrderServiceImpl orderServiceImpl;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderServiceImpl orderServiceImpl) {
+        this.orderServiceImpl = orderServiceImpl;
     }
 
     @PostMapping("/add")
@@ -34,42 +34,42 @@ public class OrderController {
             throw new AppException("Invalid order data!", HttpStatus.BAD_REQUEST);
         }
 
-        OrderDTO orderDTO = orderService.saveOrder(orderAddDTO, appUserDetails);
+        OrderDTO orderDTO = orderServiceImpl.saveOrder(orderAddDTO, appUserDetails);
 
         return ResponseEntity.created(URI.create("api/orders/" + orderDTO.getId())).body(orderDTO);
     }
 
     @GetMapping("/{orderNumber}")
     public ResponseEntity<?> getOrderDetails(@PathVariable UUID orderNumber) {
-        OrderDetailsDTO order = orderService.getOrder(orderNumber);
+        OrderDetailsDTO order = orderServiceImpl.getOrder(orderNumber);
 
         return ResponseEntity.ok(order);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+        orderServiceImpl.deleteOrder(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
-        List<OrderDTO> orders = orderService.getAllOrders();
+        List<OrderDTO> orders = orderServiceImpl.getAllOrders();
 
         return ResponseEntity.ok(orders);
     }
 
     @PatchMapping("/accept")
     public ResponseEntity<?> acceptOrder(@Valid @RequestBody OrderIdDTO orderIdDTO) {
-        orderService.acceptOrder(orderIdDTO);
+        orderServiceImpl.acceptOrder(orderIdDTO);
 
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/dispatch")
     public ResponseEntity<?> dispatchOrder(@Valid @RequestBody OrderIdDTO orderIdDTO) {
-        orderService.dispatchOrder(orderIdDTO);
+        orderServiceImpl.dispatchOrder(orderIdDTO);
 
         return ResponseEntity.ok().build();
     }

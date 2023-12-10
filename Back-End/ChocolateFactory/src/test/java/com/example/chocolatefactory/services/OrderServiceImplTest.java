@@ -14,6 +14,7 @@ import com.example.chocolatefactory.mappers.OrderMapper;
 import com.example.chocolatefactory.repositories.OrderRepository;
 import com.example.chocolatefactory.repositories.ProductRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
+import com.example.chocolatefactory.services.impl.OrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class OrderServiceTest {
+class OrderServiceImplTest {
     public static final OrderStatus ORDER_STATUS_1 = OrderStatus.WAITING;
     public static final BigDecimal TOTAL_1 = BigDecimal.TEN;
     public static final OrderStatus ORDER_STATUS_2 = OrderStatus.ACCEPTED;
@@ -49,11 +50,11 @@ class OrderServiceTest {
     @Mock
     private ApplicationEventPublisher eventPublisher;
     @InjectMocks
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
 
     @BeforeEach
     void setUp() {
-        orderService = new OrderService(orderRepository, productRepository, userRepository, orderMapper, eventPublisher);
+        orderServiceImpl = new OrderServiceImpl(orderRepository, productRepository, userRepository, orderMapper, eventPublisher);
     }
 
     @Test
@@ -75,7 +76,7 @@ class OrderServiceTest {
         when(orderMapper.toOrderDTO(order1)).thenReturn(orderDTO1);
         when(orderMapper.toOrderDTO(order2)).thenReturn(orderDTO2);
 
-        List<OrderDTO> result = orderService.getAllOrdersByUserId(userId);
+        List<OrderDTO> result = orderServiceImpl.getAllOrdersByUserId(userId);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -129,7 +130,7 @@ class OrderServiceTest {
 
         OrderAddDTO orderAddDTO = new OrderAddDTO(productIds);
 
-        OrderDTO result = orderService.saveOrder(orderAddDTO, appUserDetails);
+        OrderDTO result = orderServiceImpl.saveOrder(orderAddDTO, appUserDetails);
 
         assertNotNull(result);
         assertEquals(OrderStatus.WAITING.name(), result.getStatus());
@@ -156,7 +157,7 @@ class OrderServiceTest {
         when(orderRepository.findByOrderNumber(orderNumber)).thenReturn(Optional.of(orderEntity));
         when(orderMapper.toOrderDetailsDTO(orderEntity)).thenReturn(expected);
 
-        OrderDetailsDTO result = orderService.getOrder(orderNumber);
+        OrderDetailsDTO result = orderServiceImpl.getOrder(orderNumber);
 
         assertNotNull(result);
         assertEquals(orderNumber, result.getOrderNumber());
@@ -174,7 +175,7 @@ class OrderServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(orderEntity));
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
 
-        assertDoesNotThrow(() -> orderService.deleteOrder(orderId));
+        assertDoesNotThrow(() -> orderServiceImpl.deleteOrder(orderId));
 
         assertEquals(OrderStatus.CANCELLED, orderEntity.getStatus());
 
@@ -188,7 +189,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> orderService.deleteOrder(orderId));
+        assertThrows(AppException.class, () -> orderServiceImpl.deleteOrder(orderId));
 
         verify(orderRepository, times(1)).findById(orderId);
         verify(orderRepository, never()).save(any());
@@ -209,7 +210,7 @@ class OrderServiceTest {
         when(orderMapper.toOrderDTO(order1)).thenReturn(orderDTO1);
         when(orderMapper.toOrderDTO(order2)).thenReturn(orderDTO2);
 
-        List<OrderDTO> result = orderService.getAllOrders();
+        List<OrderDTO> result = orderServiceImpl.getAllOrders();
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -230,7 +231,7 @@ class OrderServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(orderEntity));
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
 
-        assertDoesNotThrow(() -> orderService.acceptOrder(new OrderIdDTO(orderId)));
+        assertDoesNotThrow(() -> orderServiceImpl.acceptOrder(new OrderIdDTO(orderId)));
 
         assertEquals(OrderStatus.ACCEPTED, orderEntity.getStatus());
 
@@ -244,7 +245,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> orderService.acceptOrder(new OrderIdDTO(orderId)));
+        assertThrows(AppException.class, () -> orderServiceImpl.acceptOrder(new OrderIdDTO(orderId)));
 
         verify(orderRepository, times(1)).findById(orderId);
         verify(orderRepository, never()).save(any());
@@ -258,7 +259,7 @@ class OrderServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(orderEntity));
         when(orderRepository.save(orderEntity)).thenReturn(orderEntity);
 
-        assertDoesNotThrow(() -> orderService.dispatchOrder(new OrderIdDTO(orderId)));
+        assertDoesNotThrow(() -> orderServiceImpl.dispatchOrder(new OrderIdDTO(orderId)));
 
         assertEquals(OrderStatus.SHIPPED, orderEntity.getStatus());
 
@@ -272,7 +273,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(AppException.class, () -> orderService.dispatchOrder(new OrderIdDTO(orderId)));
+        assertThrows(AppException.class, () -> orderServiceImpl.dispatchOrder(new OrderIdDTO(orderId)));
 
         verify(orderRepository, times(1)).findById(orderId);
         verify(orderRepository, never()).save(any());

@@ -1,15 +1,11 @@
 package com.example.chocolatefactory.web;
 
-import com.example.chocolatefactory.domain.AppUserDetails;
-import com.example.chocolatefactory.domain.requestDTOs.comment.CommentAddDTO;
 import com.example.chocolatefactory.domain.requestDTOs.message.MessageAddDTO;
-import com.example.chocolatefactory.domain.responseDTOs.comment.CommentDTO;
 import com.example.chocolatefactory.domain.responseDTOs.error.ErrorDTO;
 import com.example.chocolatefactory.domain.responseDTOs.message.MessageDTO;
-import com.example.chocolatefactory.services.MessageService;
+import com.example.chocolatefactory.services.impl.MessageServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
-    private final MessageService messageService;
+    private final MessageServiceImpl messageServiceImpl;
 
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
+    public MessageController(MessageServiceImpl messageServiceImpl) {
+        this.messageServiceImpl = messageServiceImpl;
     }
 
     @PostMapping("/add")
@@ -31,21 +27,21 @@ public class MessageController {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid message data!"));
         }
 
-        MessageDTO messageDTO = messageService.saveMessage(messageAddDTO);
+        MessageDTO messageDTO = messageServiceImpl.saveMessage(messageAddDTO);
 
         return ResponseEntity.created(URI.create("api/messages/" + messageDTO.getId())).body(messageDTO);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> changeMessageStatus(@PathVariable Long id) {
-        messageService.changeMessageStatus(id);
+        messageServiceImpl.changeMessageStatus(id);
 
         return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<MessageDTO>> getAllMessages(){
-        List<MessageDTO> messages = messageService.getAllMessages();
+        List<MessageDTO> messages = messageServiceImpl.getAllMessages();
 
         return ResponseEntity.ok(messages);
     }

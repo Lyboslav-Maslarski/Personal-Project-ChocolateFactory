@@ -8,7 +8,7 @@ import com.example.chocolatefactory.domain.responseDTOs.product.ProductDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductDetailsDTO;
 import com.example.chocolatefactory.domain.responseDTOs.product.ProductUpdateDetailsDTO;
 import com.example.chocolatefactory.exceptions.AppException;
-import com.example.chocolatefactory.services.ProductService;
+import com.example.chocolatefactory.services.impl.ProductServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +22,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final ProductService productService;
+    private final ProductServiceImpl productServiceImpl;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductServiceImpl productServiceImpl) {
+        this.productServiceImpl = productServiceImpl;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> allProducts() {
-        List<ProductDTO> products = productService.getAllProducts();
+        List<ProductDTO> products = productServiceImpl.getAllProducts();
 
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDetailsDTO> getProductDetails(@PathVariable Long id, @AuthenticationPrincipal AppUserDetails appUserDetails) {
-        ProductDetailsDTO productDetailsDTO = productService.getProductDetails(id, appUserDetails.getId());
+        ProductDetailsDTO productDetailsDTO = productServiceImpl.getProductDetails(id, appUserDetails.getId());
 
         return ResponseEntity.ok(productDetailsDTO);
     }
@@ -47,21 +47,21 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             throw new AppException("Invalid product data!", HttpStatus.BAD_REQUEST);
         }
-        ProductDTO productDTO = productService.addProduct(productAddDTO);
+        ProductDTO productDTO = productServiceImpl.addProduct(productAddDTO);
 
         return ResponseEntity.created(URI.create("api/products/" + productDTO.getId())).body(productDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productServiceImpl.deleteProduct(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("update/{id}")
     public ResponseEntity<ProductUpdateDetailsDTO> getProductForUpdate(@PathVariable Long id) {
-        ProductUpdateDetailsDTO productUpdateDetailsDTO = productService.getProductForUpdate(id);
+        ProductUpdateDetailsDTO productUpdateDetailsDTO = productServiceImpl.getProductForUpdate(id);
 
         return ResponseEntity.ok(productUpdateDetailsDTO);
     }
@@ -73,7 +73,7 @@ public class ProductController {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid product data!"));
         }
 
-        productService.updateProduct(id, productUpdateDTO);
+        productServiceImpl.updateProduct(id, productUpdateDTO);
 
         return ResponseEntity.ok().build();
     }

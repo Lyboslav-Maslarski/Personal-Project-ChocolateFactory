@@ -1,4 +1,4 @@
-package com.example.chocolatefactory.services;
+package com.example.chocolatefactory.services.impl;
 
 import com.example.chocolatefactory.domain.entities.MessageEntity;
 import com.example.chocolatefactory.domain.entities.OrderEntity;

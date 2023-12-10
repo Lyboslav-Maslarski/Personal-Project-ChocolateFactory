@@ -9,7 +9,7 @@ import com.example.chocolatefactory.domain.responseDTOs.error.ErrorDTO;
 import com.example.chocolatefactory.domain.requestDTOs.user.LoginReqDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDetailsDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserShorDTO;
-import com.example.chocolatefactory.services.UserService;
+import com.example.chocolatefactory.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,11 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final UserAuthProvider userAuthProvider;
 
-    public UserController(UserService userService, UserAuthProvider userAuthProvider) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl, UserAuthProvider userAuthProvider) {
+        this.userServiceImpl = userServiceImpl;
         this.userAuthProvider = userAuthProvider;
     }
 
@@ -35,7 +35,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid login request data!"));
         }
 
-        UserDTO userDTO = userService.loginUser(loginReqDTO);
+        UserDTO userDTO = userServiceImpl.loginUser(loginReqDTO);
         userDTO.setToken(userAuthProvider.createToken(userDTO));
 
         return ResponseEntity.ok(userDTO);
@@ -47,21 +47,21 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user register data!"));
         }
 
-        UserDTO userDTO = userService.registerUser(registerReqDTO);
+        UserDTO userDTO = userServiceImpl.registerUser(registerReqDTO);
 
         return ResponseEntity.created(URI.create("api/users/" + userDTO.getId())).body(userDTO);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserShorDTO>> getAllUsers() {
-        List<UserShorDTO> users = userService.getAllUsers();
+        List<UserShorDTO> users = userServiceImpl.getAllUsers();
 
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDetailsDTO> getUserById(@PathVariable Long id) {
-        UserDetailsDTO userDetailsDTO = userService.getUser(id);
+        UserDetailsDTO userDetailsDTO = userServiceImpl.getUser(id);
 
         return ResponseEntity.ok(userDetailsDTO);
     }
@@ -73,7 +73,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user data!"));
         }
 
-        UserDTO userDTO = userService.updateUser(id, userUpdateDTO);
+        UserDTO userDTO = userServiceImpl.updateUser(id, userUpdateDTO);
 
         return ResponseEntity.ok(userDTO);
     }
@@ -84,28 +84,28 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new ErrorDTO("Invalid user data!"));
         }
-        userService.changePassword(id, passwordDTO);
+        userServiceImpl.changePassword(id, passwordDTO);
 
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}/promote")
     public ResponseEntity<?> promoteUser(@PathVariable Long id) {
-        userService.promoteUser(id);
+        userServiceImpl.promoteUser(id);
 
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}/demote")
     public ResponseEntity<?> demoteUser(@PathVariable Long id) {
-        userService.demoteUser(id);
+        userServiceImpl.demoteUser(id);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        userServiceImpl.deleteUser(id);
 
         return ResponseEntity.noContent().build();
     }
