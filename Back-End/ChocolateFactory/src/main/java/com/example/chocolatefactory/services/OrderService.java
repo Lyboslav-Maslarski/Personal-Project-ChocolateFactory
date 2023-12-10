@@ -3,16 +3,19 @@ package com.example.chocolatefactory.services;
 import com.example.chocolatefactory.domain.AppUserDetails;
 import com.example.chocolatefactory.domain.entities.OrderEntity;
 import com.example.chocolatefactory.domain.entities.ProductEntity;
+import com.example.chocolatefactory.domain.entities.UserEntity;
 import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderAddDTO;
 import com.example.chocolatefactory.domain.requestDTOs.order.OrderIdDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDTO;
 import com.example.chocolatefactory.domain.responseDTOs.order.OrderDetailsDTO;
+import com.example.chocolatefactory.event.OnOrderPlacedEvent;
 import com.example.chocolatefactory.exceptions.AppException;
 import com.example.chocolatefactory.mappers.OrderMapper;
 import com.example.chocolatefactory.repositories.OrderRepository;
 import com.example.chocolatefactory.repositories.ProductRepository;
 import com.example.chocolatefactory.repositories.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +30,15 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository,
-                        UserRepository userRepository, OrderMapper orderMapper) {
+                        UserRepository userRepository, OrderMapper orderMapper, ApplicationEventPublisher eventPublisher) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.orderMapper = orderMapper;
+        this.eventPublisher = eventPublisher;
     }
 
     public List<OrderDTO> getAllOrdersByUserId(Long id) {
@@ -51,15 +56,19 @@ public class OrderService {
                         .orElseThrow(() -> new AppException("Product with id " + id + "not found!", HttpStatus.NOT_FOUND)))
                 .toList();
 
+        UserEntity buyer = userRepository.findById(appUserDetails.getId())
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
+
         OrderEntity orderEntity = new OrderEntity()
                 .setProducts(productEntities)
                 .setOrderNumber(UUID.randomUUID())
                 .setStatus(OrderStatus.WAITING)
-                .setBuyer(userRepository.findById(appUserDetails.getId())
-                        .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND)))
+                .setBuyer(buyer)
                 .setTotal(productEntities.stream().map(ProductEntity::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add));
 
         OrderEntity saved = orderRepository.save(orderEntity);
+
+        eventPublisher.publishEvent(new OnOrderPlacedEvent(this, buyer.getId(), saved.getTotal()));
 
         return orderMapper.toOrderDTO(saved);
     }

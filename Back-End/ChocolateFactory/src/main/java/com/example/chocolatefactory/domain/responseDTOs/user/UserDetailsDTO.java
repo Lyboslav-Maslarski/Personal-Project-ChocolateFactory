@@ -11,6 +11,7 @@ public class UserDetailsDTO {
     private String city;
     private String address;
     private String phone;
+    private Integer bonusPoints;
     private List<OrderDTO> orders;
 
     public Long getId() {
@@ -73,6 +74,15 @@ public class UserDetailsDTO {
 
     public UserDetailsDTO setOrders(List<OrderDTO> orders) {
         this.orders = orders;
+        return this;
+    }
+
+    public Integer getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public UserDetailsDTO setBonusPoints(Integer bonusPoints) {
+        this.bonusPoints = bonusPoints;
         return this;
     }
 }

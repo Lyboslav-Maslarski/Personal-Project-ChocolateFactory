@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.nio.CharBuffer;
 import java.util.Comparator;
 import java.util.List;
@@ -52,9 +53,11 @@ public class UserService {
         }
 
         UserEntity userEntity = userMapper.registerDTOToUserEntity(registerReqDTO);
-        userEntity.setPassword(encoder.encode(CharBuffer.wrap(registerReqDTO.password())));
-        userEntity.setRoles(Set.of(roleRepository.findByRole(RoleEnum.ROLE_USER)));
-        userEntity.setUserStatus(UserStatus.ACTIVE);
+        userEntity
+                .setPassword(encoder.encode(CharBuffer.wrap(registerReqDTO.password())))
+                .setRoles(Set.of(roleRepository.findByRole(RoleEnum.ROLE_USER)))
+                .setUserStatus(UserStatus.ACTIVE)
+                .setBonusPoints(0);
 
         UserEntity saved = userRepository.save(userEntity);
 
@@ -160,6 +163,16 @@ public class UserService {
                 .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
 
         userEntity.setUserStatus(UserStatus.DELETED);
+
+        userRepository.save(userEntity);
+    }
+
+    public void addBonusPoints(Long buyerId, BigDecimal total) {
+        UserEntity userEntity = userRepository.findById(buyerId)
+                .orElseThrow(() -> new AppException("User not found!", HttpStatus.NOT_FOUND));
+
+        Integer oldBP = userEntity.getBonusPoints();
+        userEntity.setBonusPoints(oldBP + total.intValue());
 
         userRepository.save(userEntity);
     }

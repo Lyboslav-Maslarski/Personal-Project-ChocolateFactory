@@ -10,8 +10,11 @@ import { environment } from 'src/environments/environment.prod';
 export class ContactComponent {
   error: string = '';
   success: boolean = false;
+  email: string = '';
 
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) {
+    this.email = JSON.parse(localStorage.getItem('user')!).email;
+  }
 
   sendMessage(form: { title: string; email: string; message: string }) {
     this.http

@@ -25,6 +25,8 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+    @Column(nullable = false,name = "bonus_points")
+    private Integer bonusPoints;
 
     public String getEmail() {
         return email;
@@ -95,6 +97,15 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
+        return this;
+    }
+
+    public Integer getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public UserEntity setBonusPoints(Integer bonusPoints) {
+        this.bonusPoints = bonusPoints;
         return this;
     }
 }

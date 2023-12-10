@@ -16,4 +16,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     Optional<OrderEntity> findByOrderNumber(UUID orderNumber);
 
     List<OrderEntity> findAllByStatusNotOrderByStatus(OrderStatus orderStatus);
+    List<OrderEntity> findAllByStatus(OrderStatus orderStatus);
 }

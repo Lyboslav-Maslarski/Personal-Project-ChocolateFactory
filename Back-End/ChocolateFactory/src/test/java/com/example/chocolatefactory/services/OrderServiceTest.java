@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -45,12 +46,14 @@ class OrderServiceTest {
     private UserRepository userRepository;
     @Mock
     private OrderMapper orderMapper;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
     private OrderService orderService;
 
     @BeforeEach
     void setUp() {
-        orderService = new OrderService(orderRepository, productRepository, userRepository, orderMapper);
+        orderService = new OrderService(orderRepository, productRepository, userRepository, orderMapper, eventPublisher);
     }
 
     @Test

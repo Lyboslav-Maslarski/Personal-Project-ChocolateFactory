@@ -74,7 +74,8 @@ public class DbInit implements CommandLineRunner {
                     .setAddress("Geo Milev")
                     .setPhone("0888 111 111")
                     .setRoles(Set.of(userRole))
-                    .setUserStatus(UserStatus.ACTIVE);
+                    .setUserStatus(UserStatus.ACTIVE)
+                    .setBonusPoints(0);
             moderator = new UserEntity()
                     .setEmail("moderator@gmail.com")
                     .setPassword(passwordEncoder.encode("123456"))
@@ -83,7 +84,8 @@ public class DbInit implements CommandLineRunner {
                     .setAddress("Studentski")
                     .setPhone("0888 222 222")
                     .setRoles(Set.of(userRole, moderatorRole))
-                    .setUserStatus(UserStatus.ACTIVE);
+                    .setUserStatus(UserStatus.ACTIVE)
+                    .setBonusPoints(0);
             admin = new UserEntity()
                     .setEmail("admin@gmail.com")
                     .setPassword(passwordEncoder.encode("123456"))
@@ -92,7 +94,8 @@ public class DbInit implements CommandLineRunner {
                     .setAddress("Ivan Vazov")
                     .setPhone("0888 333 333")
                     .setRoles(Set.of(userRole, moderatorRole, adminRole))
-                    .setUserStatus(UserStatus.ACTIVE);
+                    .setUserStatus(UserStatus.ACTIVE)
+                    .setBonusPoints(0);
 
             userRepository.save(user);
             userRepository.save(moderator);
@@ -166,7 +169,7 @@ public class DbInit implements CommandLineRunner {
     }
 
     private void initMessages() {
-        if (messageRepository.count()==0){
+        if (messageRepository.count() == 0) {
             MessageEntity messageEntity1 = new MessageEntity()
                     .setTitle("Title one").setContact("user@gmail.com")
                     .setContent("Some content").setStatus(MessageStatus.UNANSWERED);
