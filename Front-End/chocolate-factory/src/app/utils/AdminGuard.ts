@@ -21,12 +21,13 @@ export class AdminGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (!this.authService.isLoggedIn) {
-      window.alert('Access not allowed!');
-      this.router.navigate(['login']);
-    
+      window.alert('Access not allowed!HERE');
+      this.router.navigate(['access-denied']);
+    debugger
       const roles = localStorage.getItem('roles');
       if (!roles?.includes('ROLE_ADMIN')) {
-        window.alert('Access not allowed!');
+        window.alert('Access not allowed!asd');
+        this.router.navigate(['access-denied']);
       }
     }
     return true;

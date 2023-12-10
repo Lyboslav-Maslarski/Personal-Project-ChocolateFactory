@@ -25,6 +25,8 @@ public class ProductEntity extends BaseEntity {
     private Boolean depleted;
     @Column(nullable = false, name = "low_quantity")
     private Boolean lowQuantity;
+    @Column(nullable = false)
+    private Boolean isDeleted;
 
     public String getName() {
         return name;
@@ -86,6 +88,15 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setLowQuantity(Boolean lowQuantity) {
         this.lowQuantity = lowQuantity;
+        return this;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public ProductEntity setDeleted(Boolean deleted) {
+        isDeleted = deleted;
         return this;
     }
 }

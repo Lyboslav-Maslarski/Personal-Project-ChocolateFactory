@@ -1,16 +1,11 @@
 package com.example.chocolatefactory.utils;
 
-import com.example.chocolatefactory.domain.entities.OrderEntity;
-import com.example.chocolatefactory.domain.entities.ProductEntity;
-import com.example.chocolatefactory.domain.entities.RoleEntity;
-import com.example.chocolatefactory.domain.entities.UserEntity;
+import com.example.chocolatefactory.domain.entities.*;
+import com.example.chocolatefactory.domain.enums.MessageStatus;
 import com.example.chocolatefactory.domain.enums.OrderStatus;
 import com.example.chocolatefactory.domain.enums.RoleEnum;
 import com.example.chocolatefactory.domain.enums.UserStatus;
-import com.example.chocolatefactory.repositories.OrderRepository;
-import com.example.chocolatefactory.repositories.ProductRepository;
-import com.example.chocolatefactory.repositories.RoleRepository;
-import com.example.chocolatefactory.repositories.UserRepository;
+import com.example.chocolatefactory.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +23,7 @@ public class DbInit implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private MessageRepository messageRepository;
     private UserEntity user;
     private UserEntity moderator;
     private UserEntity admin;
@@ -38,12 +34,13 @@ public class DbInit implements CommandLineRunner {
 
     @Autowired
     public DbInit(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,
-                  ProductRepository productRepository, OrderRepository orderRepository) {
+                  ProductRepository productRepository, OrderRepository orderRepository, MessageRepository messageRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+        this.messageRepository = messageRepository;
     }
 
     @Override
@@ -52,6 +49,7 @@ public class DbInit implements CommandLineRunner {
         initInitialUsers();
         initProducts();
         initOrders();
+        initMessages();
     }
 
     public void initRoles() {
@@ -108,22 +106,22 @@ public class DbInit implements CommandLineRunner {
                     .setName("2 bons").setDescription("2 bons")
                     .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582706/2pc_bons_zxy5nm.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
-                    .setDepleted(false).setLowQuantity(false);
+                    .setDepleted(false).setLowQuantity(false).setDeleted(false);
             productEntity2 = new ProductEntity()
                     .setName("8 bons").setDescription("8 bons")
                     .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582728/8PC_Interior_wshc3w.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
-                    .setDepleted(false).setLowQuantity(false);
+                    .setDepleted(false).setLowQuantity(false).setDeleted(false);
             productEntity3 = new ProductEntity()
                     .setName("16 bons").setDescription("16 bons")
                     .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582735/16pcbons_n5a4u7.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
-                    .setDepleted(false).setLowQuantity(false);
+                    .setDepleted(false).setLowQuantity(false).setDeleted(false);
             productEntity4 = new ProductEntity()
                     .setName("20 bons").setDescription("20 bons")
                     .setImageUrl("https://res.cloudinary.com/lyb4ooo/image/upload/v1696582740/20pc_Bonbon_Interior_gcpgou.jpg")
                     .setPrice(BigDecimal.TEN).setQuantity(1000)
-                    .setDepleted(false).setLowQuantity(false);
+                    .setDepleted(false).setLowQuantity(false).setDeleted(false);
 
             productRepository.save(productEntity1);
             productRepository.save(productEntity2);
@@ -146,7 +144,7 @@ public class DbInit implements CommandLineRunner {
             BigDecimal total1 = products1.stream().map(ProductEntity::getPrice).reduce(BigDecimal::add).get();
 
             OrderEntity orderEntity1 = new OrderEntity()
-                    .setOrderNumber(UUID.randomUUID())
+                    .setOrderNumber(UUID.fromString("5ec0bc77-1a81-493b-8197-b0af73ab565c"))
                     .setStatus(OrderStatus.WAITING)
                     .setBuyer(user)
                     .setProducts(products1)
@@ -164,6 +162,20 @@ public class DbInit implements CommandLineRunner {
 
             orderRepository.save(orderEntity1);
             orderRepository.save(orderEntity2);
+        }
+    }
+
+    private void initMessages() {
+        if (messageRepository.count()==0){
+            MessageEntity messageEntity1 = new MessageEntity()
+                    .setTitle("Title one").setContact("user@gmail.com")
+                    .setContent("Some content").setStatus(MessageStatus.UNANSWERED);
+            MessageEntity messageEntity2 = new MessageEntity()
+                    .setTitle("Title two").setContact("user@gmail.com")
+                    .setContent("Some other content").setStatus(MessageStatus.UNANSWERED);
+
+            messageRepository.save(messageEntity1);
+            messageRepository.save(messageEntity2);
         }
     }
 }

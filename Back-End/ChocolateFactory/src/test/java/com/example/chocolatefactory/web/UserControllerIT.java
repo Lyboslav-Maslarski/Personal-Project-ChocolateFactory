@@ -8,7 +8,6 @@ import com.example.chocolatefactory.domain.responseDTOs.user.UserDetailsDTO;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserShorDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -93,7 +91,7 @@ class UserControllerIT {
     public void testRegisterEndpoint() throws Exception {
         RegisterReqDTO registerReqDTO = new RegisterReqDTO(NEW_EMAIL, PASSWORD.toCharArray(), FULL_NAME, CITY, ADDRESS, PHONE);
 
-        ResultActions result = mockMvc.perform(post("/api/users/register")
+        mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registerReqDTO)))
                 .andExpect(status().isCreated())

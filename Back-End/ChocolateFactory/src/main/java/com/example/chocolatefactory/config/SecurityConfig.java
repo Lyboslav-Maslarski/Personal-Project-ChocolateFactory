@@ -34,18 +34,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers(HttpMethod.POST, "api/users/login", "api/users/register")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "api/users/{id}")
-                                .authenticated()
-                                .requestMatchers(HttpMethod.PATCH, "api/users/{id}","api/users/{id}/password")
-                                .authenticated()
                                 .requestMatchers(HttpMethod.GET, "api/users/all")
                                 .hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "api/users/{id}")
+                                .authenticated()
+                                .requestMatchers(HttpMethod.PATCH, "api/users/{id}", "api/users/{id}/password")
+                                .authenticated()
+
 
                                 .requestMatchers(HttpMethod.GET, "api/products/all", "api/products/{id}")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST,"api/products/add")
+                                .requestMatchers(HttpMethod.POST, "api/products/add")
                                 .hasRole("MODERATOR")
-                                .requestMatchers(HttpMethod.PATCH,"api/products/update/")
+                                .requestMatchers(HttpMethod.PATCH, "api/products/update/")
+                                .hasRole("MODERATOR")
+                                .requestMatchers(HttpMethod.GET, "api/products/update/{id}")
+                                .hasRole("MODERATOR")
+                                .requestMatchers(HttpMethod.PATCH, "api/products/{id}")
                                 .hasRole("MODERATOR")
 
                                 .requestMatchers(HttpMethod.POST, "api/comments/add")
@@ -53,12 +58,24 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "api/comments/{id}")
                                 .authenticated()
 
+                                .requestMatchers(HttpMethod.GET, "api/orders/all")
+                                .hasRole("MODERATOR")
+                                .requestMatchers(HttpMethod.PATCH, "api/orders/accept", "api/orders/dispatch")
+                                .hasRole("MODERATOR")
                                 .requestMatchers(HttpMethod.POST, "api/orders/add")
                                 .authenticated()
                                 .requestMatchers(HttpMethod.GET, "api/orders/{orderNumber}")
                                 .authenticated()
                                 .requestMatchers(HttpMethod.DELETE, "api/orders/{id}")
                                 .authenticated()
+
+                                .requestMatchers(HttpMethod.POST, "api/messages/add")
+                                .authenticated()
+                                .requestMatchers(HttpMethod.PATCH, "api/messages/{id}")
+                                .hasRole("MODERATOR")
+                                .requestMatchers(HttpMethod.GET, "api/messages/all")
+                                .hasRole("MODERATOR")
+
                                 .anyRequest().authenticated());
 
         return http.build();

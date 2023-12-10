@@ -21,6 +21,7 @@ import { AdminAllMessagesComponent } from './administration/admin-all-messages/a
 import { UpdateProductComponent } from './administration/update-product/update-product.component';
 import { ContactComponent } from './home/contact/contact.component';
 import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
+import { AccessDeniedComponent } from './commons/access-denied/access-denied.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -77,6 +78,7 @@ const routes: Routes = [
     component: AdminAllUsersComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
+  { path: 'access-denied', component: AccessDeniedComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

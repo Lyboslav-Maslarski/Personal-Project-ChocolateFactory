@@ -180,10 +180,13 @@ class ProductServiceTest {
     @Test
     void testDeleteProduct_ShouldDeleteProduct() {
         Long productId = 1L;
+        ProductEntity productEntity = new ProductEntity().setName(PRODUCT_1);
+        when(productRepository.findById(productId)).thenReturn(Optional.of(productEntity));
 
         productService.deleteProduct(productId);
 
-        verify(productRepository, times(1)).deleteById(productId);
+        verify(productRepository, times(1)).findById(productId);
+        assertTrue(productEntity.getDeleted());
     }
 
     @Test

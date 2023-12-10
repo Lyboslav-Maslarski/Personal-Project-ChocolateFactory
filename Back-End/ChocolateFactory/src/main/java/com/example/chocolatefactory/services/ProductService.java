@@ -62,7 +62,8 @@ public class ProductService {
     public ProductDTO addProduct(ProductAddDTO productAddDTO) {
         ProductEntity productEntity = productMapper.productDtoToEntity(productAddDTO)
                 .setDepleted(false)
-                .setLowQuantity(false);
+                .setLowQuantity(false)
+                .setDeleted(false);
 
         ProductEntity saved = productRepository.save(productEntity);
 
@@ -70,7 +71,12 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        ProductEntity productEntity = productRepository.findById(id)
+                .orElseThrow(() -> new AppException("Product with id " + id + "not found!", HttpStatus.NOT_FOUND));
+
+        productEntity.setDeleted(true);
+
+        productRepository.save(productEntity);
     }
 
     public ProductUpdateDetailsDTO getProductForUpdate(Long id) {

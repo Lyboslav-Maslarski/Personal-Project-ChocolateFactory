@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.chocolatefactory.domain.responseDTOs.user.UserDTO;
 import com.example.chocolatefactory.exceptions.AppException;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ public class UserAuthProvider {
     private String secretKey;
     private final UserDetailsService userDetailsService;
 
-    public UserAuthProvider(UserDetailsService userDetailsService) {
+    public UserAuthProvider(@Qualifier("user") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

@@ -34,7 +34,7 @@ public class MessageService {
 
     public void changeMessageStatus(Long id) {
         MessageEntity messageEntity = messageRepository.findById(id)
-                .orElseThrow(() -> new AppException("Message with id " + id + "not found!", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new AppException("Message with id " + id + " not found!", HttpStatus.NOT_FOUND));
 
         messageEntity.setStatus(MessageStatus.ANSWERED);
 
