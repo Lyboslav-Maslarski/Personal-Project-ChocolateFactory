@@ -18,6 +18,7 @@ export interface UserDetails {
   city?: string;
   address?: string;
   phone?: string;
+  bonusPoints?: number;
   orders?: Order[];
 }
 
