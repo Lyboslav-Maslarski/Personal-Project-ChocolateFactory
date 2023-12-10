@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addAllowedOrigin("http://localhost:4200");
+        corsConfiguration.addAllowedOrigin("https://chocolate-factory.azurewebsites.net");
         corsConfiguration.addAllowedHeader(HttpHeaders.AUTHORIZATION);
         corsConfiguration.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
         corsConfiguration.addAllowedHeader(HttpHeaders.ACCEPT);
